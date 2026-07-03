@@ -169,6 +169,29 @@ A: Kafka に保持されているため、再起動後に溜まった変更が�
 
 ---
 
+## 発展課題
+
+1. **DELETE イベントの挙動を確認する**
+   `simulator.py` を実行中に kafka-ui で `cdc.orders.v1` を開き、
+   `op: "d"` イベントが流れたとき `replica.db` からも行が消えていることを
+   `sqlite3 use_cases/04_cdc/replica.db "SELECT * FROM orders;"` で確認してみましょう。
+
+2. **コンシューマーを止めた間に変更を貯める**
+   - `cdc_consumer.py` を `Ctrl+C` で停止する
+   - `simulator.py` を動かして変更を 20 件貯める
+   - `cdc_consumer.py` を再起動する
+   → 貯まっていた変更が順番に一気に処理される様子を確認できます
+
+3. **本番 Debezium との対応を調べる**
+   このコードが simulate している Debezium 形式（`op` / `before` / `after`）について、
+   実際の Debezium ドキュメントと見比べて、どのフィールドが対応しているか調べてみましょう。
+
+4. **複数のコンシューマーを接続する**
+   `cdc_consumer.py` を別グループ名で2つ起動して、同じ変更イベントを
+   「レプリカDB用」と「検索インデックス更新用」の2処理に fan-out してみましょう。
+
+---
+
 ## 次のユースケース
 
 - [05_dead_letter_queue](../05_dead_letter_queue/)（不正データへの対処）
