@@ -1,0 +1,17 @@
+# Core Kafka client (librdkafka based)
+confluent-kafka[avro,schemaregistry]==2.5.3
+
+# Configuration
+pydantic==2.9.2
+pydantic-settings==2.6.1
+python-dotenv==1.0.1
+
+# CLI / dashboard
+rich==13.9.4
+
+# Testing
+pytest==8.3.3
+
+# Type checking / lint (dev)
+mypy==1.13.0
+ruff==0.7.4
