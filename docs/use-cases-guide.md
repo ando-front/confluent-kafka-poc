@@ -54,11 +54,18 @@ python use_cases/01_basic_pubsub/consumer.py --group another-group
 - 異なる `--group` のコンシューマーはそれぞれが全メッセージを受け取ります（fan-out）
 - kafka-ui (http://localhost:8080) の「Consumers」タブでオフセットの進みを確認できます
 
-### 試してみよう
+### 発展課題
 
 ```bash
-# コンシューマーを先に止めて、プロデューサーを動かし続ける
-# → コンシューマーを再起動すると、溜まったメッセージが一気に流れてくる（Kafka の重要な特性）
+# 1. コンシューマーを先に止めて、プロデューサーを動かし続ける
+#    → コンシューマーを再起動すると、溜まったメッセージが一気に流れてくる（Kafka の重要な特性）
+
+# 2. 同じグループ名で 3 つのコンシューマーを起動してみる
+#    → パーティション数（3）と同数なので 1 対 1 対応になる
+#    → 4 つ目のコンシューマーを起動すると「アイドル」になる（パーティション数が上限）
+python use_cases/01_basic_pubsub/consumer.py --group test-scale &
+python use_cases/01_basic_pubsub/consumer.py --group test-scale &
+python use_cases/01_basic_pubsub/consumer.py --group test-scale &
 ```
 
 ---

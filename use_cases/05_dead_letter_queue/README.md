@@ -191,6 +191,28 @@ A: 障害の種類によります。元データのバグなら人手で修正�
 
 ---
 
+## 発展課題
+
+1. **不正率を変えてみる**
+   `producer.py` の不正率（デフォルト 20%）を変更して、
+   DLQ に溜まるメッセージ数がどう変わるか kafka-ui で観察してみましょう。
+
+2. **DLQ プロセッサーを起動しないで確認する**
+   `dlq_processor.py` を起動しない状態で `producer.py` と `consumer.py` だけ動かし、
+   `dlq.orders.dlq.v1` トピックにメッセージが溜まっていくことを kafka-ui で確認してみましょう。
+   後から `dlq_processor.py` を起動すると一気に処理されます。
+
+3. **新しいエラー種別を追加する**
+   `producer.py` に「金額がマイナスのメッセージ」を追加し、
+   `consumer.py` でそのエラーを検知して DLQ へ送る処理を実装してみましょう。
+   `dlq_processor.py` では「修復不能」として poison ログに記録します。
+
+4. **ヘッダーを使ったエラー情報の確認**
+   kafka-ui で DLQ トピックのメッセージを開き、`Headers` タブを展開して
+   `error_type` / `source_topic` / `source_offset` などのメタ情報を確認してみましょう。
+
+---
+
 ## 次のユースケース
 
 - [06_exactly_once](../06_exactly_once/)（重複処理ゼロを保証する）

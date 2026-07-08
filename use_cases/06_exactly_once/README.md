@@ -190,6 +190,29 @@ A: はい。トランザクションのオーバーヘッドがあるため、�
 
 ---
 
+## 発展課題
+
+1. **At-Least-Once との速度差をベンチマークで確認する**
+   通常のプロデューサー（`benchmarks/throughput_producer.py`）と
+   トランザクショナルプロデューサーを比較して、スループットの差を測ってみましょう。
+
+2. **処理済み台帳（SQLite）を手動で削除してみる**
+   `idempotent_consumer.py` 実行中に SQLite の処理済みテーブルを削除（または別のファイルに移動）し、
+   コンシューマーを再起動したときに何が起きるかを確認してみましょう
+   （本番でDBが壊れた場合のリスクを体感できます）。
+
+3. **途中失敗の位置を変えてみる**
+   `transactional_producer.py --fail` のコードを読み、
+   何件目で失敗するかを変更してみましょう。
+   失敗の場所に関係なく、abort されればコンシューマーに何も届かないことを確認します。
+
+4. **`read_committed` と `read_uncommitted` の違いを確認する**
+   コンシューマーの `isolation_level` を `read_uncommitted` に変えて
+   `--fail` パターンを試すと、abort されたメッセージも見えてしまうことを確認できます
+   （`read_committed` の重要性を体感）。
+
+---
+
 ## 次のユースケース
 
 - [07_real_time_analytics](../07_real_time_analytics/)（リアルタイムダッシュボード）
