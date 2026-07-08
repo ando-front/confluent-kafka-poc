@@ -1,0 +1,159 @@
+<mxfile host="app.diagrams.net" agent="claude" version="24.0.0">
+  <diagram id="kafka-poc-arch" name="Architecture">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="confluent-kafka-poc アーキテクチャ" style="text;html=1;fontSize=20;fontStyle=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="600" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Python Application Layer ===== -->
+        <mxCell id="appLayer" value="Python アプリケーション層（Python 3.11+ / confluent-kafka）" style="swimlane;html=1;startSize=30;fontSize=13;fontStyle=1;fillColor=#dae8fc;strokeColor=#6c8ebf;swimlaneFillColor=#f5f9ff;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="420" height="730" as="geometry" />
+        </mxCell>
+
+        <mxCell id="coreBox" value="core/ 共通基盤" style="swimlane;html=1;startSize=25;fontSize=12;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;swimlaneFillColor=#f6fbf4;" vertex="1" parent="appLayer">
+          <mxGeometry x="20" y="40" width="380" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="cfg" value="config.py&lt;br&gt;（.env 読込）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="coreBox">
+          <mxGeometry x="15" y="35" width="110" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="prod" value="producer.py&lt;br&gt;BaseProducer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="coreBox">
+          <mxGeometry x="135" y="35" width="110" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="cons" value="consumer.py&lt;br&gt;BaseConsumer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="coreBox">
+          <mxGeometry x="255" y="35" width="110" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="adm" value="admin.py&lt;br&gt;AdminClient" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="coreBox">
+          <mxGeometry x="15" y="95" width="110" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="sch" value="schema.py" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="coreBox">
+          <mxGeometry x="135" y="95" width="110" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ucBox" value="use_cases/（core を継承した 7 デモ）" style="swimlane;html=1;startSize=25;fontSize=12;fontStyle=1;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#fffaf4;" vertex="1" parent="appLayer">
+          <mxGeometry x="20" y="220" width="380" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="uc1" value="01 basic_pubsub" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="ucBox">
+          <mxGeometry x="15" y="35" width="170" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="uc2" value="02 event_sourcing" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="ucBox">
+          <mxGeometry x="195" y="35" width="170" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="uc3" value="03 stream_processing" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="ucBox">
+          <mxGeometry x="15" y="95" width="170" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="uc4" value="04 cdc（Kafka Connect 利用）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="ucBox">
+          <mxGeometry x="195" y="95" width="170" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="uc5" value="05 dead_letter_queue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="ucBox">
+          <mxGeometry x="15" y="155" width="170" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="uc6" value="06 exactly_once" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="ucBox">
+          <mxGeometry x="195" y="155" width="170" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="uc7" value="07 real_time_analytics" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="ucBox">
+          <mxGeometry x="15" y="215" width="170" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="benchBox" value="benchmarks/&lt;br&gt;スループット / レイテンシ計測" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="appLayer">
+          <mxGeometry x="20" y="540" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="testsBox" value="tests/&lt;br&gt;pytest 統合テスト" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="appLayer">
+          <mxGeometry x="220" y="540" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="scriptsBox" value="scripts/&amp;nbsp;&amp;nbsp;start.sh / stop.sh / reset.sh / run_all_demos.sh" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="appLayer">
+          <mxGeometry x="20" y="630" width="380" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Docker Compose Layer ===== -->
+        <mxCell id="dockerLayer" value="Docker Compose（Confluent Platform 7.5）— docker/docker-compose.yml" style="swimlane;html=1;startSize=30;fontSize=13;fontStyle=1;fillColor=#f8cecc;strokeColor=#b85450;swimlaneFillColor=#fdf6f5;" vertex="1" parent="1">
+          <mxGeometry x="560" y="60" width="400" height="560" as="geometry" />
+        </mxCell>
+        <mxCell id="zk" value="ZooKeeper&lt;br&gt;:2181" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;" vertex="1" parent="dockerLayer">
+          <mxGeometry x="110" y="45" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="broker" value="&lt;b&gt;Kafka Broker&lt;/b&gt;&lt;br&gt;:9092（JMX :9101）&lt;br&gt;トピック命名: {usecase}.{entity}.{version}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=12;" vertex="1" parent="dockerLayer">
+          <mxGeometry x="70" y="145" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="sr" value="Schema Registry&lt;br&gt;:8081" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;" vertex="1" parent="dockerLayer">
+          <mxGeometry x="30" y="290" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="connect" value="Kafka Connect&lt;br&gt;:8083（04 CDC で利用）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;" vertex="1" parent="dockerLayer">
+          <mxGeometry x="210" y="290" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="minimalNote" value="docker-compose.minimal.yml&lt;br&gt;= ZooKeeper + Broker + kafka-ui のみの軽量構成" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;size=15;" vertex="1" parent="dockerLayer">
+          <mxGeometry x="30" y="460" width="340" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Monitoring UI ===== -->
+        <mxCell id="uiLayer" value="監視 / 管理 UI" style="swimlane;html=1;startSize=30;fontSize=13;fontStyle=1;fillColor=#d0cee2;strokeColor=#56517e;swimlaneFillColor=#f7f6fb;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="60" width="300" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="kafkaUi" value="kafka-ui&lt;br&gt;http://localhost:8080" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#56517e;" vertex="1" parent="uiLayer">
+          <mxGeometry x="30" y="45" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" value="Control Center&lt;br&gt;http://localhost:9021" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#56517e;" vertex="1" parent="uiLayer">
+          <mxGeometry x="30" y="130" width="240" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Confluent Cloud ===== -->
+        <mxCell id="cloudNote" value="&lt;b&gt;Confluent Cloud 切替&lt;/b&gt;&lt;br&gt;.env: KAFKA_ENV=confluent&lt;br&gt;SASL_SSL + API KEY/SECRET&lt;br&gt;（コード変更不要）" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="340" width="300" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- ===== .env ===== -->
+        <mxCell id="envBox" value=".env（環境変数）— core/config.py 経由で注入（ハードコード禁止）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="680" width="400" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ===== Edges ===== -->
+        <mxCell id="eInherit" value="継承" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0.5;exitY=0;entryX=0.5;entryY=1;dashed=1;" edge="1" parent="appLayer" source="ucBox" target="coreBox">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eProduce" value="produce" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#82b366;" edge="1" parent="1" source="prod" target="broker">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eConsume" value="consume" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1" source="broker" target="cons">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eAdmin" value="トピック作成（idempotent）" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" edge="1" parent="1" source="adm" target="broker">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eSchema" value="スキーマ登録/取得" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" edge="1" parent="1" source="sch" target="sr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eZk" value="メタデータ管理" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" edge="1" parent="dockerLayer" source="broker" target="zk">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eConnect" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="dockerLayer" source="connect" target="broker">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eSrBroker" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="dockerLayer" source="sr" target="broker">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eKafkaUi" value="監視" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;dashed=1;" edge="1" parent="1" source="kafkaUi" target="broker">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eC3" value="監視" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;dashed=1;" edge="1" parent="1" source="c3" target="broker">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eScripts" value="docker compose up / down" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" edge="1" parent="1" source="scriptsBox" target="dockerLayer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eBench" value="計測" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" edge="1" parent="1" source="benchBox" target="broker">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eEnv" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;" edge="1" parent="1" source="envBox" target="cfg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eCloud" value="KAFKA_ENV=confluent で接続先切替" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;dashed=1;" edge="1" parent="1" source="envBox" target="cloudNote">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
