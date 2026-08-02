@@ -30,7 +30,8 @@ services:
     volumes:
       - zookeeper-data-min:/var/lib/zookeeper/data
     healthcheck:
-      test: ["CMD", "bash", "-c", "echo ruok | nc localhost 2181 | grep imok"]
+      # cp-zookeeper 7.x が許可する 4lw コマンドは srvr のみ（ruok はブロックされる）。
+      test: ["CMD", "bash", "-c", "echo srvr | nc localhost 2181 | grep -q Mode"]
       interval: 10s
       timeout: 5s
       retries: 10

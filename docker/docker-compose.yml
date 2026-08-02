@@ -35,7 +35,10 @@ services:
     volumes:
       - zookeeper-data:/var/lib/zookeeper/data
     healthcheck:
-      test: ["CMD", "bash", "-c", "echo ruok | nc localhost 2181 | grep imok"]
+      # cp-zookeeper 7.x が許可する 4lw コマンドは srvr のみ（ruok はブロックされる）。
+      # ZOOKEEPER_4LW_COMMANDS_WHITELIST はイメージの設定テンプレートに項目が無く無視されるため、
+      # ホワイトリストを広げるのではなく srvr で生存確認する。
+      test: ["CMD", "bash", "-c", "echo srvr | nc localhost 2181 | grep -q Mode"]
       interval: 10s
       timeout: 5s
       retries: 10
