@@ -163,9 +163,9 @@ python use_cases/03_stream_processing/aggregator.py                        # 30�
 # フィルタ・変換
 python use_cases/03_stream_processing/filter_transform.py
 
-# ストリーム結合（2つのターミナルで）
-python use_cases/03_stream_processing/stream_join.py --produce-orders
-python use_cases/03_stream_processing/stream_join.py --join
+# ストリーム結合（先にサンプル生成 → 引数なしで結合処理）
+python use_cases/03_stream_processing/stream_join.py --produce 100
+python use_cases/03_stream_processing/stream_join.py
 ```
 
 ---

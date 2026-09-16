@@ -249,7 +249,7 @@ pip install rich
 
 ```bash
 # Kafka ブローカーのログを確認
-docker logs confluent-kafka-poc-broker-1 --tail 50
+docker logs poc-broker --tail 50
 
 # すべてのコンテナの状態を確認
 docker ps
@@ -274,5 +274,5 @@ docker compose version
 docker ps -a
 
 # Kafka のログ（直近 100 行）
-docker logs confluent-kafka-poc-broker-1 --tail 100
+docker logs poc-broker --tail 100
 ```
