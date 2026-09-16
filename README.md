@@ -149,8 +149,21 @@ python use_cases/01_basic_pubsub/producer.py
 
 ## ドキュメント
 
+**まずはハンズオン学習サイトから**: [`site/index.html`](site/index.html) — 環境構築から自作ユースケース追加までを
+19 ステップに分解した、通しで進められる学習サイト（ブラウザで開くだけ。進捗はローカルに保存されます）。
+
+```bash
+./scripts/serve_site.sh          # LAN に公開（既定ポート 8090。停止は Ctrl+C）
+./scripts/serve_site.sh 9000     # ポートを変えたいとき
+```
+
+起動すると `http://localhost:8090/` と `http://<このマシンの IP>:8090/` が表示されます。
+同じネットワークの PC・スマートフォンからその URL を開けば、そのまま読めます
+（配信されるのは生成物 `site/.dist/` のみで、`.env` などリポジトリの他のファイルは公開されません）。
+
 | ドキュメント | 内容 |
 |-----------|------|
+| [site/index.html](site/index.html) | 19 ステップのハンズオン学習サイト（これ 1 つで一周できる） |
 | [docs/kafka-concepts.md](docs/kafka-concepts.md) | Kafka の基本概念（トピック・パーティション・オフセットなど） |
 | [docs/getting-started.md](docs/getting-started.md) | 環境構築の詳細手順 |
 | [docs/use-cases-guide.md](docs/use-cases-guide.md) | 全7ユースケースの詳細解説 |

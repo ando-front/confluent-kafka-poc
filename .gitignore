@@ -32,3 +32,6 @@ docker/volumes/
 .idea/
 .vscode/
 .DS_Store
+
+# Generated static site (built by scripts/serve_site.sh)
+site/.dist/

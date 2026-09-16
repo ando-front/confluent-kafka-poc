@@ -1,0 +1,1867 @@
+<meta charset="utf-8">
+<title>オフセット0から始める Kafka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+:root{
+  --ground:#F3F6F6;
+  --surface:#FFFFFF;
+  --surface-2:#E9EFEF;
+  --surface-3:#DDE7E8;
+  --ink:#13212A;
+  --ink-2:#4A5F68;
+  --ink-3:#7A8F97;
+  --line:#D8E2E3;
+  --line-2:#BECED0;
+  --accent:#0B7A84;
+  --accent-2:#0A5D65;
+  --accent-soft:#D6EDEF;
+  --ok:#157A5B;
+  --ok-soft:#D8EFE6;
+  --warn:#96580F;
+  --warn-soft:#F5E6D0;
+  --danger:#AC3232;
+  --danger-soft:#F6DEDE;
+  --term-bg:#0D181C;
+  --term-bar:#16262B;
+  --term-ink:#D9E8E9;
+  --term-dim:#7E979B;
+  --term-line:#24383E;
+  --shadow:0 1px 2px rgba(19,33,42,.06), 0 10px 26px -18px rgba(19,33,42,.45);
+  --display:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  --body:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  --mono:"JetBrains Mono","SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0D1618;
+    --surface:#131F22;
+    --surface-2:#1A272B;
+    --surface-3:#223136;
+    --ink:#E4EDEE;
+    --ink-2:#A2B5B9;
+    --ink-3:#778C91;
+    --line:#223136;
+    --line-2:#31454B;
+    --accent:#45C3CD;
+    --accent-2:#8ADCE3;
+    --accent-soft:#10333A;
+    --ok:#4FC79C;
+    --ok-soft:#10312A;
+    --warn:#D6A05A;
+    --warn-soft:#31240F;
+    --danger:#E58A8A;
+    --danger-soft:#33191A;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 26px -18px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0D1618;
+  --surface:#131F22;
+  --surface-2:#1A272B;
+  --surface-3:#223136;
+  --ink:#E4EDEE;
+  --ink-2:#A2B5B9;
+  --ink-3:#778C91;
+  --line:#223136;
+  --line-2:#31454B;
+  --accent:#45C3CD;
+  --accent-2:#8ADCE3;
+  --accent-soft:#10333A;
+  --ok:#4FC79C;
+  --ok-soft:#10312A;
+  --warn:#D6A05A;
+  --warn-soft:#31240F;
+  --danger:#E58A8A;
+  --danger-soft:#33191A;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 26px -18px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:15px;
+  line-height:1.8;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--display);line-height:1.35;text-wrap:balance;margin:0}
+p{margin:0}
+a{color:var(--accent);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+code{font-family:var(--mono)}
+
+/* ---------- masthead ---------- */
+.masthead{
+  border-bottom:1px solid var(--line);
+  background:
+    linear-gradient(180deg, var(--surface) 0%, var(--ground) 100%);
+}
+.masthead-in{max-width:1180px;margin:0 auto;padding:44px 24px 34px;display:flex;flex-direction:column;gap:22px}
+.eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent);display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.eyebrow::before{content:"";width:26px;height:2px;background:var(--accent);display:inline-block}
+h1{font-size:clamp(30px,5vw,50px);font-weight:900;letter-spacing:-.01em}
+.lede{color:var(--ink-2);max-width:62ch;font-size:16px}
+.masthead-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.mh-cell{background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.mh-k{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.mh-v{font-size:14px;font-weight:500}
+
+/* ---------- progress ---------- */
+.tracker{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+.tracker-in{max-width:1180px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.tracker-label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+.bar{flex:1;min-width:140px;height:8px;background:var(--surface-3);border-radius:99px;overflow:hidden;position:relative}
+.bar-fill{height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .35s ease}
+.tracker-count{font-family:var(--mono);font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}
+.ghost-btn{
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+  background:transparent;border:1px solid var(--line-2);color:var(--ink-2);
+  padding:5px 10px;border-radius:3px;cursor:pointer;
+}
+.ghost-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ---------- layout ---------- */
+.shell{max-width:1180px;margin:0 auto;padding:0 24px 96px;display:grid;grid-template-columns:1fr;gap:34px}
+@media (min-width:1000px){
+  .shell{grid-template-columns:236px minmax(0,1fr);gap:56px;align-items:start}
+}
+
+/* ---------- nav ---------- */
+.nav-mobile{margin-top:24px}
+.nav-mobile>summary{
+  cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+  padding:12px 14px;border:1px solid var(--line);border-radius:3px;background:var(--surface);color:var(--ink-2);
+}
+@media (min-width:1000px){
+  .nav-mobile{position:sticky;top:60px;margin-top:40px;max-height:calc(100vh - 88px);overflow-y:auto}
+  .nav-mobile>summary{display:none}
+  .nav-mobile[open],.nav-mobile:not([open]){display:block}
+}
+.nav-inner{padding:10px 0 0}
+.nav-phase{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);padding:16px 0 6px;border-top:1px solid var(--line);margin-top:10px}
+.nav-phase:first-child{border-top:0;margin-top:0;padding-top:4px}
+.nav-link{
+  display:grid;grid-template-columns:26px 1fr;gap:8px;align-items:baseline;
+  padding:5px 8px 5px 0;color:var(--ink-2);text-decoration:none;font-size:13px;border-radius:3px;
+}
+.nav-link:hover{color:var(--accent)}
+.nav-link .n{font-family:var(--mono);font-size:11px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.nav-link.active{color:var(--ink);font-weight:700}
+.nav-link.active .n{color:var(--accent)}
+.nav-link.done .n{color:var(--ok)}
+.nav-link.done .n::after{content:"✓";margin-left:2px}
+
+/* ---------- content ---------- */
+.content{min-width:0;padding-top:40px;display:flex;flex-direction:column;gap:12px}
+.phase-head{
+  margin-top:46px;padding:0 0 10px;border-bottom:2px solid var(--ink);
+  display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.phase-head:first-child{margin-top:0}
+.phase-head h2{font-size:22px;font-weight:900}
+.phase-head .rng{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink-3)}
+
+.step{display:grid;grid-template-columns:48px minmax(0,1fr);gap:0;position:relative}
+.rail{position:relative;display:flex;justify-content:center;padding-top:30px}
+.rail::before{content:"";position:absolute;top:0;bottom:0;width:1px;background:var(--line-2);left:50%}
+.step:last-of-type .rail::before{bottom:auto;height:60px}
+.off{
+  position:relative;z-index:1;width:32px;height:32px;border-radius:2px;
+  display:grid;place-items:center;background:var(--surface);border:1px solid var(--line-2);
+  font-family:var(--mono);font-size:12px;font-weight:700;color:var(--ink-2);font-variant-numeric:tabular-nums;
+}
+.step.done .off{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+:root[data-theme="dark"] .step.done .off,
+:root:not([data-theme="light"]) .step.done .off{color:#0D1618}
+.step-body{padding:26px 0 40px 22px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.step h3{font-size:21px;font-weight:700;letter-spacing:-.005em}
+.meta{display:flex;gap:8px;flex-wrap:wrap}
+.chip{
+  font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-3);border:1px solid var(--line);border-radius:99px;padding:2px 9px;background:var(--surface);
+}
+.goal{
+  border-left:3px solid var(--accent);padding:2px 0 2px 14px;color:var(--ink);font-weight:500;
+}
+.goal b{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);display:block;font-weight:700}
+.step p{color:var(--ink-2)}
+.step p strong{color:var(--ink)}
+.step ul,.step ol{margin:0;padding-left:1.3em;color:var(--ink-2);display:flex;flex-direction:column;gap:6px}
+.step li::marker{color:var(--ink-3)}
+h4.sub{font-size:13px;font-family:var(--mono);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-top:6px}
+
+/* ---------- terminal ---------- */
+.term{border-radius:4px;overflow:hidden;background:var(--term-bg);border:1px solid var(--term-line);box-shadow:var(--shadow)}
+.term-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:var(--term-bar);border-bottom:1px solid var(--term-line);padding:6px 10px 6px 12px;
+}
+.term-tag{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--term-dim)}
+.copy{
+  font-family:var(--mono);font-size:10px;letter-spacing:.06em;background:transparent;
+  border:1px solid var(--term-line);color:var(--term-dim);padding:3px 8px;border-radius:3px;cursor:pointer;
+}
+.copy:hover{color:var(--term-ink);border-color:var(--term-dim)}
+.term pre{margin:0;padding:12px 14px;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.75;color:var(--term-ink)}
+.term .c{color:var(--term-dim)}
+.term .p{color:#6FD4DC}
+
+/* ---------- expected output ---------- */
+.out{border:1px dashed var(--line-2);border-radius:4px;background:var(--surface-2);overflow:hidden}
+.out-label{
+  display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-3);padding:8px 14px 0;
+}
+.out pre{margin:0;padding:6px 14px 12px;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--ink-2)}
+
+/* ---------- callouts ---------- */
+.call{border-radius:4px;padding:12px 16px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.call b{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+.call.tip{background:var(--accent-soft);color:var(--ink)}
+.call.tip b{color:var(--accent-2)}
+.call.warn{background:var(--warn-soft);color:var(--ink)}
+.call.warn b{color:var(--warn)}
+.call.ok{background:var(--ok-soft);color:var(--ink)}
+.call.ok b{color:var(--ok)}
+
+/* ---------- check list ---------- */
+.checks{list-style:none;padding:0;border:1px solid var(--line);border-radius:4px;background:var(--surface);overflow:hidden}
+.checks li{display:grid;grid-template-columns:22px 1fr;gap:10px;padding:10px 16px;border-top:1px solid var(--line);color:var(--ink-2);font-size:14px}
+.checks li:first-child{border-top:0}
+.checks li::before{content:"□";font-family:var(--mono);color:var(--accent);line-height:1.6}
+.checks-h{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);padding:9px 16px;background:var(--surface-2);border-bottom:1px solid var(--line)}
+
+/* ---------- pitfalls ---------- */
+details.pit{border:1px solid var(--line);border-radius:4px;background:var(--surface);overflow:hidden}
+details.pit>summary{
+  cursor:pointer;padding:10px 16px;font-size:13.5px;font-weight:500;color:var(--ink-2);
+  display:flex;align-items:center;gap:8px;list-style:none;
+}
+details.pit>summary::-webkit-details-marker{display:none}
+details.pit>summary::before{content:"▸";color:var(--danger);font-family:var(--mono)}
+details.pit[open]>summary::before{content:"▾"}
+details.pit[open]>summary{border-bottom:1px solid var(--line);color:var(--ink)}
+.pit-body{padding:14px 16px;display:flex;flex-direction:column;gap:10px;font-size:14px;color:var(--ink-2)}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:440px}
+th,td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{
+  background:var(--surface-2);font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:700;white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:0}
+td code,td .m{font-family:var(--mono);font-size:12.5px;color:var(--ink)}
+td{color:var(--ink-2)}
+
+/* ---------- figures ---------- */
+figure{margin:0;border:1px solid var(--line);border-radius:4px;background:var(--surface);overflow:hidden}
+figure .fw{overflow-x:auto;padding:18px 16px}
+figure svg{display:block;min-width:600px;width:100%;height:auto}
+figcaption{font-size:12px;color:var(--ink-3);padding:0 16px 12px;font-family:var(--mono)}
+.s-frame{fill:none;stroke:var(--line-2);stroke-width:1}
+.s-box{fill:var(--surface-2);stroke:var(--line-2);stroke-width:1}
+.s-box-a{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1}
+.s-cell{fill:var(--surface);stroke:var(--line-2);stroke-width:1}
+.s-cell-r{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1}
+.s-t{fill:var(--ink);font-family:var(--body);font-size:12px}
+.s-t-b{fill:var(--ink);font-family:var(--display);font-size:13px;font-weight:700}
+.s-t-d{fill:var(--ink-3);font-family:var(--mono);font-size:10px}
+.s-t-m{fill:var(--ink-2);font-family:var(--mono);font-size:11px}
+.s-t-a{fill:var(--accent-2);font-family:var(--mono);font-size:11px}
+.s-line{stroke:var(--line-2);stroke-width:1;fill:none}
+.s-arrow{stroke:var(--ink-3);stroke-width:1.5;fill:none}
+.s-tri{fill:var(--accent)}
+
+/* ---------- done toggle ---------- */
+.done-row{display:flex;align-items:center;gap:10px;margin-top:4px}
+.done-row label{
+  display:inline-flex;align-items:center;gap:9px;cursor:pointer;font-family:var(--mono);
+  font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);
+  border:1px solid var(--line-2);border-radius:99px;padding:6px 14px 6px 11px;background:var(--surface);
+}
+.done-row label:hover{border-color:var(--accent);color:var(--accent)}
+.done-row input{accent-color:var(--accent);width:14px;height:14px;margin:0}
+.step.done .done-row label{border-color:var(--ok);color:var(--ok);background:var(--ok-soft)}
+
+/* ---------- appendix ---------- */
+.appendix{margin-top:60px;border-top:2px solid var(--ink);padding-top:26px;display:flex;flex-direction:column;gap:22px}
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.gloss div{background:var(--surface);padding:12px 16px}
+.gloss dt{font-family:var(--mono);font-size:12px;color:var(--accent-2);font-weight:700;margin:0}
+.gloss dd{margin:2px 0 0;font-size:13.5px;color:var(--ink-2)}
+footer{max-width:1180px;margin:0 auto;padding:0 24px 60px;color:var(--ink-3);font-size:12.5px;font-family:var(--mono)}
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translateX(-50%);
+  background:var(--ink);color:var(--ground);font-family:var(--mono);font-size:12px;
+  padding:9px 18px;border-radius:99px;opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:80;
+}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+.step{scroll-margin-top:70px}
+.phase-head{scroll-margin-top:70px}
+
+/* ---------- 行動の入口（CTA） ---------- */
+.cta-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.cta{
+  display:inline-flex;align-items:center;gap:10px;text-decoration:none;
+  background:var(--accent);color:var(--surface);border:1px solid var(--accent);
+  font-family:var(--display);font-weight:700;font-size:15px;padding:12px 22px;border-radius:3px;
+}
+.cta:hover{background:var(--accent-2);border-color:var(--accent-2)}
+.cta .arrow{font-family:var(--mono);font-weight:400;font-size:13px}
+.cta.ghost{background:transparent;color:var(--ink);border-color:var(--line-2);font-weight:500;font-size:13.5px;padding:11px 18px;font-family:var(--body)}
+.cta.ghost:hover{background:transparent;border-color:var(--accent);color:var(--accent)}
+.howto{font-size:13px;line-height:1.85;color:var(--ink-2);border-left:3px solid var(--line-2);padding-left:14px;max-width:64ch}
+.howto b{color:var(--ink);font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;display:block}
+.howto .kbd{
+  font-family:var(--mono);font-size:11.5px;background:var(--surface-2);
+  border:1px solid var(--line);border-radius:3px;padding:1px 6px;color:var(--ink);
+}
+
+/* ---------- 追従する「次にやること」 ---------- */
+.next-btn{
+  display:inline-flex;align-items:center;gap:9px;max-width:clamp(180px,38vw,380px);
+  text-decoration:none;color:var(--ink);font-size:13px;font-weight:500;
+  border:1px solid var(--accent);border-radius:99px;padding:5px 15px 5px 12px;
+  background:var(--accent-soft);white-space:nowrap;overflow:hidden;
+}
+.next-btn .k{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-2);flex:none}
+.next-btn .t{overflow:hidden;text-overflow:ellipsis}
+.next-btn:hover{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+.next-btn:hover .k{color:var(--surface)}
+@media (max-width:760px){.tracker-label{display:none}}
+
+/* ---------- ステップ末尾の導線 ---------- */
+.step-next{
+  display:inline-flex;align-items:center;gap:8px;text-decoration:none;
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-3);border:1px solid var(--line-2);border-radius:99px;padding:6px 14px;
+}
+.step-next:hover{border-color:var(--accent);color:var(--accent)}
+.done-row{flex-wrap:wrap}
+.ready-hint{display:none;font-family:var(--mono);font-size:11px;color:var(--accent-2)}
+.step.ready:not(.done) .ready-hint{display:inline}
+.step.ready:not(.done) .done-row label{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+
+/* ---------- 確認リストを実際に押せるようにする ---------- */
+.checks li{display:block;padding:0}
+.checks li::before{content:none}
+.checks label{
+  display:grid;grid-template-columns:16px 1fr;gap:11px;align-items:start;
+  cursor:pointer;padding:10px 16px;
+}
+.checks label:hover{background:var(--surface-2)}
+.checks input{accent-color:var(--accent);width:15px;height:15px;margin:4px 0 0}
+.checks li.on label{color:var(--ink-3)}
+.checks li.on span{text-decoration:line-through;text-decoration-color:var(--line-2);text-decoration-thickness:1px}
+
+/* ---------- サイドバーの現在地 ---------- */
+.nav-link{border-left:2px solid transparent;padding-left:8px}
+.nav-link.next{border-left-color:var(--accent);color:var(--ink);font-weight:700;background:var(--accent-soft)}
+.nav-link.next .n{color:var(--accent)}
+</style>
+
+<header class="masthead">
+  <div class="masthead-in">
+    <div class="eyebrow">confluent-kafka-poc ハンズオン</div>
+    <h1>オフセット0から始める Kafka</h1>
+    <p class="lede">
+      Kafka を触ったことのないエンジニアが、このリポジトリの資材だけで
+      <strong>環境構築 → 7つのユースケース実習 → 計測 → 障害対応 → 自作</strong>
+      まで独力で到達するための 19 ステップ。
+    </p>
+
+    <div class="cta-row">
+      <a class="cta" id="cta-start" href="#s01">offset 01 から始める<span class="arrow">→</span></a>
+      <a class="cta ghost" href="#s03">Kafka は知っている — 環境構築から</a>
+      <a class="cta ghost" href="#appendix">コマンドだけ見たい</a>
+    </div>
+
+    <p class="howto">
+      <b>このページの進めかた</b>
+      ターミナルを 1 枚開いて、<strong>上から順に</strong>進めます。各ステップには
+      <span class="kbd">コピー</span> ボタン付きのコマンドと、そのとき画面に出るはずの内容が書いてあります。
+      最後の「確認」にチェックを入れ <span class="kbd">完了にする</span> を押すと進捗が保存され、次のステップへ進めます。
+      中断しても、上部のバーの <span class="kbd">次にやること</span> からいつでも続きに戻れます。
+    </p>
+
+    <div class="masthead-grid">
+      <div class="mh-cell"><span class="mh-k">所要時間</span><span class="mh-v">約 6〜8 時間（分割可）</span></div>
+      <div class="mh-cell"><span class="mh-k">前提知識</span><span class="mh-v">ターミナル操作と Python が読める</span></div>
+      <div class="mh-cell"><span class="mh-k">動かすもの</span><span class="mh-v">Docker / Confluent Platform 7.5</span></div>
+      <div class="mh-cell"><span class="mh-k">ゴール</span><span class="mh-v">自分のユースケースを追加できる</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="tracker">
+  <div class="tracker-in">
+    <span class="tracker-label">committed offset</span>
+    <span class="tracker-count"><span id="p-done">0</span> / 19</span>
+    <div class="bar"><div class="bar-fill" id="p-bar"></div></div>
+    <a class="next-btn" id="p-next" href="#s01"><span class="k">次にやること</span><span class="t" id="p-next-t">01 Kafka が解く問題</span></a>
+    <button class="ghost-btn" id="p-reset" type="button">進捗をリセット</button>
+  </div>
+</div>
+
+<div class="shell">
+  <details class="nav-mobile" id="nav" open>
+    <summary>ステップ一覧</summary>
+    <nav class="nav-inner">
+      <div class="nav-phase">Phase 1 — 理解する</div>
+      <a class="nav-link" href="#s01"><span class="n">01</span><span>Kafka が解く問題</span></a>
+      <a class="nav-link" href="#s02"><span class="n">02</span><span>5つの言葉を押さえる</span></a>
+      <div class="nav-phase">Phase 2 — 環境をつくる</div>
+      <a class="nav-link" href="#s03"><span class="n">03</span><span>前提ツールを揃える</span></a>
+      <a class="nav-link" href="#s04"><span class="n">04</span><span>リポジトリと Python 環境</span></a>
+      <a class="nav-link" href="#s05"><span class="n">05</span><span>接続設定を .env に置く</span></a>
+      <a class="nav-link" href="#s06"><span class="n">06</span><span>Kafka を起動する</span></a>
+      <a class="nav-link" href="#s07"><span class="n">07</span><span>kafka-ui で中を覗く</span></a>
+      <div class="nav-phase">Phase 3 — 動かす</div>
+      <a class="nav-link" href="#s08"><span class="n">08</span><span>Pub/Sub の基本</span></a>
+      <a class="nav-link" href="#s09"><span class="n">09</span><span>イベントソーシング</span></a>
+      <a class="nav-link" href="#s10"><span class="n">10</span><span>CDC でDBを追いかける</span></a>
+      <a class="nav-link" href="#s11"><span class="n">11</span><span>DLQ で壊れた1件を逃がす</span></a>
+      <a class="nav-link" href="#s12"><span class="n">12</span><span>リアルタイム KPI</span></a>
+      <a class="nav-link" href="#s13"><span class="n">13</span><span>ストリーム処理</span></a>
+      <a class="nav-link" href="#s14"><span class="n">14</span><span>Exactly-Once</span></a>
+      <div class="nav-phase">Phase 4 — 運用する</div>
+      <a class="nav-link" href="#s15"><span class="n">15</span><span>まとめて回す・テスト</span></a>
+      <a class="nav-link" href="#s16"><span class="n">16</span><span>性能を測る</span></a>
+      <a class="nav-link" href="#s17"><span class="n">17</span><span>壊れたら自力で直す</span></a>
+      <a class="nav-link" href="#s18"><span class="n">18</span><span>Confluent Cloud へ</span></a>
+      <a class="nav-link" href="#s19"><span class="n">19</span><span>卒業課題</span></a>
+      <div class="nav-phase">付録</div>
+      <a class="nav-link" href="#appendix"><span class="n">A</span><span>チートシート・用語集</span></a>
+    </nav>
+  </details>
+
+  <main class="content">
+
+  <div class="phase-head"><h2>Phase 1 — 理解する</h2><span class="rng">offset 01 — 02 / 読むだけ・30分</span></div>
+
+  <section class="step" id="s01">
+    <div class="rail"><span class="off">01</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">所要 10分</span><span class="chip">難易度 ★☆☆</span><span class="chip">手を動かさない</span></div>
+      <h3>Kafka が解く問題を言葉にする</h3>
+      <p class="goal"><b>このステップのゴール</b>「なぜ API 直接呼び出しではなく Kafka なのか」を、同僚に 1 分で説明できる。</p>
+
+      <p>注文サービスが在庫・通知・分析の 3 つに直接 API を叩く構成には、必ず同じ 3 つの問題が出ます。</p>
+      <div class="tw">
+        <table>
+          <thead><tr><th>API 直接連携の問題</th><th>何が起きるか</th><th>Kafka を挟むと</th></tr></thead>
+          <tbody>
+            <tr><td>連鎖障害</td><td>在庫サービスが落ちると注文まで失敗する</td><td>メッセージはトピックに残り、復旧後に処理される</td></tr>
+            <tr><td>密結合</td><td>受け手が増えるたび注文サービスを改修</td><td>受け手は勝手に購読を増やせる。送り手は無改修</td></tr>
+            <tr><td>流量制御不能</td><td>処理しきれない量が来ると全体が詰まる</td><td>各サービスが自分のペースで読める</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="sub">郵便局のたとえ</h4>
+      <p>Producer は<strong>ポストに投函する人</strong>、Broker は<strong>郵便局</strong>、Consumer は<strong>受け取る人</strong>。
+      投函する人は、誰が何人受け取るのかを知らなくて構いません。これが疎結合の正体です。</p>
+
+      <div class="call tip">
+        <b>ここが Kafka の勘所</b>
+        <span>RabbitMQ などの従来型キューは「読んだら消える」。Kafka は<strong>読んでも消えない追記専用のログ</strong>です。
+        だから複数のグループが同じデータを独立に読めるし、障害後に最初から読み直せます。</span>
+      </div>
+
+      <ul class="checks">
+        <li>「Kafka は読んでも消えない」と、その利点を 2 つ言える</li>
+        <li>疎結合・耐障害性・水平スケールの 3 語で Before/After を説明できる</li>
+      </ul>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s01"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <section class="step" id="s02">
+    <div class="rail"><span class="off">02</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">所要 20分</span><span class="chip">難易度 ★☆☆</span><span class="chip">手を動かさない</span></div>
+      <h3>5つの言葉を押さえる</h3>
+      <p class="goal"><b>このステップのゴール</b>Topic / Partition / Offset / Consumer Group / Broker を図で説明できる。以降のログ出力が読めるようになる。</p>
+
+      <figure>
+        <div class="fw">
+          <svg viewBox="0 0 760 300" role="img" aria-label="トピックが3つのパーティションに分かれ、各メッセージにオフセット番号が振られている図">
+            <rect class="s-box-a" x="8" y="112" width="104" height="60" rx="3"></rect>
+            <text class="s-t-b" x="60" y="136" text-anchor="middle">Producer</text>
+            <text class="s-t-d" x="60" y="154" text-anchor="middle">注文サービス</text>
+            <path class="s-arrow" d="M116 142 H 140" marker-end="url(#ar)"></path>
+            <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="currentColor" class="s-t"></path></marker></defs>
+
+            <rect class="s-frame" x="146" y="24" width="440" height="250" rx="3"></rect>
+            <text class="s-t-b" x="164" y="46">Topic: pubsub.orders.v1</text>
+
+            <text class="s-t-m" x="164" y="90">P0</text>
+            <rect class="s-cell-r" x="192" y="64" width="64" height="40" rx="2"></rect>
+            <rect class="s-cell-r" x="264" y="64" width="64" height="40" rx="2"></rect>
+            <rect class="s-cell-r" x="336" y="64" width="64" height="40" rx="2"></rect>
+            <rect class="s-cell" x="408" y="64" width="64" height="40" rx="2"></rect>
+            <rect class="s-cell" x="480" y="64" width="64" height="40" rx="2"></rect>
+            <text class="s-t-d" x="198" y="78">0</text><text class="s-t-d" x="270" y="78">1</text>
+            <text class="s-t-d" x="342" y="78">2</text><text class="s-t-d" x="414" y="78">3</text>
+            <text class="s-t-d" x="486" y="78">4</text>
+            <text class="s-t-m" x="224" y="96" text-anchor="middle">msg</text>
+            <text class="s-t-m" x="296" y="96" text-anchor="middle">msg</text>
+            <text class="s-t-m" x="368" y="96" text-anchor="middle">msg</text>
+            <text class="s-t-m" x="440" y="96" text-anchor="middle">msg</text>
+            <text class="s-t-m" x="512" y="96" text-anchor="middle">msg</text>
+            <path class="s-tri" d="M362 108 L374 108 L368 116 z"></path>
+            <text class="s-t-a" x="382" y="118">committed offset = 2（ここまで読んだ）</text>
+
+            <text class="s-t-m" x="164" y="156">P1</text>
+            <rect class="s-cell" x="192" y="130" width="64" height="40" rx="2"></rect>
+            <rect class="s-cell" x="264" y="130" width="64" height="40" rx="2"></rect>
+            <rect class="s-cell" x="336" y="130" width="64" height="40" rx="2"></rect>
+            <text class="s-t-d" x="198" y="144">0</text><text class="s-t-d" x="270" y="144">1</text>
+            <text class="s-t-d" x="342" y="144">2</text>
+
+            <text class="s-t-m" x="164" y="222">P2</text>
+            <rect class="s-cell" x="192" y="196" width="64" height="40" rx="2"></rect>
+            <rect class="s-cell" x="264" y="196" width="64" height="40" rx="2"></rect>
+            <rect class="s-cell" x="336" y="196" width="64" height="40" rx="2"></rect>
+            <rect class="s-cell" x="408" y="196" width="64" height="40" rx="2"></rect>
+            <text class="s-t-d" x="198" y="210">0</text><text class="s-t-d" x="270" y="210">1</text>
+            <text class="s-t-d" x="342" y="210">2</text><text class="s-t-d" x="414" y="210">3</text>
+            <text class="s-t-d" x="192" y="256">キーが同じメッセージは必ず同じパーティションへ</text>
+
+            <path class="s-arrow" d="M590 150 H 614" marker-end="url(#ar)"></path>
+            <rect class="s-box" x="618" y="112" width="134" height="76" rx="3"></rect>
+            <text class="s-t-b" x="685" y="138" text-anchor="middle">Consumer Group</text>
+            <text class="s-t-d" x="685" y="156" text-anchor="middle">inventory-service</text>
+            <text class="s-t-d" x="685" y="172" text-anchor="middle">P0/P1/P2 を分担</text>
+          </svg>
+        </div>
+        <figcaption>1 トピック = 複数パーティション。各パーティション内で 0 から連番（オフセット）が振られる。</figcaption>
+      </figure>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>言葉</th><th>ひとことで</th><th>このリポジトリでの例</th></tr></thead>
+          <tbody>
+            <tr><td><span class="m">Topic</span></td><td>メッセージの入れ物。追記のみ、既定 7 日保持</td><td><span class="m">pubsub.orders.v1</span></td></tr>
+            <tr><td><span class="m">Partition</span></td><td>トピック内の並列レーン。並列度の上限</td><td>既定 3（<span class="m">DEFAULT_TOPIC_PARTITIONS</span>）</td></tr>
+            <tr><td><span class="m">Offset</span></td><td>パーティション内の連番。「どこまで読んだか」を記録</td><td>再起動しても続きから読める</td></tr>
+            <tr><td><span class="m">Consumer Group</span></td><td>同じグループ = 分担、違うグループ = 全員が全件受信</td><td><span class="m">--group</span> で切り替え（08）</td></tr>
+            <tr><td><span class="m">Broker</span></td><td>Kafka サーバー本体</td><td>Docker で 1 台（<span class="m">poc-broker</span>）</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="sub">配信保証の3レベル</h4>
+      <div class="tw">
+        <table>
+          <thead><tr><th>レベル</th><th>重複</th><th>消失</th><th>使いどころ</th></tr></thead>
+          <tbody>
+            <tr><td>At-Most-Once</td><td>なし</td><td>あり</td><td>多少欠けてもよいログ</td></tr>
+            <tr><td>At-Least-Once <span class="m">（既定）</span></td><td>あり</td><td>なし</td><td>通知・分析。受け手を冪等にして対処</td></tr>
+            <tr><td>Exactly-Once</td><td>なし</td><td>なし</td><td>金融・課金・在庫（→ offset 14）</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="call tip">
+        <b>キーの効き方</b>
+        <span>メッセージにキー（注文ID など）を付けると、同じキーは必ず同じパーティションに入ります。
+        つまり<strong>同一注文のイベント順序だけは保証される</strong>。全体の順序は保証されません。</span>
+      </div>
+
+      <ul class="checks">
+        <li>「パーティション数より多いコンシューマーを起動すると何が起きるか」に答えられる</li>
+        <li>グループ名を変えると読み直しになる理由を説明できる</li>
+      </ul>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s02"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <div class="phase-head"><h2>Phase 2 — 環境をつくる</h2><span class="rng">offset 03 — 07 / 手を動かす・40分</span></div>
+
+  <section class="step" id="s03">
+    <div class="rail"><span class="off">03</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">所要 10分</span><span class="chip">難易度 ★☆☆</span></div>
+      <h3>前提ツールを揃える</h3>
+      <p class="goal"><b>このステップのゴール</b>4 つのコマンドがすべてバージョンを返す状態にする。ここを飛ばすと 06 で必ず詰まります。</p>
+
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>docker --version
+docker compose version
+python --version
+git --version</code></pre>
+      </div>
+
+      <div class="out">
+        <span class="out-label">期待される出力（バージョンは環境により異なる）</span>
+        <pre>Docker version 24.0.6, build ed223bc
+Docker Compose version v2.23.0
+Python 3.11.9
+git version 2.42.0</pre>
+      </div>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>ツール</th><th>最低バージョン</th><th>入手先</th></tr></thead>
+          <tbody>
+            <tr><td>Docker Desktop</td><td>24.0+</td><td><a href="https://www.docker.com/products/docker-desktop/">docker.com</a></td></tr>
+            <tr><td>Python</td><td>3.11+</td><td><a href="https://www.python.org/downloads/">python.org</a> / pyenv</td></tr>
+            <tr><td>Git</td><td>2.x</td><td>OS 標準 / <a href="https://git-scm.com/">git-scm.com</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="call warn">
+        <b>Docker Desktop は「入っている」だけでは足りない</b>
+        <span>アプリを<strong>起動</strong>しておく必要があります。Mac ならメニューバーのクジラアイコン、Windows ならタスクトレイのアイコンが出ていれば稼働中です。</span>
+      </div>
+
+      <details class="pit">
+        <summary>python コマンドが見つからない / 3.11 未満だった</summary>
+        <div class="pit-body">
+          <p><span class="m">python</span> がない場合は <span class="m">python3</span> を試してください。以降のコマンドもすべて <span class="m">python3</span> に読み替えます。</p>
+          <div class="term">
+            <div class="term-bar"><span class="term-tag">macOS / pyenv で入れ直す</span><button class="copy" type="button">コピー</button></div>
+            <pre><code>brew install pyenv
+pyenv install 3.11.9
+pyenv local 3.11.9
+python --version</code></pre>
+          </div>
+        </div>
+      </details>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s03"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <section class="step" id="s04">
+    <div class="rail"><span class="off">04</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">所要 10分</span><span class="chip">難易度 ★☆☆</span></div>
+      <h3>リポジトリを取得して Python 環境をつくる</h3>
+      <p class="goal"><b>このステップのゴール</b><span class="m">import confluent_kafka</span> がエラーなく通る状態にする。</p>
+
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル</span><button class="copy" type="button">コピー</button></div>
+        <pre><code><span class="c"># 1. 取得（すでに手元にあるならこの2行は不要）</span>
+git clone &lt;このリポジトリの URL&gt; confluent-kafka-poc
+cd confluent-kafka-poc
+
+<span class="c"># 2. 仮想環境（推奨。プロジェクト外を汚さない）</span>
+python -m venv .venv
+source .venv/bin/activate      <span class="c"># Windows: .venv\Scripts\activate</span>
+
+<span class="c"># 3. 依存をインストール</span>
+pip install -r requirements.txt</code></pre>
+      </div>
+
+      <div class="out">
+        <span class="out-label">確認 — 主要パッケージが入ったか</span>
+        <pre>$ python -c "import confluent_kafka; print(confluent_kafka.version())"
+('2.x.x', 33554688)</pre>
+      </div>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>パッケージ</th><th>役割</th><th>使う場所</th></tr></thead>
+          <tbody>
+            <tr><td><span class="m">confluent-kafka</span></td><td>Kafka クライアント本体（C ライブラリ librdkafka のバインディング）</td><td>全ユースケース</td></tr>
+            <tr><td><span class="m">pydantic-settings</span></td><td><span class="m">.env</span> を型付きで読み込む</td><td><span class="m">core/config.py</span></td></tr>
+            <tr><td><span class="m">rich</span></td><td>コンソールの表・ライブ更新表示</td><td>offset 12 のダッシュボード</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="pit">
+        <summary>ModuleNotFoundError: No module named 'confluent_kafka'</summary>
+        <div class="pit-body">
+          <p>pip が別の Python を指している典型例です。<span class="m">pip --version</span> の末尾に表示されるパスが、<span class="m">python --version</span> で使っている Python と一致しているか確認してください。</p>
+          <div class="term">
+            <div class="term-bar"><span class="term-tag">確実に同じ Python に入れる</span><button class="copy" type="button">コピー</button></div>
+            <pre><code>python -m pip install -r requirements.txt</code></pre>
+          </div>
+        </div>
+      </details>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s04"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <section class="step" id="s05">
+    <div class="rail"><span class="off">05</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">所要 10分</span><span class="chip">難易度 ★☆☆</span></div>
+      <h3>接続設定を .env に置く</h3>
+      <p class="goal"><b>このステップのゴール</b>接続先がコードのどこにもハードコードされていない仕組みを理解し、設定値を自分で読めるようにする。</p>
+
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>cp .env.tpl .env
+python -m core.config</code></pre>
+      </div>
+
+      <div class="out">
+        <span class="out-label">期待される出力</span>
+        <pre>KAFKA_ENV                = local
+bootstrap.servers        = localhost:9092
+schema.registry.url      = http://localhost:8081
+security.protocol        = PLAINTEXT
+cloud?                   = False
+producer_config          = {'bootstrap.servers': 'localhost:9092', ...}</pre>
+      </div>
+
+      <p><strong>ローカル開発なら .env は書き換え不要</strong>です。値は「実際の環境変数 → <span class="m">.env</span> → <span class="m">.env.local</span> → コード内の既定値」の順で解決されます。</p>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>変数</th><th>既定値</th><th>意味</th></tr></thead>
+          <tbody>
+            <tr><td><span class="m">KAFKA_ENV</span></td><td><span class="m">local</span></td><td><span class="m">local</span>（Docker）か <span class="m">confluent</span>（Cloud）か</td></tr>
+            <tr><td><span class="m">KAFKA_BOOTSTRAP_SERVERS</span></td><td><span class="m">localhost:9092</span></td><td>最初に問い合わせるブローカー</td></tr>
+            <tr><td><span class="m">KAFKA_GROUP_ID</span></td><td><span class="m">confluent-kafka-poc-group</span></td><td>コンシューマーグループの既定名</td></tr>
+            <tr><td><span class="m">KAFKA_AUTO_OFFSET_RESET</span></td><td><span class="m">earliest</span></td><td>初見のグループがどこから読むか</td></tr>
+            <tr><td><span class="m">DEFAULT_TOPIC_PARTITIONS</span></td><td><span class="m">3</span></td><td>自動作成されるトピックの並列度</td></tr>
+            <tr><td><span class="m">DEFAULT_TOPIC_REPLICATION</span></td><td><span class="m">1</span></td><td>ローカルはブローカー 1 台なので 1</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="call warn">
+        <b>このリポジトリの開発ルール</b>
+        <span>接続先・認証情報を<strong>コードに書かない</strong>こと。必ず <span class="m">.env</span> → <span class="m">core/config.py</span> 経由で読みます。
+        <span class="m">.env</span> は git 管理外、<span class="m">.env.tpl</span> と <span class="m">.env.local</span> には実際の秘密情報を入れません。</span>
+      </div>
+
+      <div class="call tip">
+        <b>設定が一箇所に集まっている利点</b>
+        <span><span class="m">Settings.producer_config()</span> / <span class="m">consumer_config()</span> / <span class="m">admin_config()</span> が
+        そのまま confluent-kafka に渡せる dict を返します。だから offset 18 で Confluent Cloud に切り替えても<strong>コード変更が 0 行</strong>で済みます。</span>
+      </div>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s05"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <section class="step" id="s06">
+    <div class="rail"><span class="off">06</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">所要 10分（初回は +5〜10分）</span><span class="chip">難易度 ★☆☆</span></div>
+      <h3>Kafka を起動する</h3>
+      <p class="goal"><b>このステップのゴール</b><span class="m">./scripts/start.sh</span> が「Kafka is ready」まで到達し、UI の URL が表示される。</p>
+
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル</span><button class="copy" type="button">コピー</button></div>
+        <pre><code><span class="c"># フル構成（Schema Registry / Connect / Control Center 込み）</span>
+./scripts/start.sh
+
+<span class="c"># マシンが非力なら最小構成（ZooKeeper + Broker + kafka-ui のみ）</span>
+./scripts/start.sh minimal</code></pre>
+      </div>
+
+      <p>スクリプトは <strong>① docker compose up -d → ② ブローカーが <span class="m">kafka-topics --list</span> に応答するまで最大 60 秒待機 → ③ トピック一覧と UI の URL を表示</strong>、の 3 段階で動きます。単に起動するだけでなく「実際に応答できるか」まで確認するので、ここが通れば以降の接続エラーはほぼ起きません。</p>
+
+      <figure>
+        <div class="fw">
+          <svg viewBox="0 0 760 364" role="img" aria-label="Docker Compose で起動する6つのサービスと、core・use_cases の階層図">
+            <rect class="s-frame" x="8" y="8" width="744" height="196" rx="3"></rect>
+            <text class="s-t-d" x="24" y="30">Docker Compose — docker/docker-compose.yml</text>
+
+            <rect class="s-box" x="24" y="44" width="168" height="60" rx="3"></rect>
+            <text class="s-t-b" x="108" y="70" text-anchor="middle">ZooKeeper</text>
+            <text class="s-t-d" x="108" y="88" text-anchor="middle">:2181 クラスター管理</text>
+
+            <rect class="s-box-a" x="208" y="44" width="168" height="60" rx="3"></rect>
+            <text class="s-t-b" x="292" y="70" text-anchor="middle">Broker</text>
+            <text class="s-t-d" x="292" y="88" text-anchor="middle">:9092 メッセージ本体</text>
+
+            <rect class="s-box" x="392" y="44" width="168" height="60" rx="3"></rect>
+            <text class="s-t-b" x="476" y="70" text-anchor="middle">Schema Registry</text>
+            <text class="s-t-d" x="476" y="88" text-anchor="middle">:8081 形式の管理</text>
+
+            <rect class="s-box" x="576" y="44" width="160" height="60" rx="3"></rect>
+            <text class="s-t-b" x="656" y="70" text-anchor="middle">Kafka Connect</text>
+            <text class="s-t-d" x="656" y="88" text-anchor="middle">:8083 外部連携</text>
+
+            <rect class="s-box" x="24" y="120" width="168" height="60" rx="3"></rect>
+            <text class="s-t-b" x="108" y="146" text-anchor="middle">kafka-ui</text>
+            <text class="s-t-d" x="108" y="164" text-anchor="middle">:8080 いつも使う UI</text>
+
+            <rect class="s-box" x="208" y="120" width="168" height="60" rx="3"></rect>
+            <text class="s-t-b" x="292" y="146" text-anchor="middle">Control Center</text>
+            <text class="s-t-d" x="292" y="164" text-anchor="middle">:9021 Confluent 製 UI</text>
+
+            <text class="s-t-d" x="396" y="146">minimal モードで起動するのは</text>
+            <text class="s-t-d" x="396" y="164">ZooKeeper / Broker / kafka-ui の 3 つだけ</text>
+
+            <path class="s-arrow" d="M292 204 V 234" marker-end="url(#ar2)"></path>
+            <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" class="s-t"></path></marker></defs>
+            <text class="s-t-a" x="302" y="224">localhost:9092</text>
+
+            <rect class="s-box" x="150" y="238" width="460" height="52" rx="3"></rect>
+            <text class="s-t-b" x="380" y="260" text-anchor="middle">core/</text>
+            <text class="s-t-d" x="380" y="278" text-anchor="middle">BaseProducer · BaseConsumer · TopicAdmin · Settings</text>
+
+            <path class="s-arrow" d="M380 290 V 310" marker-end="url(#ar2)"></path>
+            <rect class="s-box" x="150" y="312" width="460" height="46" rx="3"></rect>
+            <text class="s-t-d" x="380" y="340" text-anchor="middle">use_cases/01〜07 — 各デモは core を継承しているだけ</text>
+          </svg>
+        </div>
+        <figcaption>読む順番は core → use_cases。差分が小さいので、core さえ読めば 7 つすべてが読めます。</figcaption>
+      </figure>
+
+      <div class="out">
+        <span class="out-label">期待される出力（末尾）</span>
+        <pre>==> Kafka is ready. Current topics:
+    __consumer_offsets
+
+==> UIs:
+    kafka-ui        : http://localhost:8080
+    Control Center  : http://localhost:9021
+    Schema Registry : http://localhost:8081
+    Kafka Connect   : http://localhost:8083
+
+Bootstrap servers: localhost:9092
+Done. Try:  python use_cases/01_basic_pubsub/consumer.py</pre>
+      </div>
+
+      <h4 class="sub">止める・やり直す</h4>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>./scripts/stop.sh    <span class="c"># 停止する（トピックのデータは残る）</span>
+./scripts/reset.sh   <span class="c"># 停止してデータも全削除（実験をやり直したいとき）</span></code></pre>
+      </div>
+
+      <details class="pit">
+        <summary>port is already allocated / Cannot connect to the Docker daemon</summary>
+        <div class="pit-body">
+          <p><strong>Docker daemon のエラー</strong>なら Docker Desktop が未起動です。起動してから再実行してください。</p>
+          <p><strong>ポート競合</strong>なら、9092 を別のプロセスが使っています。</p>
+          <div class="term">
+            <div class="term-bar"><span class="term-tag">macOS / Linux</span><button class="copy" type="button">コピー</button></div>
+            <pre><code>./scripts/stop.sh &amp;&amp; ./scripts/start.sh
+lsof -i :9092          <span class="c"># それでもダメなら誰が掴んでいるか確認</span></code></pre>
+          </div>
+        </div>
+      </details>
+
+      <details class="pit">
+        <summary>60 秒たっても ready にならない</summary>
+        <div class="pit-body">
+          <p>初回はイメージのダウンロードで時間がかかります。まずコンテナの状態を見ます。</p>
+          <div class="term">
+            <div class="term-bar"><span class="term-tag">ターミナル</span><button class="copy" type="button">コピー</button></div>
+            <pre><code>docker ps
+docker compose -f docker/docker-compose.yml logs broker --tail 50</code></pre>
+          </div>
+          <p>全コンテナが <span class="m">Up</span> になってから <span class="m">./scripts/start.sh</span> を再実行すれば、ヘルスチェックだけやり直せます。</p>
+        </div>
+      </details>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s06"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <section class="step" id="s07">
+    <div class="rail"><span class="off">07</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">所要 10分</span><span class="chip">難易度 ★☆☆</span><span class="chip">ブラウザ</span></div>
+      <h3>kafka-ui で中を覗く</h3>
+      <p class="goal"><b>このステップのゴール</b>「メッセージ・オフセット・コンシューマーグループの遅れ（lag）」を UI で確認できるようにする。以降のステップで毎回ここに戻ります。</p>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>URL</th><th>何を見る</th><th>使用頻度</th></tr></thead>
+          <tbody>
+            <tr><td><a href="http://localhost:8080">localhost:8080</a> kafka-ui</td><td>トピック / メッセージ / コンシューマーの lag</td><td>毎回</td></tr>
+            <tr><td><a href="http://localhost:9021">localhost:9021</a> Control Center</td><td>Confluent 純正の運用ダッシュボード</td><td>たまに</td></tr>
+            <tr><td><a href="http://localhost:8081">localhost:8081</a> Schema Registry</td><td>スキーマの登録状況（本 PoC は JSON 直送のため未使用）</td><td>offset 19 で</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="sub">最低限おぼえる3画面</h4>
+      <ol>
+        <li><strong>Topics</strong> → トピックを選ぶ → <strong>Messages</strong> タブ。実データ・オフセット・タイムスタンプが見えます。</li>
+        <li><strong>Topics</strong> → <strong>Settings</strong> タブ。パーティション数と保持期間はここ。</li>
+        <li><strong>Consumers</strong>。グループごとの<strong>現在オフセットと lag</strong>。lag が減らない = 処理が追いついていない、のサインです。</li>
+      </ol>
+
+      <div class="call tip">
+        <b>まだトピックは空でいい</b>
+        <span>現時点では <span class="m">__consumer_offsets</span> しかないはずです。トピックは各デモの起動時に
+        <span class="m">TopicAdmin.ensure_topic_exists()</span> が自動作成します（存在していればスキップ＝何度実行しても安全）。</span>
+      </div>
+
+      <ul class="checks">
+        <li>kafka-ui が開き、右上のクラスター名が <span class="m">local</span> になっている</li>
+        <li>Topics / Consumers の 2 タブの場所を覚えた</li>
+      </ul>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s07"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <div class="phase-head"><h2>Phase 3 — 動かす</h2><span class="rng">offset 08 — 14 / 7ユースケース・3〜4時間</span></div>
+
+  <section class="step" id="s08">
+    <div class="rail"><span class="off">08</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">use_cases/01_basic_pubsub</span><span class="chip">所要 30分</span><span class="chip">難易度 ★☆☆</span><span class="chip">ターミナル 2枚</span></div>
+      <h3>Pub/Sub の基本 — メッセージが流れる感覚をつかむ</h3>
+      <p class="goal"><b>このステップのゴール</b>コンシューマーグループの挙動（分担と fan-out）を、自分の手で再現できる。</p>
+
+      <p>トピック <span class="m">pubsub.orders.v1</span> に注文イベントを流し、別グループで受け取ります。<strong>先にコンシューマーを起動</strong>してください。</p>
+
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル A — 受け取る</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/01_basic_pubsub/consumer.py</code></pre>
+      </div>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル B — 送る</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/01_basic_pubsub/producer.py --count 10 --interval 0.5</code></pre>
+      </div>
+
+      <div class="out">
+        <span class="out-label">期待される動き</span>
+        <pre>B: Produced: order_id=abc123, item=laptop, price=98000
+A: Received: order_id=abc123, item=laptop, price=98000   ← ほぼ同時に A に出る</pre>
+      </div>
+
+      <h4 class="sub">実験1 — fan-out（違うグループは全員が全件受け取る）</h4>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル C — 別グループを追加</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/01_basic_pubsub/consumer.py --group another-group</code></pre>
+      </div>
+      <p><span class="m">KAFKA_AUTO_OFFSET_RESET=earliest</span> なので、<strong>新しいグループは過去のメッセージを最初から読み直します</strong>。これが「読んでも消えない」の実物です。</p>
+
+      <h4 class="sub">実験2 — 分担（同じグループを増やすとパーティションを分け合う）</h4>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル C / D / E</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/01_basic_pubsub/consumer.py --group test-scale</code></pre>
+      </div>
+      <p>同じコマンドを 3 枚のターミナルで起動すると、パーティション 0/1/2 が 1 つずつ割り当たります。
+      <strong>4 枚目を起動すると、そのプロセスは何も受け取りません</strong>（パーティション数が並列度の上限）。</p>
+
+      <h4 class="sub">実験3 — 溜めてから読む</h4>
+      <p>コンシューマーを全部止めた状態でプロデューサーだけ動かし、あとからコンシューマーを起動してください。溜まった分が一気に流れます。kafka-ui の <strong>Consumers</strong> タブで lag が跳ね上がってから 0 に戻る様子が見えます。</p>
+
+      <ul class="checks">
+        <li>違うグループ名にすると全件読み直しになることを確認した</li>
+        <li>同じグループを 4 つ起動すると 1 つが遊ぶことを確認した</li>
+        <li>kafka-ui の Consumers タブで lag の増減を見た</li>
+      </ul>
+
+      <details class="pit">
+        <summary>コンシューマーが無反応 / 止め方がわからない</summary>
+        <div class="pit-body">
+          <p>メッセージ待ちのループなので、<strong>何も表示されないのは正常</strong>です。別ターミナルでプロデューサーを動かしてください。</p>
+          <p>停止は、そのターミナルで <span class="m">Ctrl + C</span>。ターミナルを閉じてしまった場合は <span class="m">./scripts/stop.sh</span> で Kafka ごと止めれば、コンシューマーも終了します。</p>
+        </div>
+      </details>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s08"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <section class="step" id="s09">
+    <div class="rail"><span class="off">09</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">use_cases/02_event_sourcing</span><span class="chip">所要 30分</span><span class="chip">難易度 ★★☆</span></div>
+      <h3>イベントソーシング — 状態ではなく履歴を保存する</h3>
+      <p class="goal"><b>このステップのゴール</b>「現在の状態はイベントを畳み込んだ結果にすぎない」を、リプレイで体感する。</p>
+
+      <p>トピック <span class="m">eventsourcing.orders.v1</span> に <span class="m">ORDER_CREATED → PAYMENT_RECEIVED → SHIPPED</span> のようなイベントを追記し、状態はそこから再構築します。RDB が「今の値」を UPDATE で潰すのに対し、こちらは<strong>何も失われません</strong>。</p>
+
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル — イベントを書いて状態を再構築</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/02_event_sourcing/event_store.py
+
+<span class="c"># 特定の注文だけ再構築して表示する</span>
+python use_cases/02_event_sourcing/event_store.py --aggregate &lt;order_id&gt;</code></pre>
+      </div>
+
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル — リプレイと what-if</span><button class="copy" type="button">コピー</button></div>
+        <pre><code><span class="c"># 全イベントを畳み込み直す</span>
+python use_cases/02_event_sourcing/replay.py
+
+<span class="c"># 指定時刻以降のイベントだけで再構築する</span>
+python use_cases/02_event_sourcing/replay.py --since 2026-01-01T00:00:00
+
+<span class="c"># 「もし支払いイベントが無かったら？」を試す</span>
+python use_cases/02_event_sourcing/replay.py --whatif drop-payments</code></pre>
+      </div>
+
+      <div class="call tip">
+        <b>キーが効いている場所</b>
+        <span>イベントは <span class="m">aggregate_id</span>（注文ID）をキーにして produce されます。
+        だから同じ注文のイベントは必ず同じパーティションに並び、<strong>順序が壊れません</strong>。
+        offset 02 で見たキーの話が、ここで実務的な意味を持ちます。</span>
+      </div>
+
+      <ul class="checks">
+        <li><span class="m">--whatif drop-payments</span> で最終状態が変わることを確認した</li>
+        <li>何度 replay しても同じ結果になる（決定的である）ことを確認した</li>
+        <li>kafka-ui で <span class="m">eventsourcing.orders.v1</span> のメッセージを実際に見た</li>
+      </ul>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s09"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <section class="step" id="s10">
+    <div class="rail"><span class="off">10</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">use_cases/04_cdc</span><span class="chip">所要 25分</span><span class="chip">難易度 ★★☆</span><span class="chip">ターミナル 2枚</span></div>
+      <h3>CDC — DB の変更を別システムに届ける</h3>
+      <p class="goal"><b>このステップのゴール</b>Debezium 形式（<span class="m">op / before / after</span>）のイベントを読んで、レプリカが追従する様子を確認する。</p>
+
+      <p>DB を定期的に polling して差分を取る方式には、<strong>削除を検知できない</strong>という致命的な穴があります。CDC は変更が起きた瞬間にイベントを発行するので、INSERT / UPDATE / DELETE がすべて等しく流れます。</p>
+
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル A — レプリカ側（先に起動）</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/04_cdc/cdc_consumer.py</code></pre>
+      </div>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル B — ソース DB を変更する</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/04_cdc/simulator.py --changes 20</code></pre>
+      </div>
+
+      <div class="out">
+        <span class="out-label">流れるイベントの形（cdc.orders.v1）</span>
+        <pre>{ "op": "c", "before": null,                  "after": {"id": 1, "status": "pending"} }
+{ "op": "u", "before": {"status": "pending"}, "after": {"id": 1, "status": "shipped"} }
+{ "op": "d", "before": {"id": 1, ...},        "after": null }</pre>
+      </div>
+
+      <p><span class="m">simulator.py</span> が <span class="m">source.db</span>（SQLite）を書き換え、<span class="m">cdc_consumer.py</span> が <span class="m">replica.db</span> に反映します。両方のファイルを比べれば、レプリケーションが成立していることを確認できます。</p>
+
+      <ul class="checks">
+        <li><span class="m">op</span> が c → u → d と遷移するのを確認した</li>
+        <li>削除（<span class="m">op: "d"</span>）もレプリカに伝わることを確認した</li>
+        <li>本番では Debezium + Kafka Connect（:8083）が同じ形式のイベントを出す、と理解した</li>
+      </ul>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s10"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <section class="step" id="s11">
+    <div class="rail"><span class="off">11</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">use_cases/05_dead_letter_queue</span><span class="chip">所要 30分</span><span class="chip">難易度 ★★☆</span><span class="chip">ターミナル 3枚</span></div>
+      <h3>Dead Letter Queue — 壊れた1件で全体を止めない</h3>
+      <p class="goal"><b>このステップのゴール</b>本番で最初に必要になるエラー処理パターンを、失敗を注入して動かす。</p>
+
+      <p>外から来るデータは必ず壊れます。壊れた 1 件で例外を投げて落ちると、<strong>その後ろの正常なメッセージがすべて止まります</strong>。DLQ は不正メッセージを別トピックに退避して、本流を止めない仕組みです。</p>
+
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル A — メインの処理（失敗を DLQ へ）</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/05_dead_letter_queue/consumer.py</code></pre>
+      </div>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル B — DLQ を拾って復旧・再投入</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/05_dead_letter_queue/dlq_processor.py</code></pre>
+      </div>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル C — 2割を壊して送る</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/05_dead_letter_queue/producer.py --count 50 --bad-rate 0.2</code></pre>
+      </div>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>トピック</th><th>役割</th></tr></thead>
+          <tbody>
+            <tr><td><span class="m">dlq.orders.v1</span></td><td>本流。正常・不正が混ざって届く</td></tr>
+            <tr><td><span class="m">dlq.orders.dlq.v1</span></td><td>退避先。失敗理由つきで溜まる</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="call ok">
+        <b>見るべきポイント</b>
+        <span>ターミナル A が<strong>一度も落ちずに 50 件を処理しきる</strong>こと。そして kafka-ui で
+        <span class="m">dlq.orders.dlq.v1</span> におよそ 10 件（20%）溜まっていること。
+        DLQ プロセッサーが修復可能なものを本流に戻し、修復不能なものだけを poison として記録します。</span>
+      </div>
+
+      <p><span class="m">--bad-rate 1.0</span> にすれば全件失敗、<span class="m">0.0</span> なら全件成功。壊れ方の割合を変えて挙動を確かめてください。</p>
+
+      <ul class="checks">
+        <li>メインコンシューマーが停止しないことを確認した</li>
+        <li>DLQ トピックに不正メッセージが入るのを kafka-ui で見た</li>
+        <li>再投入されたメッセージが再び本流で処理されるのを追えた</li>
+      </ul>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s11"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <section class="step" id="s12">
+    <div class="rail"><span class="off">12</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">use_cases/07_real_time_analytics</span><span class="chip">所要 25分</span><span class="chip">難易度 ★★☆</span><span class="chip">ターミナル 3枚</span></div>
+      <h3>リアルタイム KPI — 「今この瞬間」を出す</h3>
+      <p class="goal"><b>このステップのゴール</b>生イベント → 集計 → ダッシュボードという 3 段のパイプラインを、トピックでつなぐ感覚をつかむ。</p>
+
+      <div class="out">
+        <span class="out-label">パイプライン</span>
+        <pre>event_generator  ──&gt; analytics.events.v1  ──&gt; aggregator (1分窓) ──&gt; analytics.kpi_1m.v1 ──&gt; dashboard</pre>
+      </div>
+
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル A — ダッシュボード</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/07_real_time_analytics/dashboard.py</code></pre>
+      </div>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル B — 集計エンジン</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/07_real_time_analytics/aggregator.py</code></pre>
+      </div>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル C — EC のアクセスを模擬</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/07_real_time_analytics/event_generator.py --rate 20
+
+<span class="c"># 負荷を上げてみる（秒間100件・500件で終了）</span>
+python use_cases/07_real_time_analytics/event_generator.py --rate 100 --count 500</code></pre>
+      </div>
+
+      <div class="out">
+        <span class="out-label">ターミナル A に出るもの</span>
+        <pre>📊 Real-Time Analytics
+  Page views : 1,423      Purchases : 89
+  GMV        : ¥1,234,500 CVR       : 6.3%
+  Events/sec : 48.2</pre>
+      </div>
+
+      <div class="call tip">
+        <b>中間結果もトピックに置く理由</b>
+        <span>集計結果を <span class="m">analytics.kpi_1m.v1</span> に書き戻しているので、ダッシュボードを落としても
+        <strong>集計はそのまま続き、あとから追いつけます</strong>。表示と計算が疎結合になっているのがポイントです。</span>
+      </div>
+
+      <ul class="checks">
+        <li><span class="m">--rate</span> を変えると Events/sec が追従することを確認した</li>
+        <li>ダッシュボードだけ Ctrl+C で落として再起動し、KPI が復帰することを確認した</li>
+      </ul>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s12"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <section class="step" id="s13">
+    <div class="rail"><span class="off">13</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">use_cases/03_stream_processing</span><span class="chip">所要 40分</span><span class="chip">難易度 ★★★</span></div>
+      <h3>ストリーム処理 — 集計・変換・結合</h3>
+      <p class="goal"><b>このステップのゴール</b>ウィンドウ集計・フィルタ変換・ストリーム結合という 3 つの型を動かし、使い分けを言えるようにする。</p>
+
+      <h4 class="sub">① タンブリングウィンドウ集計</h4>
+      <p>30 秒ごとに区切って売上を合計します。<span class="m">stream.transactions.v1</span> を読み、<span class="m">stream.sales_30s.v1</span> に書きます。</p>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル A — 先にデータを流し込む</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/03_stream_processing/filter_transform.py --produce 300</code></pre>
+      </div>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル A — 集計する（窓幅を変えられる）</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/03_stream_processing/aggregator.py
+python use_cases/03_stream_processing/aggregator.py --window 10</code></pre>
+      </div>
+
+      <h4 class="sub">② フィルタ・変換</h4>
+      <p>引数なしで起動すると常駐し、高額取引だけを <span class="m">stream.high_value.v1</span> に振り分けます。</p>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル B</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/03_stream_processing/filter_transform.py</code></pre>
+      </div>
+
+      <h4 class="sub">③ ストリーム結合（注文 × 支払い）</h4>
+      <p><strong><span class="m">--produce N</span> でサンプル生成、引数なしで結合処理が動きます。</strong>
+      支払いは約 9 割しか発生しないので、結合されずに残る注文が出ます。これが実務で「未払い検知」になります。</p>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル C — まずデータを作る</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/03_stream_processing/stream_join.py --produce 100</code></pre>
+      </div>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル C — 結合する</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/03_stream_processing/stream_join.py</code></pre>
+      </div>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>入力トピック</th><th>処理</th><th>出力トピック</th></tr></thead>
+          <tbody>
+            <tr><td><span class="m">stream.transactions.v1</span></td><td>30 秒タンブリング集計</td><td><span class="m">stream.sales_30s.v1</span></td></tr>
+            <tr><td><span class="m">stream.transactions.v1</span></td><td>高額のみ抽出・変換</td><td><span class="m">stream.high_value.v1</span></td></tr>
+            <tr><td><span class="m">stream.order_events.v1</span> + <span class="m">stream.payment_events.v1</span></td><td>ウィンドウ結合</td><td><span class="m">stream.order_payment_joined.v1</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="call warn">
+        <b>本番でこれを自前実装しない</b>
+        <span>ここでは仕組みを理解するために Python で書いていますが、実務では
+        <strong>ksqlDB や Kafka Streams</strong> を使います。状態ストア・リバランス・遅延データの扱いを自前で正しく作るのは相当な労力です。
+        「何が難しいのか」を知るのがこのステップの目的です。</span>
+      </div>
+
+      <ul class="checks">
+        <li>窓幅を変えると集計の粒度が変わることを確認した</li>
+        <li>結合されずに残る注文が出ることを確認した</li>
+        <li>3 つの型（集計 / 変換 / 結合）を使い分ける基準を言える</li>
+      </ul>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s13"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <section class="step" id="s14">
+    <div class="rail"><span class="off">14</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">use_cases/06_exactly_once</span><span class="chip">所要 30分</span><span class="chip">難易度 ★★★</span><span class="chip">ターミナル 2枚</span></div>
+      <h3>Exactly-Once — 二重処理を絶対に起こさない</h3>
+      <p class="goal"><b>このステップのゴール</b>EOS が「送信側のトランザクション」と「受信側の冪等性」の<strong>両輪</strong>であることを、失敗注入で確かめる。</p>
+
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル A — 冪等コンシューマー</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/06_exactly_once/idempotent_consumer.py</code></pre>
+      </div>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル B — 5件を1トランザクションでコミット</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/06_exactly_once/transactional_producer.py --batch 5</code></pre>
+      </div>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル B — 途中で失敗させて全件 abort</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/06_exactly_once/transactional_producer.py --batch 5 --fail</code></pre>
+      </div>
+
+      <div class="call ok">
+        <b>ここが山場</b>
+        <span><span class="m">--fail</span> を付けたとき、コンシューマーには<strong>1 件も届きません</strong>。
+        3 件目まで produce していても、abort されたトランザクションのメッセージは読み取り側から見えないからです。
+        「全部入るか、1つも入らないか」が Kafka のレベルで保証されています。</span>
+      </div>
+
+      <h4 class="sub">受信側の冪等性</h4>
+      <p>コンシューマーは処理済み ID を SQLite の台帳に記録し、2 回目以降を読み飛ばします。同じコマンドをもう一度流して、
+      ログに「skip」が出ることを確認してください。台帳の場所は <span class="m">--db</span> で変えられます。</p>
+
+      <div class="call warn">
+        <b>タダではない</b>
+        <span>EOS はスループットと引き換えです（offset 16 のベンチマークで実測できます）。
+        金融・課金・在庫のように<strong>二重処理が事故になる場面に限って</strong>使い、
+        それ以外は At-Least-Once + 冪等処理で十分、という判断ができるようになるのが目標です。</span>
+      </div>
+
+      <details class="pit">
+        <summary>transactional.id 関連のエラーが出る</summary>
+        <div class="pit-body">
+          <p>前回の実験のトランザクション状態が残っている可能性があります。リセットしてやり直してください。</p>
+          <div class="term">
+            <div class="term-bar"><span class="term-tag">ターミナル</span><button class="copy" type="button">コピー</button></div>
+            <pre><code>./scripts/reset.sh &amp;&amp; ./scripts/start.sh</code></pre>
+          </div>
+          <p>複数プロセスを同時に走らせたい場合は <span class="m">--txn-id</span> を分けてください（同じ ID は後発が先発を締め出す＝フェンシング仕様です）。</p>
+        </div>
+      </details>
+
+      <ul class="checks">
+        <li><span class="m">--fail</span> で 1 件も届かないことを確認した</li>
+        <li>同じバッチを再送しても二重処理されないことを確認した</li>
+        <li>EOS を使う／使わない判断基準を自分の言葉で言える</li>
+      </ul>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s14"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <div class="phase-head"><h2>Phase 4 — 運用する</h2><span class="rng">offset 15 — 19 / 独力で回せるようになる</span></div>
+
+  <section class="step" id="s15">
+    <div class="rail"><span class="off">15</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">所要 15分</span><span class="chip">難易度 ★☆☆</span></div>
+      <h3>まとめて回す・テストする</h3>
+      <p class="goal"><b>このステップのゴール</b>環境が壊れていないことを 1 コマンドで確認できるようにする。以降、何か変えたら毎回これを回します。</p>
+
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル — 全ユースケースを通しで実行</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>./scripts/run_all_demos.sh</code></pre>
+      </div>
+      <p>各デモを<strong>有限件数・時間上限つき</strong>で順に実行し、自動で終了します。ブローカーに到達できなければ最初に落ちるので、環境の一次切り分けにも使えます。</p>
+
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル — 統合テスト（Kafka 起動が前提）</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>pytest tests/ -v
+
+<span class="c"># 落ちたテストだけ詳しく見る</span>
+pytest tests/test_core_producer.py -v</code></pre>
+      </div>
+
+      <div class="call tip">
+        <b>テストは実物の Kafka に当たる</b>
+        <span>モックではなく Docker のブローカーを使う統合テストです。だから <span class="m">./scripts/start.sh</span> を先に実行してください。
+        逆に言えば、テストが通る = 環境と資材の両方が健全、という強い保証になります。</span>
+      </div>
+
+      <ul class="checks">
+        <li><span class="m">run_all_demos.sh</span> が ALL DEMOS COMPLETE まで到達した</li>
+        <li><span class="m">pytest tests/ -v</span> が全件パスした</li>
+      </ul>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s15"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <section class="step" id="s16">
+    <div class="rail"><span class="off">16</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">benchmarks/</span><span class="chip">所要 30分</span><span class="chip">難易度 ★★☆</span></div>
+      <h3>性能を測る — 「速い」を数字で言う</h3>
+      <p class="goal"><b>このステップのゴール</b>スループットとレイテンシを自分の環境で実測し、設定を変えたときの差を説明できる。</p>
+
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル — スループット</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python benchmarks/throughput_producer.py --count 100000
+python benchmarks/throughput_consumer.py --count 100000
+
+<span class="c"># 送信側のチューニングパラメータを振って比較する</span>
+python benchmarks/throughput_producer.py --sweep</code></pre>
+      </div>
+
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル — レイテンシ（P50 / P95 / P99）</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python benchmarks/latency_test.py --count 2000 --rate 200
+python benchmarks/report.py            <span class="c"># 結果を Markdown レポートに</span></code></pre>
+      </div>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>見る指標</th><th>意味</th><th>悪化したときに疑うこと</th></tr></thead>
+          <tbody>
+            <tr><td>msg/sec</td><td>単位時間あたりの処理件数</td><td>バッチ設定（<span class="m">linger.ms</span>）、圧縮、パーティション数</td></tr>
+            <tr><td>P50</td><td>半数がこの時間以内に届く</td><td>平常時の実力。ここが遅いなら構成の問題</td></tr>
+            <tr><td>P99</td><td>最も遅い 1% の水準</td><td><strong>ユーザー体感はここで決まる</strong>。GC・ディスク・リバランス</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="call warn">
+        <b>この数字を本番の見積もりに使わない</b>
+        <span>ノート PC 上の Docker、ブローカー 1 台、レプリケーション 1 の値です。
+        <strong>設定変更の前後比較</strong>には使えますが、絶対値は本番構成とは別物として扱ってください。</span>
+      </div>
+
+      <ul class="checks">
+        <li>自分の環境の msg/sec と P50/P95/P99 を記録した</li>
+        <li><span class="m">--sweep</span> でパラメータによる差が出ることを確認した</li>
+        <li>offset 14 の EOS 有無で数字が変わることを確かめた</li>
+      </ul>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s16"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <section class="step" id="s17">
+    <div class="rail"><span class="off">17</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">所要 20分</span><span class="chip">難易度 ★★☆</span><span class="chip">リファレンス</span></div>
+      <h3>壊れたときに自力で直す</h3>
+      <p class="goal"><b>このステップのゴール</b>エラーメッセージから原因の当たりをつけ、切り分けコマンドを手が覚えている状態にする。</p>
+
+      <h4 class="sub">まず打つ3コマンド</h4>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル — 一次切り分け</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>docker ps                                   <span class="c"># 全コンテナが Up か</span>
+docker logs poc-broker --tail 50            <span class="c"># ブローカーのログ</span>
+python -m core.config                       <span class="c"># どこに繋ぎに行っているか</span></code></pre>
+      </div>
+      <p><span class="m">./scripts/start.sh minimal</span> で起動した場合、ブローカーのコンテナ名は <span class="m">poc-broker-min</span> です。</p>
+
+      <h4 class="sub">症状別</h4>
+      <details class="pit">
+        <summary>Failed to resolve 'localhost:9092' / Connection refused</summary>
+        <div class="pit-body">
+          <p>ブローカーが起動していないか、まだ応答できていません。<span class="m">./scripts/start.sh</span> を実行し、
+          「Kafka is ready」まで出るのを待ってください。すでに起動済みなら <span class="m">docker ps</span> で全コンテナが <span class="m">Up</span> か確認します。</p>
+        </div>
+      </details>
+      <details class="pit">
+        <summary>ModuleNotFoundError（confluent_kafka / pydantic_settings / rich）</summary>
+        <div class="pit-body">
+          <p>仮想環境を有効化し忘れているか、pip が別の Python を指しています。</p>
+          <div class="term">
+            <div class="term-bar"><span class="term-tag">ターミナル</span><button class="copy" type="button">コピー</button></div>
+            <pre><code>source .venv/bin/activate
+python -m pip install -r requirements.txt</code></pre>
+          </div>
+        </div>
+      </details>
+      <details class="pit">
+        <summary>Topic 'xxx' already exists</summary>
+        <div class="pit-body">
+          <p>無視して構いません。<span class="m">TopicAdmin.ensure_topic_exists()</span> は冪等（存在すればスキップ）に作られています。
+          完全にやり直したい場合のみ <span class="m">./scripts/reset.sh &amp;&amp; ./scripts/start.sh</span>。</p>
+        </div>
+      </details>
+      <details class="pit">
+        <summary>同じメッセージを何度も受信してしまう</summary>
+        <div class="pit-body">
+          <p>グループ名を変えた（＝新しいグループ扱い）か、初回起動です。<span class="m">KAFKA_AUTO_OFFSET_RESET=earliest</span> のため最初から読みます。
+          続きから読みたいなら<strong>同じ <span class="m">--group</span> 名</strong>を使ってください。</p>
+        </div>
+      </details>
+      <details class="pit">
+        <summary>kafka-ui にメッセージが出てこない</summary>
+        <div class="pit-body">
+          <p>① ブラウザをリロード ② Topics の Refresh ③ トピック名の綴り（<span class="m">pubsub.orders.v1</span> など）
+          ④ 右上のクラスターが <span class="m">local</span> か、の順に確認します。</p>
+        </div>
+      </details>
+      <details class="pit">
+        <summary>reset したのにデータが残っている</summary>
+        <div class="pit-body">
+          <div class="term">
+            <div class="term-bar"><span class="term-tag">ターミナル</span><button class="copy" type="button">コピー</button></div>
+            <pre><code>./scripts/reset.sh &amp;&amp; ./scripts/start.sh</code></pre>
+          </div>
+          <p>SQLite を使うユースケース（04 の <span class="m">source.db</span> / <span class="m">replica.db</span>、06 の台帳）は
+          Kafka の外にあるので、必要ならファイルごと消してください。</p>
+        </div>
+      </details>
+
+      <div class="call tip">
+        <b>それでも解決しないとき、集める情報</b>
+        <span><span class="m">python --version</span> / <span class="m">docker --version</span> / <span class="m">docker ps -a</span> /
+        <span class="m">docker logs poc-broker --tail 100</span> の 4 点。これがあれば大抵の相談は 1 往復で終わります。</span>
+      </div>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s17"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <section class="step" id="s18">
+    <div class="rail"><span class="off">18</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">所要 20分</span><span class="chip">難易度 ★★☆</span><span class="chip">任意（アカウントが必要）</span></div>
+      <h3>Confluent Cloud に切り替える</h3>
+      <p class="goal"><b>このステップのゴール</b>ローカル Docker とマネージドサービスの差が「接続設定だけ」であることを、実際の設定で理解する。</p>
+
+      <p><strong>コードの変更は 0 行です。</strong><span class="m">.env</span> を書き換えるだけで、同じデモがクラウド上のクラスターに繋がります。</p>
+
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">.env（秘密情報はこのファイルにのみ書く）</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>KAFKA_ENV=confluent
+KAFKA_BOOTSTRAP_SERVERS=pkc-xxxxx.us-east-1.aws.confluent.cloud:9092
+KAFKA_SECURITY_PROTOCOL=SASL_SSL
+KAFKA_SASL_MECHANISM=PLAIN
+KAFKA_SASL_USERNAME=&lt;CLUSTER_API_KEY&gt;
+KAFKA_SASL_PASSWORD=&lt;CLUSTER_API_SECRET&gt;
+SCHEMA_REGISTRY_URL=https://psrc-xxxxx.confluent.cloud
+SCHEMA_REGISTRY_API_KEY=&lt;SR_KEY&gt;
+SCHEMA_REGISTRY_API_SECRET=&lt;SR_SECRET&gt;</code></pre>
+      </div>
+
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル — 切り替わったか確認</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python -m core.config      <span class="c"># cloud? = True になれば成功</span></code></pre>
+      </div>
+
+      <div class="call warn">
+        <b>切り替え時に引っかかりやすい2点</b>
+        <span>① <strong>レプリケーション係数</strong>：Confluent Cloud のクラスターは通常 3 を要求します。
+        <span class="m">DEFAULT_TOPIC_REPLICATION=1</span> のままだとトピック作成が弾かれることがあるので、エラーが出たら 3 にしてください。<br>
+        ② <strong>秘密情報の置き場所</strong>：API キー／シークレットは git 管理外の <span class="m">.env</span> にのみ書きます。
+        <span class="m">.env.tpl</span> と <span class="m">.env.local</span> はコミットされるので絶対に入れないこと。</span>
+      </div>
+
+      <div class="call tip">
+        <b>なぜ 0 行で済むのか</b>
+        <span><span class="m">core/config.py</span> の <span class="m">_security_config()</span> が
+        <span class="m">PLAINTEXT</span> と <span class="m">SASL_SSL</span> を吸収し、各クライアントには完成した dict だけを渡しているからです。
+        これが「環境変数をコードにハードコードしない」というルールの実利です。</span>
+      </div>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s18"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <section class="step" id="s19">
+    <div class="rail"><span class="off">19</span></div>
+    <div class="step-body">
+      <div class="meta"><span class="chip">所要 60分〜</span><span class="chip">難易度 ★★★</span><span class="chip">卒業課題</span></div>
+      <h3>卒業課題 — 自分のユースケースを追加する</h3>
+      <p class="goal"><b>このステップのゴール</b>ここまでの資材を使って、自分の業務に近い検証を<strong>自力で 1 本</strong>立ち上げる。</p>
+
+      <h4 class="sub">1. 雛形を作る</h4>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>mkdir -p use_cases/08_my_use_case
+touch use_cases/08_my_use_case/README.md
+touch use_cases/08_my_use_case/producer.py
+touch use_cases/08_my_use_case/consumer.py</code></pre>
+      </div>
+
+      <h4 class="sub">2. core を継承する</h4>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">use_cases/08_my_use_case/producer.py</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from core import BaseProducer, TopicAdmin, configure_logging
+
+TOPIC = "myusecase.orders.v1"    <span class="c"># {usecase}.{entity}.{version}</span>
+
+def main() -&gt; None:
+    configure_logging()
+    TopicAdmin().ensure_topic_exists(TOPIC)
+    producer = BaseProducer(default_topic=TOPIC)
+    producer.produce(value={"hello": "kafka"}, key="demo-1")
+    producer.flush()
+
+if __name__ == "__main__":
+    main()</code></pre>
+      </div>
+
+      <div class="call tip">
+        <b>守るべき 4 つの約束</b>
+        <span>① トピック名は <span class="m">{usecase}.{entity}.{version}</span> ②接続情報は <span class="m">core/config.py</span> 経由のみ
+        ③ <span class="m">README.md</span> / <span class="m">producer.py</span> / <span class="m">consumer.py</span> を揃える
+        ④ <span class="m">tests/test_use_cases.py</span> にスモークテストを足す。
+        既存 7 本がすべてこの形なので、迷ったら一番近いものをコピーして始めるのが最短です。</span>
+      </div>
+
+      <h4 class="sub">3. 動作を確認する</h4>
+      <div class="term">
+        <div class="term-bar"><span class="term-tag">ターミナル</span><button class="copy" type="button">コピー</button></div>
+        <pre><code>python use_cases/08_my_use_case/producer.py
+pytest tests/ -v</code></pre>
+      </div>
+
+      <ul class="checks">
+        <li>新しいトピックが kafka-ui に現れた</li>
+        <li>README に「何を検証したいのか」を 3 行で書いた</li>
+        <li>pytest が全件パスしたままである</li>
+        <li>この PoC で何が確かめられ、何が確かめられないかを言語化した</li>
+      </ul>
+
+      <div class="call ok">
+        <b>ここまで来たら</b>
+        <span>環境構築・7 パターンの実装・計測・障害対応・拡張まで一周しました。
+        あとは自分の業務ドメインのイベントを流し込み、パーティション設計とコンシューマーグループの切り方を試すだけです。</span>
+      </div>
+
+      <div class="done-row"><label><input type="checkbox" data-step="s19"> 完了にする</label></div>
+    </div>
+  </section>
+
+  <div class="appendix" id="appendix">
+    <h2 style="font-size:22px;font-weight:900">付録</h2>
+
+    <h4 class="sub">コマンド・チートシート</h4>
+    <div class="tw">
+      <table>
+        <thead><tr><th>やりたいこと</th><th>コマンド</th></tr></thead>
+        <tbody>
+          <tr><td>起動（フル / 最小）</td><td><span class="m">./scripts/start.sh</span> / <span class="m">./scripts/start.sh minimal</span></td></tr>
+          <tr><td>停止（データは残す）</td><td><span class="m">./scripts/stop.sh</span></td></tr>
+          <tr><td>全消しでやり直す</td><td><span class="m">./scripts/reset.sh &amp;&amp; ./scripts/start.sh</span></td></tr>
+          <tr><td>全デモを通しで実行</td><td><span class="m">./scripts/run_all_demos.sh</span></td></tr>
+          <tr><td>テスト</td><td><span class="m">pytest tests/ -v</span></td></tr>
+          <tr><td>設定の確認</td><td><span class="m">python -m core.config</span></td></tr>
+          <tr><td>ブローカーのログ</td><td><span class="m">docker logs poc-broker --tail 50</span></td></tr>
+          <tr><td>コンテナの状態</td><td><span class="m">docker ps -a</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4 class="sub">トピック早見表</h4>
+    <div class="tw">
+      <table>
+        <thead><tr><th>トピック</th><th>どこで使う</th></tr></thead>
+        <tbody>
+          <tr><td><span class="m">pubsub.orders.v1</span></td><td>offset 08 — Pub/Sub</td></tr>
+          <tr><td><span class="m">eventsourcing.orders.v1</span></td><td>offset 09 — イベントソーシング</td></tr>
+          <tr><td><span class="m">cdc.orders.v1</span></td><td>offset 10 — CDC</td></tr>
+          <tr><td><span class="m">dlq.orders.v1</span> / <span class="m">dlq.orders.dlq.v1</span></td><td>offset 11 — DLQ</td></tr>
+          <tr><td><span class="m">analytics.events.v1</span> / <span class="m">analytics.kpi_1m.v1</span></td><td>offset 12 — リアルタイム分析</td></tr>
+          <tr><td><span class="m">stream.transactions.v1</span> / <span class="m">stream.sales_30s.v1</span> / <span class="m">stream.high_value.v1</span></td><td>offset 13 — 集計・変換</td></tr>
+          <tr><td><span class="m">stream.order_events.v1</span> / <span class="m">stream.payment_events.v1</span> / <span class="m">stream.order_payment_joined.v1</span></td><td>offset 13 — 結合</td></tr>
+          <tr><td><span class="m">eos.transfers.v1</span></td><td>offset 14 — Exactly-Once</td></tr>
+          <tr><td><span class="m">bench.throughput.v1</span> / <span class="m">bench.latency.v1</span></td><td>offset 16 — ベンチマーク</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4 class="sub">用語集</h4>
+    <dl class="gloss">
+      <div><dt>lag</dt><dd>最新オフセットと、コンシューマーがコミット済みのオフセットの差。処理の遅れ。</dd></div>
+      <div><dt>rebalance</dt><dd>グループのメンバーが増減したときに、パーティションの担当を割り当て直すこと。</dd></div>
+      <div><dt>tombstone</dt><dd>値が null のメッセージ。compact トピックで「このキーを削除」を意味する。</dd></div>
+      <div><dt>idempotence</dt><dd>冪等性。同じ操作を何度実行しても結果が変わらない性質。</dd></div>
+      <div><dt>tumbling window</dt><dd>重ならない固定長の時間窓。30 秒窓なら 0-30 秒、30-60 秒…と区切る。</dd></div>
+      <div><dt>fencing</dt><dd>同じ transactional.id を持つ古いプロデューサーを締め出し、二重書き込みを防ぐ仕組み。</dd></div>
+    </dl>
+
+    <h4 class="sub">リポジトリ内の関連ドキュメント</h4>
+    <div class="tw">
+      <table>
+        <thead><tr><th>ファイル</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td><span class="m">docs/kafka-concepts.md</span></td><td>基本概念の詳細（本サイト offset 01-02 の元資料）</td></tr>
+          <tr><td><span class="m">docs/getting-started.md</span></td><td>環境構築の詳細手順（offset 03-07）</td></tr>
+          <tr><td><span class="m">docs/use-cases-guide.md</span></td><td>7 ユースケースの解説（offset 08-14）</td></tr>
+          <tr><td><span class="m">docs/troubleshooting.md</span></td><td>エラー事典（offset 17）</td></tr>
+          <tr><td><span class="m">docs/architecture.drawio</span></td><td>構成図のソース（draw.io で開く）</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  </main>
+</div>
+
+<footer>confluent-kafka-poc — Confluent Platform 7.5 / Python 3.11+ / 進捗はこのブラウザにのみ保存されます</footer>
+<div class="toast" id="toast">コピーしました</div>
+
+<script>
+(function () {
+  "use strict";
+  var KEY = "kafka-handson.progress.v1";
+
+  /* ---------------- storage (v1 の配列形式からも移行する) ---------------- */
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (!raw) return { steps: [], items: {} };
+      var parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return { steps: parsed, items: {} };
+      return { steps: parsed.steps || [], items: parsed.items || {} };
+    } catch (e) { return { steps: [], items: {} }; }
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* private mode */ }
+  }
+  var state = load();
+
+  /* ---------------- 各ステップの情報を集める ---------------- */
+  var steps = [];
+  document.querySelectorAll(".step").forEach(function (sec) {
+    var link = document.querySelector('.nav-link[href="#' + sec.id + '"]');
+    var label = link ? link.querySelector("span:last-child").textContent : sec.id;
+    steps.push({
+      id: sec.id,
+      el: sec,
+      link: link,
+      num: (sec.querySelector(".off") || {}).textContent || "",
+      label: label
+    });
+  });
+  var TOTAL = steps.length;
+
+  /* ---------------- 確認リストを押せるチェックボックスにする ---------------- */
+  steps.forEach(function (st) {
+    st.el.querySelectorAll(".checks li").forEach(function (li, idx) {
+      var key = st.id + ":" + idx;
+      var label = document.createElement("label");
+      var input = document.createElement("input");
+      input.type = "checkbox";
+      input.setAttribute("data-item", key);
+      var span = document.createElement("span");
+      while (li.firstChild) { span.appendChild(li.firstChild); }
+      label.appendChild(input);
+      label.appendChild(span);
+      li.appendChild(label);
+      li.setAttribute("data-key", key);
+    });
+  });
+
+  /* ---------------- ステップ末尾に「次へ」を足す ---------------- */
+  steps.forEach(function (st, i) {
+    var row = st.el.querySelector(".done-row");
+    if (!row) return;
+    var hint = document.createElement("span");
+    hint.className = "ready-hint";
+    hint.textContent = "確認が揃いました";
+    row.appendChild(hint);
+    var nx = steps[i + 1];
+    var a = document.createElement("a");
+    a.className = "step-next";
+    a.href = nx ? "#" + nx.id : "#appendix";
+    a.textContent = nx ? "次へ " + nx.num + " " + nx.label : "付録を見る";
+    row.appendChild(a);
+  });
+
+  /* ---------------- 描画 ---------------- */
+  var bar = document.getElementById("p-bar");
+  var count = document.getElementById("p-done");
+  var nextBtn = document.getElementById("p-next");
+  var nextTxt = document.getElementById("p-next-t");
+  var ctaStart = document.getElementById("cta-start");
+  var toast = document.getElementById("toast");
+  var toastTimer = null;
+
+  function flash(msg) {
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove("show"); }, 1700);
+  }
+
+  function render() {
+    var n = 0;
+    var first = null;
+    steps.forEach(function (st) {
+      var isDone = state.steps.indexOf(st.id) !== -1;
+      st.el.classList.toggle("done", isDone);
+      var box = st.el.querySelector('input[data-step="' + st.id + '"]');
+      if (box) box.checked = isDone;
+      if (st.link) {
+        st.link.classList.toggle("done", isDone);
+        st.link.classList.remove("next");
+      }
+      if (isDone) { n++; } else if (!first) { first = st; }
+
+      var items = st.el.querySelectorAll(".checks li");
+      var on = 0;
+      items.forEach(function (li) {
+        var key = li.getAttribute("data-key");
+        var checked = !!state.items[key];
+        li.classList.toggle("on", checked);
+        var inp = li.querySelector("input[data-item]");
+        if (inp) inp.checked = checked;
+        if (checked) on++;
+      });
+      st.el.classList.toggle("ready", items.length > 0 && on === items.length);
+    });
+
+    if (count) count.textContent = String(n);
+    if (bar) bar.style.width = (n / TOTAL * 100) + "%";
+    if (first && first.link) first.link.classList.add("next");
+
+    if (nextBtn && nextTxt) {
+      if (first) {
+        nextBtn.href = "#" + first.id;
+        nextTxt.textContent = first.num + " " + first.label;
+      } else {
+        nextBtn.href = "#appendix";
+        nextTxt.textContent = "全ステップ完了 — 付録へ";
+      }
+    }
+    if (ctaStart) {
+      if (n === 0) {
+        ctaStart.href = "#s01";
+        ctaStart.innerHTML = 'offset 01 から始める<span class="arrow">→</span>';
+      } else if (first) {
+        ctaStart.href = "#" + first.id;
+        ctaStart.innerHTML = '続きから — offset ' + first.num + ' ' + first.label + '<span class="arrow">→</span>';
+      } else {
+        ctaStart.href = "#s01";
+        ctaStart.innerHTML = '19 ステップ完了。最初から見直す<span class="arrow">→</span>';
+      }
+    }
+  }
+
+  /* ---------------- 操作 ---------------- */
+  document.querySelectorAll("input[data-step]").forEach(function (box) {
+    box.addEventListener("change", function () {
+      var id = box.getAttribute("data-step");
+      var i = state.steps.indexOf(id);
+      if (box.checked && i === -1) state.steps.push(id);
+      if (!box.checked && i !== -1) state.steps.splice(i, 1);
+      save();
+      render();
+      if (box.checked) {
+        var idx = steps.findIndex ? steps.findIndex(function (s) { return s.id === id; }) : -1;
+        var nx = idx >= 0 ? steps[idx + 1] : null;
+        if (nx) {
+          nx.el.scrollIntoView({ block: "start" });
+          flash("offset " + nx.num + " へ進みます");
+        } else {
+          flash("19 ステップ完了 — おつかれさまでした");
+        }
+      }
+    });
+  });
+
+  document.addEventListener("change", function (ev) {
+    var t = ev.target;
+    if (!t || !t.getAttribute || !t.getAttribute("data-item")) return;
+    var key = t.getAttribute("data-item");
+    if (t.checked) { state.items[key] = true; } else { delete state.items[key]; }
+    save();
+    render();
+  });
+
+  var reset = document.getElementById("p-reset");
+  if (reset) {
+    reset.addEventListener("click", function () {
+      state = { steps: [], items: {} };
+      save();
+      render();
+      flash("進捗をリセットしました");
+    });
+  }
+
+  document.querySelectorAll(".copy").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var term = btn.closest(".term");
+      var pre = term ? term.querySelector("pre") : null;
+      if (!pre) return;
+      var text = pre.innerText;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(
+          function () {
+            flash("コピーしました");
+            btn.textContent = "コピー済";
+            setTimeout(function () { btn.textContent = "コピー"; }, 1700);
+          },
+          function () { flash("コピーできませんでした。手動で選択してください"); }
+        );
+      } else {
+        flash("コピーできませんでした。手動で選択してください");
+      }
+    });
+  });
+
+  /* ---------------- 現在地の追従 ---------------- */
+  if ("IntersectionObserver" in window) {
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        steps.forEach(function (st) { if (st.link) st.link.classList.remove("active"); });
+        var cur = steps.filter(function (st) { return st.id === en.target.id; })[0];
+        if (cur && cur.link) cur.link.classList.add("active");
+      });
+    }, { rootMargin: "-70px 0px -70% 0px", threshold: 0 });
+    steps.forEach(function (st) { obs.observe(st.el); });
+  }
+
+  var nav = document.getElementById("nav");
+  var wide = window.matchMedia("(min-width: 1000px)");
+  function syncNav() { if (nav) nav.open = wide.matches; }
+  syncNav();
+  if (wide.addEventListener) wide.addEventListener("change", syncNav);
+  document.querySelectorAll(".nav-link").forEach(function (a) {
+    a.addEventListener("click", function () { if (nav && !wide.matches) nav.open = false; });
+  });
+
+  render();
+})();
+</script>
