@@ -161,6 +161,20 @@ python use_cases/01_basic_pubsub/producer.py
 同じネットワークの PC・スマートフォンからその URL を開けば、そのまま読めます
 （配信されるのは生成物 `site/.dist/` のみで、`.env` などリポジトリの他のファイルは公開されません）。
 
+**常時立ち上げておきたいとき**（macOS / launchd に登録。ログインのたび自動起動し、落ちても復帰します）:
+
+```bash
+./scripts/site_agent.sh install     # 登録して起動
+./scripts/site_agent.sh sync        # サイトを編集したあと配信物を更新
+./scripts/site_agent.sh status      # 状態確認
+./scripts/site_agent.sh uninstall   # 登録解除
+```
+
+このリポジトリは `~/Documents` 配下にあり、macOS の TCC は launchd 起動のプロセスから
+そこへのアクセスを拒否します。そのため `site_agent.sh` は、ビルドだけを端末側で行い、
+生成物を `~/Library/Application Support/kafka-handson-site/www/` に複製して、
+launchd にはその複製を配信させます。**サイトを編集したら `sync` が必要**です。
+
 | ドキュメント | 内容 |
 |-----------|------|
 | [site/index.html](site/index.html) | 19 ステップのハンズオン学習サイト（これ 1 つで一周できる） |

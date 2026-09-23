@@ -6,6 +6,7 @@
 #   ./scripts/serve_site.sh              # ポート 8090 で起動（フォアグラウンド）
 #   ./scripts/serve_site.sh 9000         # ポートを指定
 #   PORT=9000 ./scripts/serve_site.sh    # 環境変数でも指定可
+#   BUILD_ONLY=1 ./scripts/serve_site.sh # site/.dist を作るだけで配信しない
 #
 # 公開されるのは site/.dist/ の中身だけ。リポジトリの他のファイル（.env など）は
 # 一切配信されない。停止は Ctrl + C。
@@ -68,6 +69,12 @@ if compgen -G "$ROOT_DIR/docs/diagrams/*.svg" > /dev/null; then
   mkdir -p "$DIST/diagrams"
   cp "$ROOT_DIR"/docs/diagrams/*.svg "$DIST/diagrams/"
   cp "$ROOT_DIR"/docs/diagrams/*.drawio "$DIST/diagrams/" 2>/dev/null || true
+fi
+
+# --- ビルドだけで抜ける（launchd 常駐用に配信物だけ作りたいとき） -----------
+if [[ "${BUILD_ONLY:-0}" == "1" ]]; then
+  echo "built only (配信はしません): $DIST"
+  exit 0
 fi
 
 # --- LAN の IP アドレスを調べる ----------------------------------------------
