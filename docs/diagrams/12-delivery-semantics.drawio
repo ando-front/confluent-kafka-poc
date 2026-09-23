@@ -1,0 +1,69 @@
+<mxfile host="app.diagrams.net" agent="claude" version="24.0.0">
+  <diagram id="delivery-semantics" name="配信保証">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1160" pageHeight="560" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="配信保証の 3 レベル — 「送ったあと ack が返らなかったら、どうするか」の違い" style="text;html=1;fontSize=19;fontStyle=1;fontColor=#13212A;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="16" width="1000" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="sub" value="このリポジトリの既定は At-Least-Once。Exactly-Once は use_cases/06 で明示的に選んだときだけ。" style="text;html=1;fontSize=12;fontColor=#5C7178;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="44" width="1000" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c1" value="At-Most-Once　多くても 1 回" style="rounded=1;arcSize=6;html=1;fillColor=#FBFDFD;strokeColor=#BFD0D2;fontColor=#13212A;fontSize=12;fontStyle=1;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="40" y="90" width="340" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="c1a" value="送る → ack を待たない" style="rounded=1;arcSize=4;html=1;fillColor=#EEF3F4;strokeColor=#9FB3B7;fontColor=#13212A;fontSize=11;" vertex="1" parent="c1">
+          <mxGeometry x="20" y="44" width="300" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="c1b" value="途中で落ちたら&#10;そのメッセージは消える" style="rounded=1;arcSize=4;html=1;fillColor=#F8E0E0;strokeColor=#B44A4A;fontColor=#7A2727;fontSize=11;" vertex="1" parent="c1">
+          <mxGeometry x="20" y="104" width="300" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="c1c" value="重複　なし&#10;消失　あり&#10;速度　いちばん速い" style="rounded=1;arcSize=4;html=1;fillColor=#FFFFFF;strokeColor=#C3D2D4;fontColor=#13212A;fontSize=11;align=left;" vertex="1" parent="c1">
+          <mxGeometry x="20" y="176" width="300" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="c1d" value="使いどころ：多少欠けてもよいアクセスログ、&#10;メトリクスの間引きサンプリング。" style="text;html=1;fontSize=11;fontColor=#7A8F97;align=left;verticalAlign=top;" vertex="1" parent="c1">
+          <mxGeometry x="20" y="258" width="300" height="56" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c2" value="At-Least-Once　少なくとも 1 回　★ 既定" style="rounded=1;arcSize=6;html=1;fillColor=#FBFDFD;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=12;fontStyle=1;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="410" y="90" width="340" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="c2a" value="送る → ack を待つ → 返らなければ再送" style="rounded=1;arcSize=4;html=1;fillColor=#D6EDEF;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=11;" vertex="1" parent="c2">
+          <mxGeometry x="20" y="44" width="300" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="c2b" value="ack だけ落ちた場合、&#10;同じものが 2 回届くことがある" style="rounded=1;arcSize=4;html=1;fillColor=#F7E9D4;strokeColor=#B07A28;fontColor=#6B4A12;fontSize=11;" vertex="1" parent="c2">
+          <mxGeometry x="20" y="104" width="300" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="c2c" value="重複　あり&#10;消失　なし&#10;速度　実用上いちばんバランスがよい" style="rounded=1;arcSize=4;html=1;fillColor=#FFFFFF;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=11;align=left;" vertex="1" parent="c2">
+          <mxGeometry x="20" y="176" width="300" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="c2d" value="使いどころ：通知・分析・ほとんどの業務処理。&#10;受け手を冪等（同じ ID は 2 回処理しない）にして&#10;重複に耐える、が定石。" style="text;html=1;fontSize=11;fontColor=#0B7A84;align=left;verticalAlign=top;" vertex="1" parent="c2">
+          <mxGeometry x="20" y="258" width="300" height="56" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c3" value="Exactly-Once　ちょうど 1 回" style="rounded=1;arcSize=6;html=1;fillColor=#FBFDFD;strokeColor=#1F7A5C;fontColor=#14513D;fontSize=12;fontStyle=1;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="780" y="90" width="340" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="c3a" value="トランザクション + 受信側の冪等台帳" style="rounded=1;arcSize=4;html=1;fillColor=#DCF0E7;strokeColor=#1F7A5C;fontColor=#14513D;fontSize=11;" vertex="1" parent="c3">
+          <mxGeometry x="20" y="44" width="300" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="c3b" value="再送されても、受信側が&#10;処理済み ID を見て弾く" style="rounded=1;arcSize=4;html=1;fillColor=#DCF0E7;strokeColor=#1F7A5C;fontColor=#14513D;fontSize=11;" vertex="1" parent="c3">
+          <mxGeometry x="20" y="104" width="300" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="c3c" value="重複　なし&#10;消失　なし&#10;速度　いちばん遅い（調整のコスト）" style="rounded=1;arcSize=4;html=1;fillColor=#FFFFFF;strokeColor=#1F7A5C;fontColor=#14513D;fontSize=11;align=left;" vertex="1" parent="c3">
+          <mxGeometry x="20" y="176" width="300" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="c3d" value="使いどころ：金融・課金・在庫引き当てなど、&#10;二重処理が事故になる領域だけ。&#10;→ offset 14 / use_cases/06" style="text;html=1;fontSize=11;fontColor=#14513D;align=left;verticalAlign=top;" vertex="1" parent="c3">
+          <mxGeometry x="20" y="258" width="300" height="56" as="geometry" />
+        </mxCell>
+
+        <mxCell id="foot" value="選び方の基準は「速度」ではなく「事故になるか」。二重処理が事故にならない領域に Exactly-Once を持ち込むと、&#10;得られるものより失う速度のほうが大きい。" style="rounded=1;arcSize=6;html=1;fillColor=#F4F8F8;strokeColor=#BFD0D2;fontColor=#13212A;fontSize=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="448" width="1080" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

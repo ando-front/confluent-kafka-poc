@@ -1,0 +1,94 @@
+<mxfile host="app.diagrams.net" agent="claude" version="24.0.0">
+  <diagram id="docker-stack" name="ローカル環境の構成">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1160" pageHeight="690" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="ローカル環境の構成 — ./scripts/start.sh が立てるもの" style="text;html=1;fontSize=19;fontStyle=1;fontColor=#13212A;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="16" width="900" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="sub" value="① docker compose up -d → ② ブローカーが応答するまで最大 60 秒待機 → ③ トピック一覧と UI の URL を表示" style="text;html=1;fontSize=12;fontColor=#5C7178;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="44" width="960" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="lane" value="Docker Compose　docker/docker-compose.yml" style="swimlane;html=1;startSize=34;fontSize=13;fontStyle=1;fontColor=#0A3F45;fillColor=#D6EDEF;strokeColor=#0B7A84;swimlaneFillColor=#FBFDFD;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="86" width="1080" height="240" as="geometry" />
+        </mxCell>
+
+        <mxCell id="zk" value="ZooKeeper&#10;:2181　クラスター管理" style="rounded=1;arcSize=6;html=1;fillColor=#DCF0E7;strokeColor=#1F7A5C;fontColor=#14513D;fontSize=12;" vertex="1" parent="lane">
+          <mxGeometry x="24" y="54" width="240" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="broker" value="Broker&#10;:9092　メッセージ本体" style="rounded=1;arcSize=6;html=1;fillColor=#DCF0E7;strokeColor=#1F7A5C;fontColor=#14513D;fontSize=12;fontStyle=1;" vertex="1" parent="lane">
+          <mxGeometry x="284" y="54" width="240" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="kui" value="kafka-ui&#10;:8080　いつも使う UI" style="rounded=1;arcSize=6;html=1;fillColor=#DCF0E7;strokeColor=#1F7A5C;fontColor=#14513D;fontSize=12;" vertex="1" parent="lane">
+          <mxGeometry x="544" y="54" width="240" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="minimal" value="minimal 構成&#10;（緑の 3 つだけ）" style="rounded=1;arcSize=6;html=1;fillColor=#FFFFFF;strokeColor=#1F7A5C;fontColor=#14513D;fontSize=11;dashed=1;" vertex="1" parent="lane">
+          <mxGeometry x="804" y="54" width="250" height="62" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sr" value="Schema Registry&#10;:8081　形式の管理" style="rounded=1;arcSize=6;html=1;fillColor=#EEF3F4;strokeColor=#9FB3B7;fontColor=#13212A;fontSize=12;" vertex="1" parent="lane">
+          <mxGeometry x="24" y="134" width="240" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="connect" value="Kafka Connect&#10;:8083　外部システム連携" style="rounded=1;arcSize=6;html=1;fillColor=#EEF3F4;strokeColor=#9FB3B7;fontColor=#13212A;fontSize=12;" vertex="1" parent="lane">
+          <mxGeometry x="284" y="134" width="240" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" value="Control Center&#10;:9021　Confluent 製 UI" style="rounded=1;arcSize=6;html=1;fillColor=#EEF3F4;strokeColor=#9FB3B7;fontColor=#13212A;fontSize=12;" vertex="1" parent="lane">
+          <mxGeometry x="544" y="134" width="240" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="fullnote" value="full 構成では&#10;灰色の 3 つも起動する" style="rounded=1;arcSize=6;html=1;fillColor=#FFFFFF;strokeColor=#9FB3B7;fontColor=#5C7178;fontSize=11;dashed=1;" vertex="1" parent="lane">
+          <mxGeometry x="804" y="134" width="250" height="62" as="geometry" />
+        </mxCell>
+
+        <mxCell id="core" value="core/　共通基盤　—　ここさえ読めば 7 デモすべてが読める" style="rounded=1;arcSize=6;html=1;fillColor=#D6EDEF;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=12;fontStyle=1;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="240" y="386" width="680" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="core1" value="config.py&#10;.env を読む" style="rounded=1;arcSize=4;html=1;fillColor=#FFFFFF;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=11;" vertex="1" parent="core">
+          <mxGeometry x="20" y="40" width="152" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="core2" value="producer.py&#10;BaseProducer" style="rounded=1;arcSize=4;html=1;fillColor=#FFFFFF;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=11;" vertex="1" parent="core">
+          <mxGeometry x="184" y="40" width="152" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="core3" value="consumer.py&#10;BaseConsumer" style="rounded=1;arcSize=4;html=1;fillColor=#FFFFFF;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=11;" vertex="1" parent="core">
+          <mxGeometry x="348" y="40" width="152" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="core4" value="admin.py&#10;TopicAdmin" style="rounded=1;arcSize=4;html=1;fillColor=#FFFFFF;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=11;" vertex="1" parent="core">
+          <mxGeometry x="512" y="40" width="152" height="52" as="geometry" />
+        </mxCell>
+
+        <mxCell id="uc" value="use_cases/01〜07　—　どれも core を継承しているだけなので差分が小さい" style="rounded=1;arcSize=6;html=1;fillColor=#EEF3F4;strokeColor=#9FB3B7;fontColor=#13212A;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="240" y="530" width="680" height="54" as="geometry" />
+        </mxCell>
+
+        <mxCell id="env" value=".env&#10;接続設定はここだけ" style="rounded=1;arcSize=6;html=1;fillColor=#F7E9D4;strokeColor=#B07A28;fontColor=#6B4A12;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="404" width="160" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="tests" value="tests/ · benchmarks/&#10;pytest / 計測" style="rounded=1;arcSize=6;html=1;fillColor=#EEF3F4;strokeColor=#9FB3B7;fontColor=#13212A;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="960" y="404" width="160" height="74" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#0B7A84;strokeWidth=1.6;endArrow=block;startArrow=block;exitX=0.28;exitY=1;entryX=0.15;entryY=0;" edge="1" parent="1" source="lane" target="core">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e1l" value="localhost:9092" style="edgeLabel;html=1;fontSize=11;fontColor=#0B7A84;labelBackgroundColor=#FFFFFF;" vertex="1" parent="e1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="66" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#B07A28;strokeWidth=1.4;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="env" target="core">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#5C7178;strokeWidth=1.4;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="core" target="uc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9FB3B7;strokeWidth=1.4;endArrow=block;exitX=0;exitY=0.5;entryX=1;entryY=0.5;dashed=1;" edge="1" parent="1" source="tests" target="core">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="foot" value="読む順番は core → use_cases。接続先を Confluent Cloud に替えるときも、変わるのは .env だけでコードは変わらない。" style="text;html=1;fontSize=11;fontColor=#7A8F97;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="612" width="1080" height="22" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

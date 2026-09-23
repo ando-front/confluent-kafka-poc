@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="650" viewBox="0 0 1160 650" role="img">
+  <rect width="1160" height="650" fill="#FFFFFF"/>
+  <text x="46.0" y="33.3" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="19" fill="#13212A" font-weight="bold" font-style="normal">CDC — DB の変更そのものをイベントにして届ける</text>
+  <text x="46.0" y="56.1" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#5C7178" font-weight="normal" font-style="normal">use_cases/04_cdc　source.db（SQLite）の変更を cdc.orders.v1 経由で replica.db に反映する</text>
+  <rect x="40.0" y="86.0" width="1080.0" height="96.0" rx="6.0" fill="#F8E0E0" stroke="#B44A4A" stroke-width="1"/>
+  <text x="46.0" y="102.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#7A2727" font-weight="bold" font-style="normal">× ポーリング方式：SELECT * WHERE updated_at &gt; ? を定期実行</text>
+  <text x="66.0" y="137.3" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A2727" font-weight="normal" font-style="normal">・DELETE を検知できない（消えた行は SELECT に出てこない）　・間隔の分だけ必ず遅れる　・DB に定期的な負荷をかけ続ける</text>
+  <text x="66.0" y="152.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A2727" font-weight="normal" font-style="normal">・ポーリング間隔の中で 2 回更新されると、途中の状態が失われる</text>
+  <rect x="40.0" y="248.0" width="170.0" height="80.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="125.0" y="282.0" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="bold" font-style="normal">source.db</text>
+  <text x="125.0" y="298.2" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="bold" font-style="normal">（SQLite）</text>
+  <rect x="40.0" y="352.0" width="170.0" height="80.0" rx="6.0" fill="#FFFFFF" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="125.0" y="379.1" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">simulator.py</text>
+  <text x="125.0" y="393.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">INSERT / UPDATE / DELETE</text>
+  <text x="125.0" y="408.8" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">を発生させる</text>
+  <rect x="270.0" y="228.0" width="560.0" height="270.0" rx="6.0" fill="#FBFDFD" stroke="#0B7A84" stroke-width="1"/>
+  <text x="276.0" y="244.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#0A3F45" font-weight="bold" font-style="normal">Topic: cdc.orders.v1　—　1 変更 = 1 イベント（Debezium 形式）</text>
+  <rect x="294.0" y="276.0" width="512.0" height="60.0" rx="4.0" fill="#DCF0E7" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="300.0" y="293.1" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">op = c（create）</text>
+  <text x="300.0" y="307.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">before = null</text>
+  <text x="300.0" y="322.8" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">after  = { id:1, status:'NEW' }</text>
+  <rect x="294.0" y="346.0" width="512.0" height="60.0" rx="4.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="300.0" y="363.1" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">op = u（update）</text>
+  <text x="300.0" y="377.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">before = { id:1, status:'NEW' }</text>
+  <text x="300.0" y="392.8" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">after  = { id:1, status:'PAID' }</text>
+  <rect x="294.0" y="416.0" width="512.0" height="60.0" rx="4.0" fill="#F7E9D4" stroke="#B07A28" stroke-width="1"/>
+  <text x="300.0" y="433.1" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#6B4A12" font-weight="normal" font-style="normal">op = d（delete）</text>
+  <text x="300.0" y="447.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#6B4A12" font-weight="normal" font-style="normal">before = { id:1, status:'PAID' }</text>
+  <text x="300.0" y="462.8" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#6B4A12" font-weight="normal" font-style="normal">after  = null　←　これがあるから削除も伝わる</text>
+  <rect x="890.0" y="268.0" width="230.0" height="86.0" rx="6.0" fill="#FFFFFF" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="1005.0" y="298.1" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">cdc_consumer.py</text>
+  <text x="1005.0" y="312.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">op を見て</text>
+  <text x="1005.0" y="327.8" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">INSERT / UPDATE / DELETE を適用</text>
+  <rect x="890.0" y="382.0" width="230.0" height="70.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="1005.0" y="411.0" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="bold" font-style="normal">replica.db</text>
+  <text x="1005.0" y="427.2" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="bold" font-style="normal">（SQLite）</text>
+  <path d="M125.0 352.0 L125.0 328.0" fill="none" stroke="#5C7178" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="125.0,328.0 121.2,337.0 128.8,337.0" fill="#5C7178" stroke="none"/>
+  <path d="M210.0 288.0 L240.0 288.0 L240.0 282.0 L270.0 282.0" fill="none" stroke="#0B7A84" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="270.0,282.0 261.0,278.2 261.0,285.8" fill="#0B7A84" stroke="none"/>
+  <path d="M830.0 295.5 L860.0 295.5 L860.0 311.0 L890.0 311.0" fill="none" stroke="#0B7A84" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="890.0,311.0 881.0,307.2 881.0,314.8" fill="#0B7A84" stroke="none"/>
+  <path d="M1005.0 354.0 L1005.0 382.0" fill="none" stroke="#5C7178" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="1005.0,382.0 1008.8,373.0 1001.2,373.0" fill="#5C7178" stroke="none"/>
+  <rect x="40.0" y="530.0" width="1080.0" height="76.0" rx="6.0" fill="#DCF0E7" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="46.0" y="562.0" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#14513D" font-weight="normal" font-style="normal">○ CDC：変更が起きた瞬間に before / after / op を載せて発行する。削除も欠落も取りこぼさず、DB にポーリング負荷もかけない。</text>
+  <text x="46.0" y="578.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#14513D" font-weight="normal" font-style="normal">動作確認は簡単 — source.db と replica.db を両方 SELECT して、中身が一致していればレプリケーションが成立している。</text>
+  <rect x="229.8" y="266.2" width="20.4" height="17.5" rx="2" fill="#FFFFFF" stroke="none"/>
+  <text x="240.0" y="276.8" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="10" fill="#0B7A84" font-weight="normal" font-style="normal">発行</text>
+</svg>

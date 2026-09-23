@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="670" viewBox="0 0 1160 670" role="img">
+  <rect width="1160" height="670" fill="#FFFFFF"/>
+  <text x="46.0" y="33.3" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="19" fill="#13212A" font-weight="bold" font-style="normal">Exactly-Once — 送信側のトランザクションと受信側の冪等性、その両輪</text>
+  <text x="46.0" y="56.1" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#5C7178" font-weight="normal" font-style="normal">use_cases/06_exactly_once　片方だけでは成立しない。両方そろって初めて「1 回だけ」になる。</text>
+  <rect x="40.0" y="86.0" width="530.0" height="420.0" rx="6.0" fill="#FBFDFD" stroke="#0B7A84" stroke-width="1"/>
+  <text x="46.0" y="102.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#0A3F45" font-weight="bold" font-style="normal">① 送信側 — トランザクション（全部入るか、1 件も入らないか）</text>
+  <rect x="64.0" y="136.0" width="220.0" height="40.0" rx="6.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="174.0" y="157.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">begin_transaction()</text>
+  <rect x="64.0" y="192.0" width="220.0" height="56.0" rx="6.0" fill="#FFFFFF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="174.0" y="214.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">produce() × 5 件</text>
+  <text x="174.0" y="229.3" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">（まだ誰にも見えない）</text>
+  <polygon points="174.0,266.0 284.0,304.0 174.0,342.0 64.0,304.0" fill="#FFFFFF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="174.0" y="305.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">全件 OK ?</text>
+  <rect x="330.0" y="254.0" width="220.0" height="56.0" rx="6.0" fill="#DCF0E7" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="440.0" y="276.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">commit_transaction()</text>
+  <text x="440.0" y="291.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">5 件まとめて可視になる</text>
+  <rect x="330.0" y="344.0" width="220.0" height="56.0" rx="6.0" fill="#F8E0E0" stroke="#B44A4A" stroke-width="1"/>
+  <text x="440.0" y="366.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A2727" font-weight="normal" font-style="normal">abort_transaction()</text>
+  <text x="440.0" y="381.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A2727" font-weight="normal" font-style="normal">コンシューマーには 1 件も届かない</text>
+  <text x="70.0" y="431.4" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">transactional.id は 1 プロセス 1 つ。</text>
+  <text x="70.0" y="446.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">同じ ID を後から使うと先発が締め出される（フェンシング）。</text>
+  <text x="70.0" y="461.1" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">複数同時に走らせるなら --txn-id を分ける。</text>
+  <path d="M174.0 176.0 L174.0 192.0" fill="none" stroke="#0B7A84" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="174.0,192.0 177.8,183.0 170.2,183.0" fill="#0B7A84" stroke="none"/>
+  <path d="M174.0 248.0 L174.0 266.0" fill="none" stroke="#0B7A84" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="174.0,266.0 177.8,257.0 170.2,257.0" fill="#0B7A84" stroke="none"/>
+  <path d="M284.0 304.0 L307.0 304.0 L307.0 282.0 L330.0 282.0" fill="none" stroke="#1F7A5C" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="330.0,282.0 321.0,278.2 321.0,285.8" fill="#1F7A5C" stroke="none"/>
+  <path d="M174.0 342.0 L174.0 372.0 L330.0 372.0" fill="none" stroke="#B44A4A" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="330.0,372.0 321.0,368.2 321.0,375.8" fill="#B44A4A" stroke="none"/>
+  <rect x="590.0" y="86.0" width="530.0" height="420.0" rx="6.0" fill="#FBFDFD" stroke="#B07A28" stroke-width="1"/>
+  <text x="596.0" y="102.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#6B4A12" font-weight="bold" font-style="normal">② 受信側 — 冪等性（同じ ID は 2 回処理しない）</text>
+  <rect x="614.0" y="136.0" width="240.0" height="56.0" rx="6.0" fill="#F7E9D4" stroke="#B07A28" stroke-width="1"/>
+  <text x="734.0" y="158.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#6B4A12" font-weight="normal" font-style="normal">メッセージを受け取る</text>
+  <text x="734.0" y="173.3" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#6B4A12" font-weight="normal" font-style="normal">event_id = TXN-0007</text>
+  <polygon points="734.0,212.0 854.0,255.0 734.0,298.0 614.0,255.0" fill="#FFFFFF" stroke="#B07A28" stroke-width="1"/>
+  <text x="734.0" y="249.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#6B4A12" font-weight="normal" font-style="normal">台帳に</text>
+  <text x="734.0" y="264.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#6B4A12" font-weight="normal" font-style="normal">その ID はある ?</text>
+  <rect x="880.0" y="229.0" width="216.0" height="52.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="988.0" y="249.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#5C7178" font-weight="normal" font-style="normal">スキップする</text>
+  <text x="988.0" y="264.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#5C7178" font-weight="normal" font-style="normal">（再送・再起動でも安全）</text>
+  <rect x="614.0" y="322.0" width="240.0" height="60.0" rx="6.0" fill="#DCF0E7" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="734.0" y="346.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">処理して、同じトランザクションで</text>
+  <text x="734.0" y="361.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">event_id を台帳に記録する</text>
+  <rect x="890.0" y="322.0" width="206.0" height="60.0" rx="6.0" fill="#FFFFFF" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="993.0" y="346.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">processed_ids 台帳</text>
+  <text x="993.0" y="361.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">（SQLite）</text>
+  <text x="620.0" y="431.4" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">同じコマンドをもう一度流すと、2 回目は</text>
+  <text x="620.0" y="446.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">全部スキップされる。これが確認方法。</text>
+  <path d="M734.0 192.0 L734.0 212.0" fill="none" stroke="#B07A28" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="734.0,212.0 737.8,203.0 730.2,203.0" fill="#B07A28" stroke="none"/>
+  <path d="M854.0 255.0 L880.0 255.0" fill="none" stroke="#9FB3B7" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="880.0,255.0 871.0,251.2 871.0,258.8" fill="#9FB3B7" stroke="none"/>
+  <path d="M734.0 298.0 L734.0 322.0" fill="none" stroke="#1F7A5C" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="734.0,322.0 737.8,313.0 730.2,313.0" fill="#1F7A5C" stroke="none"/>
+  <path d="M854.0 352.0 L890.0 352.0" fill="none" stroke="#5C7178" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="890.0,352.0 881.0,348.2 881.0,355.8" fill="#5C7178" stroke="none"/>
+  <polygon points="854.0,352.0 863.0,355.8 863.0,348.2" fill="#5C7178" stroke="none"/>
+  <rect x="40.0" y="536.0" width="1080.0" height="76.0" rx="6.0" fill="#F4F8F8" stroke="#BFD0D2" stroke-width="1"/>
+  <text x="46.0" y="568.0" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="normal" font-style="normal">送信側だけなら、コンシューマーが再起動したときに同じ 1 件をもう一度処理してしまう。</text>
+  <text x="46.0" y="584.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="normal" font-style="normal">受信側だけなら、送信の途中失敗で中途半端な一部だけが世に出てしまう。だから両方いる。</text>
+  <rect x="293.7" y="274.2" width="26.6" height="17.5" rx="2" fill="#FBFDFD" stroke="none"/>
+  <text x="307.0" y="284.8" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="10" fill="#1F7A5C" font-weight="normal" font-style="normal">Yes</text>
+  <rect x="217.5" y="351.2" width="39.0" height="17.5" rx="2" fill="#FBFDFD" stroke="none"/>
+  <text x="237.0" y="361.8" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="10" fill="#B44A4A" font-weight="normal" font-style="normal">途中で失敗</text>
+  <rect x="856.8" y="236.2" width="20.4" height="17.5" rx="2" fill="#FBFDFD" stroke="none"/>
+  <text x="867.0" y="246.8" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="10" fill="#7A8F97" font-weight="normal" font-style="normal">ある</text>
+  <rect x="743.8" y="301.2" width="20.4" height="17.5" rx="2" fill="#FBFDFD" stroke="none"/>
+  <text x="754.0" y="311.8" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="10" fill="#1F7A5C" font-weight="normal" font-style="normal">ない</text>
+</svg>

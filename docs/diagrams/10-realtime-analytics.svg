@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="560" viewBox="0 0 1160 560" role="img">
+  <rect width="1160" height="560" fill="#FFFFFF"/>
+  <text x="46.0" y="33.3" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="19" fill="#13212A" font-weight="bold" font-style="normal">Real-Time Analytics — 生イベント → 集計 → ダッシュボードの 3 段</text>
+  <text x="46.0" y="56.1" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#5C7178" font-weight="normal" font-style="normal">use_cases/07_real_time_analytics　3 つのプロセスをトピックでつなぐ。それぞれ独立に起動・停止できる。</text>
+  <rect x="40.0" y="100.0" width="300.0" height="160.0" rx="6.0" fill="#FBFDFD" stroke="#BFD0D2" stroke-width="1"/>
+  <text x="46.0" y="115.3" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="bold" font-style="normal">ターミナル 3　イベント生成</text>
+  <rect x="60.0" y="140.0" width="260.0" height="96.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="190.0" y="175.1" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">event_producer.py</text>
+  <text x="190.0" y="189.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">page_view / add_to_cart / purchase</text>
+  <text x="190.0" y="204.8" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">を EC サイト風に発生させる</text>
+  <rect x="390.0" y="136.0" width="200.0" height="88.0" rx="6.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="490.0" y="174.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="bold" font-style="normal">analytics.events.v1</text>
+  <text x="490.0" y="189.3" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="bold" font-style="normal">生イベント（1 件 = 1 行動）</text>
+  <rect x="640.0" y="100.0" width="300.0" height="160.0" rx="6.0" fill="#FBFDFD" stroke="#BFD0D2" stroke-width="1"/>
+  <text x="646.0" y="115.3" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="bold" font-style="normal">ターミナル 2　集計エンジン</text>
+  <rect x="660.0" y="140.0" width="260.0" height="96.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="790.0" y="175.1" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">aggregator.py</text>
+  <text x="790.0" y="189.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">1 分ウィンドウで PV 数・CV 数・売上を</text>
+  <text x="790.0" y="204.8" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">数え上げて KPI にする</text>
+  <rect x="640.0" y="320.0" width="200.0" height="80.0" rx="6.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="740.0" y="354.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="bold" font-style="normal">analytics.kpi.v1</text>
+  <text x="740.0" y="369.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="bold" font-style="normal">1 分ごとの KPI</text>
+  <rect x="890.0" y="290.0" width="230.0" height="140.0" rx="6.0" fill="#FBFDFD" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="896.0" y="305.4" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="bold" font-style="normal">ターミナル 1　ダッシュボード</text>
+  <rect x="910.0" y="330.0" width="190.0" height="80.0" rx="6.0" fill="#DCF0E7" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="1005.0" y="357.1" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">dashboard.py</text>
+  <text x="1005.0" y="371.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">rich でコンソールに</text>
+  <text x="1005.0" y="386.8" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">リアルタイム表示</text>
+  <path d="M340.0 180.0 L390.0 180.0" fill="none" stroke="#0B7A84" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="390.0,180.0 381.0,176.2 381.0,183.8" fill="#0B7A84" stroke="none"/>
+  <path d="M590.0 180.0 L640.0 180.0" fill="none" stroke="#0B7A84" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="640.0,180.0 631.0,176.2 631.0,183.8" fill="#0B7A84" stroke="none"/>
+  <path d="M790.0 260.0 L790.0 290.0 L740.0 290.0 L740.0 320.0" fill="none" stroke="#0B7A84" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="740.0,320.0 743.8,311.0 736.2,311.0" fill="#0B7A84" stroke="none"/>
+  <path d="M840.0 360.0 L890.0 360.0" fill="none" stroke="#1F7A5C" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="890.0,360.0 881.0,356.2 881.0,363.8" fill="#1F7A5C" stroke="none"/>
+  <rect x="40.0" y="450.0" width="1080.0" height="76.0" rx="6.0" fill="#F4F8F8" stroke="#BFD0D2" stroke-width="1"/>
+  <text x="46.0" y="482.0" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="normal" font-style="normal">段を分けておくと、ダッシュボードを止めても集計は続き、集計を作り直しても生イベントは失われない。</text>
+  <text x="46.0" y="498.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="normal" font-style="normal">あとから「別の切り口の集計」を足すのも、analytics.events.v1 を読む新しいプロセスを 1 つ増やすだけ。</text>
+</svg>

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="560" viewBox="0 0 1160 560" role="img">
+  <rect width="1160" height="560" fill="#FFFFFF"/>
+  <text x="46.0" y="33.3" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="19" fill="#13212A" font-weight="bold" font-style="normal">学習ロードマップ — 19 ステップの全体像</text>
+  <text x="46.0" y="56.1" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#5C7178" font-weight="normal" font-style="normal">いま自分がどこにいるかを見失ったら、この図に戻る。前のフェーズが通っていないと次は必ず詰まる。</text>
+  <rect x="40.0" y="90.0" width="250.0" height="330.0" rx="6.0" fill="#FBFDFD" stroke="#BFD0D2" stroke-width="1"/>
+  <text x="46.0" y="106.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="bold" font-style="normal">Phase 1　理解する　offset 01–02　読むだけ・30 分</text>
+  <rect x="56.0" y="136.0" width="218.0" height="38.0" rx="4.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="62.0" y="156.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">01　Kafka が解く問題</text>
+  <rect x="56.0" y="184.0" width="218.0" height="38.0" rx="4.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="62.0" y="204.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">02　5 つの言葉</text>
+  <text x="62.0" y="251.3" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">ここを飛ばすとログが読めず、</text>
+  <text x="62.0" y="266.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">以降ずっと勘で進むことになる。</text>
+  <text x="62.0" y="295.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">図解：</text>
+  <text x="62.0" y="310.8" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">・Kafka 全体像</text>
+  <text x="62.0" y="325.6" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">・Topic / Partition / Offset</text>
+  <text x="62.0" y="340.4" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">・Consumer Group</text>
+  <text x="62.0" y="355.3" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">・配信保証の 3 レベル</text>
+  <rect x="320.0" y="90.0" width="250.0" height="330.0" rx="6.0" fill="#FBFDFD" stroke="#BFD0D2" stroke-width="1"/>
+  <text x="326.0" y="106.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="bold" font-style="normal">Phase 2　環境をつくる　offset 03–07　40 分</text>
+  <rect x="336.0" y="136.0" width="218.0" height="34.0" rx="4.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="342.0" y="154.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">03　前提ツールを揃える</text>
+  <rect x="336.0" y="178.0" width="218.0" height="34.0" rx="4.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="342.0" y="196.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">04　Python 環境</text>
+  <rect x="336.0" y="220.0" width="218.0" height="34.0" rx="4.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="342.0" y="238.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">05　.env を置く</text>
+  <rect x="336.0" y="262.0" width="218.0" height="34.0" rx="4.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="342.0" y="280.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="bold" font-style="normal">06　Kafka を起動する</text>
+  <rect x="336.0" y="304.0" width="218.0" height="34.0" rx="4.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="342.0" y="322.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">07　kafka-ui で中を覗く</text>
+  <text x="342.0" y="367.4" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">図解：ローカル環境の構成</text>
+  <rect x="600.0" y="90.0" width="250.0" height="330.0" rx="6.0" fill="#FBFDFD" stroke="#0B7A84" stroke-width="1"/>
+  <text x="606.0" y="106.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#0A3F45" font-weight="bold" font-style="normal">Phase 3　動かす　offset 08–14　3〜4 時間</text>
+  <rect x="616.0" y="136.0" width="218.0" height="32.0" rx="4.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="622.0" y="153.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">08　Pub/Sub の基本</text>
+  <rect x="616.0" y="174.0" width="218.0" height="32.0" rx="4.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="622.0" y="191.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">09　イベントソーシング</text>
+  <rect x="616.0" y="212.0" width="218.0" height="32.0" rx="4.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="622.0" y="229.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">10　CDC</text>
+  <rect x="616.0" y="250.0" width="218.0" height="32.0" rx="4.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="622.0" y="267.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">11　Dead Letter Queue</text>
+  <rect x="616.0" y="288.0" width="218.0" height="32.0" rx="4.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="622.0" y="305.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">12　リアルタイム KPI</text>
+  <rect x="616.0" y="326.0" width="218.0" height="32.0" rx="4.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="622.0" y="343.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">13　ストリーム処理</text>
+  <rect x="616.0" y="364.0" width="218.0" height="32.0" rx="4.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="622.0" y="381.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">14　Exactly-Once</text>
+  <rect x="880.0" y="90.0" width="240.0" height="330.0" rx="6.0" fill="#FBFDFD" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="886.0" y="106.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#14513D" font-weight="bold" font-style="normal">Phase 4　運用する　offset 15–19</text>
+  <rect x="896.0" y="136.0" width="208.0" height="34.0" rx="4.0" fill="#DCF0E7" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="902.0" y="154.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">15　まとめて回す・テスト</text>
+  <rect x="896.0" y="178.0" width="208.0" height="34.0" rx="4.0" fill="#DCF0E7" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="902.0" y="196.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">16　性能を測る</text>
+  <rect x="896.0" y="220.0" width="208.0" height="34.0" rx="4.0" fill="#DCF0E7" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="902.0" y="238.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">17　自力で直す</text>
+  <rect x="896.0" y="262.0" width="208.0" height="34.0" rx="4.0" fill="#DCF0E7" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="902.0" y="280.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">18　Confluent Cloud</text>
+  <rect x="896.0" y="304.0" width="208.0" height="34.0" rx="4.0" fill="#1F7A5C" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="902.0" y="322.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#FFFFFF" font-weight="bold" font-style="normal">19　卒業課題：自作する</text>
+  <text x="902.0" y="367.4" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">図解：切り分けフロー / Confluent Cloud</text>
+  <path d="M290.0 255.0 L320.0 255.0" fill="none" stroke="#5C7178" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="320.0,255.0 311.0,251.2 311.0,258.8" fill="#5C7178" stroke="none"/>
+  <path d="M570.0 255.0 L600.0 255.0" fill="none" stroke="#5C7178" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="600.0,255.0 591.0,251.2 591.0,258.8" fill="#5C7178" stroke="none"/>
+  <path d="M850.0 255.0 L880.0 255.0" fill="none" stroke="#5C7178" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="880.0,255.0 871.0,251.2 871.0,258.8" fill="#5C7178" stroke="none"/>
+  <rect x="40.0" y="450.0" width="1080.0" height="70.0" rx="6.0" fill="#F4F8F8" stroke="#BFD0D2" stroke-width="1"/>
+  <text x="46.0" y="479.0" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="normal" font-style="normal">08 と 11 と 14 の 3 つを押さえれば、実務で最初に必要になるものはだいたい揃う。</text>
+  <text x="46.0" y="495.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="normal" font-style="normal">09 / 10 / 12 / 13 は「その形が必要になったときに戻ってくる」章として置いてある。</text>
+</svg>

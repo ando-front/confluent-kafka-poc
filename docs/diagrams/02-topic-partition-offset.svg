@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="530" viewBox="0 0 1160 530" role="img">
+  <rect width="1160" height="530" fill="#FFFFFF"/>
+  <text x="46.0" y="33.3" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="19" fill="#13212A" font-weight="bold" font-style="normal">Topic / Partition / Offset — 「どこに入るか」と「どこまで読んだか」</text>
+  <text x="46.0" y="56.1" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#5C7178" font-weight="normal" font-style="normal">入る先はキーで決まる。読んだ位置はコンシューマーグループごとに記録される。</text>
+  <rect x="40.0" y="104.0" width="150.0" height="40.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="115.0" y="126.1" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="bold" font-style="normal">Producer</text>
+  <rect x="40.0" y="156.0" width="150.0" height="30.0" rx="4.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="115.0" y="172.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">key = A-1001</text>
+  <rect x="40.0" y="194.0" width="150.0" height="30.0" rx="4.0" fill="#F7E9D4" stroke="#B07A28" stroke-width="1"/>
+  <text x="115.0" y="210.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#6B4A12" font-weight="normal" font-style="normal">key = B-2002</text>
+  <rect x="40.0" y="232.0" width="150.0" height="30.0" rx="4.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="115.0" y="248.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">key = A-1001</text>
+  <text x="46.0" y="291.4" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">キーを付けない（key=None）なら</text>
+  <text x="46.0" y="306.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">ラウンドロビンでばらける。</text>
+  <rect x="220.0" y="164.0" width="130.0" height="66.0" rx="6.0" fill="#FFFFFF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="285.0" y="191.0" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#0A3F45" font-weight="normal" font-style="normal">パーティショナー</text>
+  <text x="285.0" y="207.2" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#0A3F45" font-weight="normal" font-style="normal">hash(key) % 3</text>
+  <rect x="400.0" y="96.0" width="600.0" height="296.0" rx="0.0" fill="#F4F8F8" stroke="#BFD0D2" stroke-width="1"/>
+  <text x="406.0" y="111.3" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#5C7178" font-weight="normal" font-style="normal">Topic: pubsub.orders.v1　partitions = 3</text>
+  <text x="422.0" y="160.1" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#0B7A84" font-weight="bold" font-style="normal">P0</text>
+  <rect x="454.0" y="140.0" width="66.0" height="36.0" rx="0.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="487.0" y="159.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">0</text>
+  <rect x="526.0" y="140.0" width="66.0" height="36.0" rx="0.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="559.0" y="159.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">1</text>
+  <rect x="598.0" y="140.0" width="66.0" height="36.0" rx="0.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="631.0" y="159.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">2</text>
+  <rect x="670.0" y="140.0" width="66.0" height="36.0" rx="0.0" fill="#FFFFFF" stroke="#B07A28" stroke-width="1"/>
+  <text x="703.0" y="159.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#6B4A12" font-weight="normal" font-style="normal">3</text>
+  <rect x="742.0" y="140.0" width="66.0" height="36.0" rx="0.0" fill="#FFFFFF" stroke="#B07A28" stroke-width="1"/>
+  <text x="775.0" y="159.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#6B4A12" font-weight="normal" font-style="normal">4</text>
+  <rect x="814.0" y="140.0" width="66.0" height="36.0" rx="0.0" fill="#FFFFFF" stroke="#B07A28" stroke-width="1"/>
+  <text x="847.0" y="159.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#6B4A12" font-weight="normal" font-style="normal">5</text>
+  <text x="896.0" y="159.8" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="10" fill="#9FB3B7" font-weight="normal" font-style="normal">次はここに追記</text>
+  <path d="M667.0 134.0 L667.0 196.0" fill="none" stroke="#B07A28" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3"/>
+  <text x="559.0" y="191.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0B7A84" font-weight="normal" font-style="normal">処理済み（committed offset = 3）</text>
+  <text x="775.0" y="191.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#B07A28" font-weight="normal" font-style="normal">未処理　lag = 3</text>
+  <text x="422.0" y="236.1" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#0B7A84" font-weight="bold" font-style="normal">P1</text>
+  <rect x="454.0" y="216.0" width="66.0" height="36.0" rx="0.0" fill="#F7E9D4" stroke="#B07A28" stroke-width="1"/>
+  <text x="487.0" y="235.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#6B4A12" font-weight="normal" font-style="normal">0</text>
+  <rect x="526.0" y="216.0" width="66.0" height="36.0" rx="0.0" fill="#F7E9D4" stroke="#B07A28" stroke-width="1"/>
+  <text x="559.0" y="235.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#6B4A12" font-weight="normal" font-style="normal">1</text>
+  <rect x="598.0" y="216.0" width="66.0" height="36.0" rx="0.0" fill="#FFFFFF" stroke="#C3D2D4" stroke-width="1"/>
+  <text x="631.0" y="235.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#5C7178" font-weight="normal" font-style="normal">2</text>
+  <text x="422.0" y="284.1" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#0B7A84" font-weight="bold" font-style="normal">P2</text>
+  <rect x="454.0" y="264.0" width="66.0" height="36.0" rx="0.0" fill="#FFFFFF" stroke="#C3D2D4" stroke-width="1"/>
+  <text x="487.0" y="283.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#5C7178" font-weight="normal" font-style="normal">0</text>
+  <rect x="526.0" y="264.0" width="66.0" height="36.0" rx="0.0" fill="#FFFFFF" stroke="#C3D2D4" stroke-width="1"/>
+  <text x="559.0" y="283.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#5C7178" font-weight="normal" font-style="normal">1</text>
+  <rect x="598.0" y="264.0" width="66.0" height="36.0" rx="0.0" fill="#FFFFFF" stroke="#C3D2D4" stroke-width="1"/>
+  <text x="631.0" y="283.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#5C7178" font-weight="normal" font-style="normal">2</text>
+  <rect x="670.0" y="264.0" width="66.0" height="36.0" rx="0.0" fill="#FFFFFF" stroke="#C3D2D4" stroke-width="1"/>
+  <text x="703.0" y="283.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#5C7178" font-weight="normal" font-style="normal">3</text>
+  <text x="460.0" y="326.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">パーティションの中では 0 → 1 → 2 … の順序が必ず保たれる（トピック全体の順序は保証されない）</text>
+  <text x="460.0" y="352.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0B7A84" font-weight="normal" font-style="normal">キー A-1001 の 2 件はどちらも必ず P0 へ。だから同一注文のイベント順序だけは守られる。</text>
+  <path d="M190.0 124.0 L205.0 124.0 L205.0 197.0 L220.0 197.0" fill="none" stroke="#5C7178" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="220.0,197.0 211.0,193.2 211.0,200.8" fill="#5C7178" stroke="none"/>
+  <path d="M350.0 180.5 L383.0 180.5 L383.0 158.0 L416.0 158.0" fill="none" stroke="#0B7A84" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="416.0,158.0 407.0,154.2 407.0,161.8" fill="#0B7A84" stroke="none"/>
+  <path d="M350.0 213.5 L383.0 213.5 L383.0 234.0 L416.0 234.0" fill="none" stroke="#B07A28" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="416.0,234.0 407.0,230.2 407.0,237.8" fill="#B07A28" stroke="none"/>
+  <rect x="40.0" y="412.0" width="1080.0" height="84.0" rx="6.0" fill="#FBFDFD" stroke="#BFD0D2" stroke-width="1"/>
+  <text x="46.0" y="439.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="normal" font-style="normal">committed offset　グループが「次に読む」位置。再起動してもここから続く。</text>
+  <text x="46.0" y="456.1" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="normal" font-style="normal">log end offset　　 いま書き込まれている末尾。</text>
+  <text x="46.0" y="472.3" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="normal" font-style="normal">lag　　　　　　　  その差。kafka-ui で真っ先に見る数字。</text>
+</svg>

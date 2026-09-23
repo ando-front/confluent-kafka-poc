@@ -44,6 +44,8 @@ m = re.search(r"<title>(.*?)</title>", html, re.S)
 title = m.group(1).strip() if m else "Kafka ハンズオン"
 body = re.sub(r"<title>.*?</title>\s*", "", html, count=1, flags=re.S)
 body = re.sub(r'<meta charset="utf-8">\s*', "", body, count=1)
+# 図版は .dist/diagrams/ に複製するので、参照パスもそこへ向け直す
+body = body.replace("../docs/diagrams/", "diagrams/")
 
 doc = (
     "<!doctype html>\n"
@@ -60,6 +62,13 @@ doc = (
 open(dst, "w", encoding="utf-8").write(doc)
 print(f"built {dst} ({len(doc):,} bytes)")
 PYEOF
+
+# --- 図版（SVG と編集用の .drawio）を配信ディレクトリへ複製 -------------------
+if compgen -G "$ROOT_DIR/docs/diagrams/*.svg" > /dev/null; then
+  mkdir -p "$DIST/diagrams"
+  cp "$ROOT_DIR"/docs/diagrams/*.svg "$DIST/diagrams/"
+  cp "$ROOT_DIR"/docs/diagrams/*.drawio "$DIST/diagrams/" 2>/dev/null || true
+fi
 
 # --- LAN の IP アドレスを調べる ----------------------------------------------
 LAN_IP=""

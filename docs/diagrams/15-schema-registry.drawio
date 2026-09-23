@@ -1,0 +1,70 @@
+<mxfile host="app.diagrams.net" agent="claude" version="24.0.0">
+  <diagram id="schema-registry" name="Schema Registry">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1160" pageHeight="520" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="Schema Registry — 「形が変わった」を事故にしない仕組み" style="text;html=1;fontSize=19;fontStyle=1;fontColor=#13212A;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="16" width="960" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="sub" value="送り手と受け手が別々のタイミングでデプロイされる前提で、メッセージの形を第三者に預けておく。" style="text;html=1;fontSize=12;fontColor=#5C7178;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="44" width="960" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="prod" value="Producer&#10;スキーマを登録してから送る" style="rounded=1;arcSize=6;html=1;fillColor=#EEF3F4;strokeColor=#9FB3B7;fontColor=#13212A;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="sr" value="Schema Registry　:8081&#10;スキーマの版を管理する" style="rounded=1;arcSize=6;html=1;fillColor=#FBFDFD;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=12;fontStyle=1;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="420" y="96" width="330" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="sr1" value="v1　{ order_id, amount }" style="rounded=1;arcSize=4;html=1;fillColor=#EEF3F4;strokeColor=#9FB3B7;fontColor=#13212A;fontSize=11;align=left;" vertex="1" parent="sr">
+          <mxGeometry x="20" y="46" width="290" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="sr2" value="v2　{ order_id, amount, coupon? }" style="rounded=1;arcSize=4;html=1;fillColor=#D6EDEF;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=11;align=left;" vertex="1" parent="sr">
+          <mxGeometry x="20" y="90" width="290" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="sr3" value="互換性チェック：v1 の受け手が v2 を読めるか？" style="text;html=1;fontSize=11;fontColor=#0B7A84;align=left;verticalAlign=middle;" vertex="1" parent="sr">
+          <mxGeometry x="20" y="134" width="290" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="topic" value="Topic&#10;本文にはスキーマ ID だけが載る&#10;（形の定義そのものは毎回送らない）" style="rounded=1;arcSize=6;html=1;fillColor=#D6EDEF;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="420" y="310" width="330" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cons" value="Consumer&#10;ID を見てスキーマを取り寄せ、&#10;自分が知っている形に読み替える" style="rounded=1;arcSize=6;html=1;fillColor=#EEF3F4;strokeColor=#9FB3B7;fontColor=#13212A;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="900" y="200" width="220" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#0B7A84;strokeWidth=1.4;exitX=1;exitY=0.3;entryX=0;entryY=0.6;" edge="1" parent="1" source="prod" target="sr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e1l" value="① 登録" style="edgeLabel;html=1;fontSize=10;fontColor=#0B7A84;labelBackgroundColor=#FFFFFF;" vertex="1" parent="e1">
+          <mxGeometry relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#5C7178;strokeWidth=1.4;exitX=1;exitY=0.8;entryX=0;entryY=0.5;" edge="1" parent="1" source="prod" target="topic">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2l" value="② 送信" style="edgeLabel;html=1;fontSize=10;fontColor=#5C7178;labelBackgroundColor=#FFFFFF;" vertex="1" parent="e2">
+          <mxGeometry relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#5C7178;strokeWidth=1.4;exitX=1;exitY=0.5;entryX=0;entryY=0.75;" edge="1" parent="1" source="topic" target="cons">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3l" value="③ 受信" style="edgeLabel;html=1;fontSize=10;fontColor=#5C7178;labelBackgroundColor=#FFFFFF;" vertex="1" parent="e3">
+          <mxGeometry relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#0B7A84;strokeWidth=1.4;exitX=0;exitY=0.25;entryX=1;entryY=0.6;" edge="1" parent="1" source="cons" target="sr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4l" value="④ スキーマ取得" style="edgeLabel;html=1;fontSize=10;fontColor=#0B7A84;labelBackgroundColor=#FFFFFF;" vertex="1" parent="e4">
+          <mxGeometry relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="foot" value="互換性のある変更（項目を optional で足すなど）は受け手を直さなくても通る。互換性のない変更はここで弾かれる。&#10;このリポジトリでは full 構成で :8081 に立ち上がる。01〜07 のデモは JSON で動くので必須ではない。" style="rounded=1;arcSize=6;html=1;fillColor=#F4F8F8;strokeColor=#BFD0D2;fontColor=#13212A;fontSize=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="416" width="1080" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

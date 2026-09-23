@@ -1,0 +1,113 @@
+<mxfile host="app.diagrams.net" agent="claude" version="24.0.0">
+  <diagram id="troubleshooting" name="切り分けフロー">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1160" pageHeight="760" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="詰まったときの切り分けフロー" style="text;html=1;fontSize=19;fontStyle=1;fontColor=#13212A;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="16" width="900" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="sub" value="エラーメッセージを読む前に、まず「どの層で止まっているか」を上から順に確かめる。" style="text;html=1;fontSize=12;fontColor=#5C7178;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="44" width="900" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="start" value="デモが動かない" style="rounded=1;arcSize=20;html=1;fillColor=#13212A;strokeColor=#13212A;fontColor=#FFFFFF;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="100" width="220" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="q1" value="docker ps で&#10;コンテナは Up ?" style="rhombus;html=1;fillColor=#FFFFFF;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="60" y="180" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" value="./scripts/start.sh&#10;Docker Desktop 自体が起動しているかも確認する" style="rounded=1;arcSize=6;html=1;fillColor=#F7E9D4;strokeColor=#B07A28;fontColor=#6B4A12;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="380" y="192" width="360" height="66" as="geometry" />
+        </mxCell>
+
+        <mxCell id="q2" value="Kafka is ready まで&#10;到達する ?" style="rhombus;html=1;fillColor=#FFFFFF;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="60" y="306" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" value="docker compose -f docker/docker-compose.yml logs broker --tail 50&#10;初回はイメージ取得で時間がかかる。ポート競合なら lsof -i :9092" style="rounded=1;arcSize=6;html=1;fillColor=#F7E9D4;strokeColor=#B07A28;fontColor=#6B4A12;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="380" y="318" width="470" height="66" as="geometry" />
+        </mxCell>
+
+        <mxCell id="q3" value="python が&#10;モジュールを見つける ?" style="rhombus;html=1;fillColor=#FFFFFF;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="60" y="432" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" value="pip install -r requirements.txt&#10;pip -V で Python 3.11+ を指しているか確認する（venv の入れ違いが多い）" style="rounded=1;arcSize=6;html=1;fillColor=#F7E9D4;strokeColor=#B07A28;fontColor=#6B4A12;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="380" y="444" width="470" height="66" as="geometry" />
+        </mxCell>
+
+        <mxCell id="q4" value="メッセージが&#10;届いている ?" style="rhombus;html=1;fillColor=#FFFFFF;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="60" y="558" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="a4" value="kafka-ui（localhost:8080）でトピックと lag を見る&#10;・コンシューマーが無反応 → 正常。別ターミナルでプロデューサーを動かす&#10;・最初から読み直したい → --group を新しい名前にする&#10;・同じものを何度も受信する → 受け手を冪等にする（offset 14）" style="rounded=1;arcSize=6;html=1;fillColor=#F7E9D4;strokeColor=#B07A28;fontColor=#6B4A12;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="380" y="552" width="470" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="done" value="ここまで通れば環境は健全。&#10;あとはユースケース個別の問題。" style="rounded=1;arcSize=6;html=1;fillColor=#DCF0E7;strokeColor=#1F7A5C;fontColor=#14513D;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="676" width="220" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="reset" value="最後の手段&#10;./scripts/reset.sh &amp;&amp; ./scripts/start.sh&#10;（トピックのデータは全部消える。実験をやり直したいときに使う）" style="rounded=1;arcSize=6;html=1;fillColor=#F8E0E0;strokeColor=#B44A4A;fontColor=#7A2727;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="890" y="676" width="230" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="first" value="まず打つ 3 コマンド&#10;&#10;docker ps&#10;./scripts/start.sh&#10;pytest tests/ -v&#10;&#10;この 3 つが通るかどうかで、&#10;問題が「環境」なのか「コード」なのかが分かれる。" style="rounded=1;arcSize=6;html=1;fillColor=#FBFDFD;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=11;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="890" y="180" width="230" height="200" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#5C7178;strokeWidth=1.4;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="start" target="q1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#B07A28;strokeWidth=1.4;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="q1" target="a1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2l" value="No" style="edgeLabel;html=1;fontSize=10;fontColor=#B07A28;labelBackgroundColor=#FFFFFF;" vertex="1" parent="e2">
+          <mxGeometry relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#5C7178;strokeWidth=1.4;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="q1" target="q2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3l" value="Yes" style="edgeLabel;html=1;fontSize=10;fontColor=#5C7178;labelBackgroundColor=#FFFFFF;" vertex="1" parent="e3">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="20" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#B07A28;strokeWidth=1.4;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="q2" target="a2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4l" value="No" style="edgeLabel;html=1;fontSize=10;fontColor=#B07A28;labelBackgroundColor=#FFFFFF;" vertex="1" parent="e4">
+          <mxGeometry relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#5C7178;strokeWidth=1.4;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="q2" target="q3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5l" value="Yes" style="edgeLabel;html=1;fontSize=10;fontColor=#5C7178;labelBackgroundColor=#FFFFFF;" vertex="1" parent="e5">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="20" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#B07A28;strokeWidth=1.4;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="q3" target="a3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6l" value="No" style="edgeLabel;html=1;fontSize=10;fontColor=#B07A28;labelBackgroundColor=#FFFFFF;" vertex="1" parent="e6">
+          <mxGeometry relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#5C7178;strokeWidth=1.4;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="q3" target="q4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7l" value="Yes" style="edgeLabel;html=1;fontSize=10;fontColor=#5C7178;labelBackgroundColor=#FFFFFF;" vertex="1" parent="e7">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="20" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#B07A28;strokeWidth=1.4;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="q4" target="a4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8l" value="No" style="edgeLabel;html=1;fontSize=10;fontColor=#B07A28;labelBackgroundColor=#FFFFFF;" vertex="1" parent="e8">
+          <mxGeometry relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#1F7A5C;strokeWidth=1.4;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="q4" target="done">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9l" value="Yes" style="edgeLabel;html=1;fontSize=10;fontColor=#1F7A5C;labelBackgroundColor=#FFFFFF;" vertex="1" parent="e9">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="20" as="offset" /></mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

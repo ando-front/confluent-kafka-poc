@@ -98,6 +98,10 @@ SCHEMA_REGISTRY_URL=http://localhost:8081
 
 ---
 
+![Docker Compose が起動する 6 サービスと core / use_cases の階層関係を示した図](diagrams/04-docker-stack.svg)
+
+> 緑の 3 つが minimal 構成。読む順番は core → use_cases。　—　[原寸 SVG](diagrams/04-docker-stack.svg) / [編集用 draw.io](diagrams/04-docker-stack.drawio)
+
 ## Kafka の起動
 
 ```bash
@@ -225,6 +229,10 @@ SCHEMA_REGISTRY_API_SECRET=<SR_SECRET>
 ```
 
 ---
+
+![同じコードから .env の切り替えだけでローカル Docker と Confluent Cloud を選ぶ構成図](diagrams/11-confluent-cloud.svg)
+
+> 接続設定が 1 か所に閉じているので、コードを変えずに接続先を差し替えられる。　—　[原寸 SVG](diagrams/11-confluent-cloud.svg) / [編集用 draw.io](diagrams/11-confluent-cloud.drawio)
 
 ## 次のステップ
 

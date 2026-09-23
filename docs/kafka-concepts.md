@@ -22,6 +22,10 @@
 
 ---
 
+![Producer 群・Broker 上のトピックとパーティション・Consumer Group 群のつながりを示した全体図](diagrams/01-kafka-overview.svg)
+
+> Producer と Consumer は互いを知らない。両者はトピック名だけで繋がる。　—　[原寸 SVG](diagrams/01-kafka-overview.svg) / [編集用 draw.io](diagrams/01-kafka-overview.drawio)
+
 ## 1. Topic（トピック）— 「郵便ポストの種類」
 
 **トピック** はメッセージの入れ物です。「注文」「支払い」「在庫変更」など、テーマごとに作ります。
@@ -83,6 +87,10 @@
 
 ---
 
+![キーからパーティションが決まる流れと committed offset / log end offset / lag の関係図](diagrams/02-topic-partition-offset.svg)
+
+> 「どこに入るか」はキーで決まり、「どこまで読んだか」はグループごとに記録される。　—　[原寸 SVG](diagrams/02-topic-partition-offset.svg) / [編集用 draw.io](diagrams/02-topic-partition-offset.drawio)
+
 ## 4. Consumer Group（コンシューマーグループ）— 「チームで分担」
 
 複数のコンシューマーを **グループ** にまとめると、パーティションが自動的に分担されます。
@@ -109,6 +117,10 @@
 **このリポジトリで体験できるユースケース**: [01_basic_pubsub](../use_cases/01_basic_pubsub/)（`--group` オプションで切り替え）
 
 ---
+
+![コンシューマー 1 台 / 3 台 / 4 台の割り当てと、グループを分けた fan-out を並べた図](diagrams/03-consumer-group.svg)
+
+> パーティションは 1 グループ内で必ず 1 台にだけ割り当たる。これが並列度の上限。　—　[原寸 SVG](diagrams/03-consumer-group.svg) / [編集用 draw.io](diagrams/03-consumer-group.drawio)
 
 ## 5. Broker（ブローカー）— 「郵便局本体」
 
@@ -137,6 +149,10 @@ Kafka のデフォルトは **At-Least-Once** です。
 
 ---
 
+![At-Most-Once / At-Least-Once / Exactly-Once を並べて比較した図](diagrams/12-delivery-semantics.svg)
+
+> 選び方の基準は速度ではなく「二重処理が事故になるか」。　—　[原寸 SVG](diagrams/12-delivery-semantics.svg) / [編集用 draw.io](diagrams/12-delivery-semantics.drawio)
+
 ## 7. Schema Registry（スキーマレジストリ）
 
 メッセージの形式（JSON の構造など）を一元管理する仕組みです。
@@ -153,6 +169,10 @@ Consumer ←── [Schema Registry] ←── スキーマIDで形式を取得
 このリポジトリでは JSON をそのまま使っていますが、Schema Registry を `localhost:8081` で起動しています。
 
 ---
+
+![Producer がスキーマを登録し Consumer がスキーマ ID から取り寄せる流れを示した図](diagrams/15-schema-registry.svg)
+
+> 送り手と受け手が別々にデプロイされる前提で、メッセージの形を第三者に預けておく。　—　[原寸 SVG](diagrams/15-schema-registry.svg) / [編集用 draw.io](diagrams/15-schema-registry.drawio)
 
 ## 8. ZooKeeper（ズーキーパー）
 
@@ -190,6 +210,10 @@ Kafka 3.0 以降は KRaft モードで ZooKeeper なしでも動きますが、
 ```
 
 ---
+
+![Phase 1〜4 と 19 ステップの対応を並べた学習ロードマップ](diagrams/14-learning-path.svg)
+
+> site/index.html のハンズオンはこの順に進む。　—　[原寸 SVG](diagrams/14-learning-path.svg) / [編集用 draw.io](diagrams/14-learning-path.drawio)
 
 ## 次のステップ
 

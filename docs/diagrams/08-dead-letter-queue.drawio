@@ -1,0 +1,90 @@
+<mxfile host="app.diagrams.net" agent="claude" version="24.0.0">
+  <diagram id="dlq" name="Dead Letter Queue">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1160" pageHeight="620" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="Dead Letter Queue — 壊れた 1 件で全体を止めない" style="text;html=1;fontSize=19;fontStyle=1;fontColor=#13212A;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="16" width="900" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="sub" value="use_cases/05_dead_letter_queue　--bad-rate で不正メッセージの割合を変えて挙動を確かめる" style="text;html=1;fontSize=12;fontColor=#5C7178;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="44" width="960" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="prod" value="producer.py&#10;20% の不正メッセージを混ぜて送る" style="rounded=1;arcSize=6;html=1;fillColor=#EEF3F4;strokeColor=#9FB3B7;fontColor=#13212A;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="120" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="main" value="dlq.orders.v1" style="rounded=1;arcSize=6;html=1;fillColor=#D6EDEF;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="132" width="180" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="cons" value="メインコンシューマー&#10;1 件ずつ処理する" style="rounded=1;arcSize=6;html=1;fillColor=#FFFFFF;strokeColor=#9FB3B7;fontColor=#13212A;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="560" y="120" width="200" height="72" as="geometry" />
+        </mxCell>
+
+        <mxCell id="q" value="処理できた？" style="rhombus;html=1;fillColor=#FFFFFF;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="560" y="240" width="200" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="ok" value="正常に処理して commit&#10;次のメッセージへ進む" style="rounded=1;arcSize=6;html=1;fillColor=#DCF0E7;strokeColor=#1F7A5C;fontColor=#14513D;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="860" y="254" width="260" height="58" as="geometry" />
+        </mxCell>
+        <mxCell id="retry" value="リトライ（最大 3 回）&#10;一時的な失敗ならここで復帰する" style="rounded=1;arcSize=6;html=1;fillColor=#F7E9D4;strokeColor=#B07A28;fontColor=#6B4A12;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="560" y="384" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="dlqT" value="dlq.orders.dlq.v1&#10;失敗理由と試行回数を添えて退避" style="rounded=1;arcSize=6;html=1;fillColor=#F8E0E0;strokeColor=#B44A4A;fontColor=#7A2727;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="384" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="proc" value="dlq_processor.py&#10;中身を見て復旧できるか判断する" style="rounded=1;arcSize=6;html=1;fillColor=#FFFFFF;strokeColor=#B44A4A;fontColor=#7A2727;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="384" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="requeue" value="直せるものは元トピックへ再投入&#10;直せないものは記録して諦める" style="rounded=1;arcSize=6;html=1;fillColor=#EEF3F4;strokeColor=#9FB3B7;fontColor=#13212A;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="248" width="200" height="72" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" style="html=1;endArrow=block;strokeColor=#5C7178;strokeWidth=1.4;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="prod" target="main">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="html=1;endArrow=block;strokeColor=#0B7A84;strokeWidth=1.4;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="main" target="cons">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#5C7178;strokeWidth=1.4;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="cons" target="q">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#1F7A5C;strokeWidth=1.4;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="q" target="ok">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4l" value="Yes" style="edgeLabel;html=1;fontSize=10;fontColor=#1F7A5C;labelBackgroundColor=#FFFFFF;" vertex="1" parent="e4">
+          <mxGeometry relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#B07A28;strokeWidth=1.4;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="q" target="retry">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5l" value="No" style="edgeLabel;html=1;fontSize=10;fontColor=#B07A28;labelBackgroundColor=#FFFFFF;" vertex="1" parent="e5">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="20" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e6" style="html=1;endArrow=block;strokeColor=#B44A4A;strokeWidth=1.6;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" edge="1" parent="1" source="retry" target="dlqT">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6l" value="3 回とも失敗" style="edgeLabel;html=1;fontSize=10;fontColor=#B44A4A;labelBackgroundColor=#FFFFFF;" vertex="1" parent="e6">
+          <mxGeometry relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e7" style="html=1;endArrow=block;strokeColor=#B44A4A;strokeWidth=1.4;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" edge="1" parent="1" source="dlqT" target="proc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#5C7178;strokeWidth=1.4;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" edge="1" parent="1" source="proc" target="requeue">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#5C7178;strokeWidth=1.4;dashed=1;exitX=1;exitY=0.5;entryX=0.5;entryY=1;" edge="1" parent="1" source="requeue" target="main">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9l" value="再投入" style="edgeLabel;html=1;fontSize=10;fontColor=#5C7178;labelBackgroundColor=#FFFFFF;" vertex="1" parent="e9">
+          <mxGeometry relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="foot" value="肝は「失敗を捨てない」こと。DLQ に退避すればメインの処理は止まらず、あとから中身を見て直せる。&#10;--bad-rate 1.0 で全件失敗、0.0 で全件成功。壊れ方の割合を変えて挙動を確かめる。" style="rounded=1;arcSize=6;html=1;fillColor=#F4F8F8;strokeColor=#BFD0D2;fontColor=#13212A;fontSize=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="504" width="1080" height="76" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -368,6 +368,18 @@ html{scroll-behavior:smooth}
 .nav-link{border-left:2px solid transparent;padding-left:8px}
 .nav-link.next{border-left-color:var(--accent);color:var(--ink);font-weight:700;background:var(--accent-soft)}
 .nav-link.next .n{color:var(--accent)}
+
+/* ---------- draw.io 図解 ---------- */
+figure.dio{background:#FFFFFF;border:1px solid var(--line-2);border-radius:4px;overflow:hidden}
+figure.dio .fw{padding:0;overflow-x:auto;background:#FFFFFF}
+figure.dio img{display:block;width:100%;min-width:780px;height:auto}
+figure.dio figcaption{
+  padding:10px 16px 11px;background:var(--surface);border-top:1px solid var(--line);
+  font-family:var(--body);font-size:12.5px;color:var(--ink-2);line-height:1.7;
+}
+figure.dio figcaption .src{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);display:block;margin-top:3px}
+figure.dio figcaption .src a{color:var(--ink-3)}
+figure.dio figcaption .src a:hover{color:var(--accent)}
 </style>
 
 <header class="masthead">
@@ -447,6 +459,13 @@ html{scroll-behavior:smooth}
 
   <main class="content">
 
+  <figure class="dio">
+    <div class="fw"><img src="../docs/diagrams/14-learning-path.svg" alt="Phase 1〜4 と 19 ステップの対応を並べた学習ロードマップ" loading="lazy"></div>
+    <figcaption>全体像。いま自分がどこにいるか分からなくなったらここに戻る。
+      <span class="src"><a href="../docs/diagrams/14-learning-path.svg" target="_blank" rel="noopener">図を原寸で開く</a>　/　<a href="../docs/diagrams/14-learning-path.drawio">14-learning-path.drawio</a>（draw.io で編集）</span>
+    </figcaption>
+  </figure>
+
   <div class="phase-head"><h2>Phase 1 — 理解する</h2><span class="rng">offset 01 — 02 / 読むだけ・30分</span></div>
 
   <section class="step" id="s01">
@@ -455,6 +474,13 @@ html{scroll-behavior:smooth}
       <div class="meta"><span class="chip">所要 10分</span><span class="chip">難易度 ★☆☆</span><span class="chip">手を動かさない</span></div>
       <h3>Kafka が解く問題を言葉にする</h3>
       <p class="goal"><b>このステップのゴール</b>「なぜ API 直接呼び出しではなく Kafka なのか」を、同僚に 1 分で説明できる。</p>
+
+      <figure class="dio">
+        <div class="fw"><img src="../docs/diagrams/01-kafka-overview.svg" alt="Producer 群・Broker 上のトピックとパーティション・Consumer Group 群のつながりを示した全体図" loading="lazy"></div>
+        <figcaption>Producer と Consumer は互いを知らず、トピック名だけで繋がる。受け手を増やしても送り手のコードは変わらない。
+          <span class="src"><a href="../docs/diagrams/01-kafka-overview.svg" target="_blank" rel="noopener">図を原寸で開く</a>　/　<a href="../docs/diagrams/01-kafka-overview.drawio">01-kafka-overview.drawio</a>（draw.io で編集）</span>
+        </figcaption>
+      </figure>
 
       <p>注文サービスが在庫・通知・分析の 3 つに直接 API を叩く構成には、必ず同じ 3 つの問題が出ます。</p>
       <div class="tw">
@@ -494,60 +520,20 @@ html{scroll-behavior:smooth}
       <h3>5つの言葉を押さえる</h3>
       <p class="goal"><b>このステップのゴール</b>Topic / Partition / Offset / Consumer Group / Broker を図で説明できる。以降のログ出力が読めるようになる。</p>
 
-      <figure>
-        <div class="fw">
-          <svg viewBox="0 0 760 300" role="img" aria-label="トピックが3つのパーティションに分かれ、各メッセージにオフセット番号が振られている図">
-            <rect class="s-box-a" x="8" y="112" width="104" height="60" rx="3"></rect>
-            <text class="s-t-b" x="60" y="136" text-anchor="middle">Producer</text>
-            <text class="s-t-d" x="60" y="154" text-anchor="middle">注文サービス</text>
-            <path class="s-arrow" d="M116 142 H 140" marker-end="url(#ar)"></path>
-            <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="currentColor" class="s-t"></path></marker></defs>
-
-            <rect class="s-frame" x="146" y="24" width="440" height="250" rx="3"></rect>
-            <text class="s-t-b" x="164" y="46">Topic: pubsub.orders.v1</text>
-
-            <text class="s-t-m" x="164" y="90">P0</text>
-            <rect class="s-cell-r" x="192" y="64" width="64" height="40" rx="2"></rect>
-            <rect class="s-cell-r" x="264" y="64" width="64" height="40" rx="2"></rect>
-            <rect class="s-cell-r" x="336" y="64" width="64" height="40" rx="2"></rect>
-            <rect class="s-cell" x="408" y="64" width="64" height="40" rx="2"></rect>
-            <rect class="s-cell" x="480" y="64" width="64" height="40" rx="2"></rect>
-            <text class="s-t-d" x="198" y="78">0</text><text class="s-t-d" x="270" y="78">1</text>
-            <text class="s-t-d" x="342" y="78">2</text><text class="s-t-d" x="414" y="78">3</text>
-            <text class="s-t-d" x="486" y="78">4</text>
-            <text class="s-t-m" x="224" y="96" text-anchor="middle">msg</text>
-            <text class="s-t-m" x="296" y="96" text-anchor="middle">msg</text>
-            <text class="s-t-m" x="368" y="96" text-anchor="middle">msg</text>
-            <text class="s-t-m" x="440" y="96" text-anchor="middle">msg</text>
-            <text class="s-t-m" x="512" y="96" text-anchor="middle">msg</text>
-            <path class="s-tri" d="M362 108 L374 108 L368 116 z"></path>
-            <text class="s-t-a" x="382" y="118">committed offset = 2（ここまで読んだ）</text>
-
-            <text class="s-t-m" x="164" y="156">P1</text>
-            <rect class="s-cell" x="192" y="130" width="64" height="40" rx="2"></rect>
-            <rect class="s-cell" x="264" y="130" width="64" height="40" rx="2"></rect>
-            <rect class="s-cell" x="336" y="130" width="64" height="40" rx="2"></rect>
-            <text class="s-t-d" x="198" y="144">0</text><text class="s-t-d" x="270" y="144">1</text>
-            <text class="s-t-d" x="342" y="144">2</text>
-
-            <text class="s-t-m" x="164" y="222">P2</text>
-            <rect class="s-cell" x="192" y="196" width="64" height="40" rx="2"></rect>
-            <rect class="s-cell" x="264" y="196" width="64" height="40" rx="2"></rect>
-            <rect class="s-cell" x="336" y="196" width="64" height="40" rx="2"></rect>
-            <rect class="s-cell" x="408" y="196" width="64" height="40" rx="2"></rect>
-            <text class="s-t-d" x="198" y="210">0</text><text class="s-t-d" x="270" y="210">1</text>
-            <text class="s-t-d" x="342" y="210">2</text><text class="s-t-d" x="414" y="210">3</text>
-            <text class="s-t-d" x="192" y="256">キーが同じメッセージは必ず同じパーティションへ</text>
-
-            <path class="s-arrow" d="M590 150 H 614" marker-end="url(#ar)"></path>
-            <rect class="s-box" x="618" y="112" width="134" height="76" rx="3"></rect>
-            <text class="s-t-b" x="685" y="138" text-anchor="middle">Consumer Group</text>
-            <text class="s-t-d" x="685" y="156" text-anchor="middle">inventory-service</text>
-            <text class="s-t-d" x="685" y="172" text-anchor="middle">P0/P1/P2 を分担</text>
-          </svg>
-        </div>
-        <figcaption>1 トピック = 複数パーティション。各パーティション内で 0 から連番（オフセット）が振られる。</figcaption>
+      <figure class="dio">
+        <div class="fw"><img src="../docs/diagrams/02-topic-partition-offset.svg" alt="キーからパーティションが決まる流れと、committed offset / log end offset / lag の関係を示した図" loading="lazy"></div>
+        <figcaption>「どこに入るか」はキーで決まり、「どこまで読んだか」はコンシューマーグループごとに記録される。
+          <span class="src"><a href="../docs/diagrams/02-topic-partition-offset.svg" target="_blank" rel="noopener">図を原寸で開く</a>　/　<a href="../docs/diagrams/02-topic-partition-offset.drawio">02-topic-partition-offset.drawio</a>（draw.io で編集）</span>
+        </figcaption>
       </figure>
+
+      <figure class="dio">
+        <div class="fw"><img src="../docs/diagrams/12-delivery-semantics.svg" alt="At-Most-Once / At-Least-Once / Exactly-Once の 3 レベルを並べて比較した図" loading="lazy"></div>
+        <figcaption>既定は At-Least-Once。重複しうる前提で受け手を冪等にするのが定石。
+          <span class="src"><a href="../docs/diagrams/12-delivery-semantics.svg" target="_blank" rel="noopener">図を原寸で開く</a>　/　<a href="../docs/diagrams/12-delivery-semantics.drawio">12-delivery-semantics.drawio</a>（draw.io で編集）</span>
+        </figcaption>
+      </figure>
+
 
       <div class="tw">
         <table>
@@ -763,6 +749,20 @@ producer_config          = {'bootstrap.servers': 'localhost:9092', ...}</pre>
       <h3>Kafka を起動する</h3>
       <p class="goal"><b>このステップのゴール</b><span class="m">./scripts/start.sh</span> が「Kafka is ready」まで到達し、UI の URL が表示される。</p>
 
+      <figure class="dio">
+        <div class="fw"><img src="../docs/diagrams/04-docker-stack.svg" alt="Docker Compose が起動する 6 サービスと、core / use_cases の階層関係を示した図" loading="lazy"></div>
+        <figcaption>緑の 3 つが minimal 構成。読む順番は core → use_cases。
+          <span class="src"><a href="../docs/diagrams/04-docker-stack.svg" target="_blank" rel="noopener">図を原寸で開く</a>　/　<a href="../docs/diagrams/04-docker-stack.drawio">04-docker-stack.drawio</a>（draw.io で編集）</span>
+        </figcaption>
+      </figure>
+
+      <figure class="dio">
+        <div class="fw"><img src="../docs/diagrams/15-schema-registry.svg" alt="Producer がスキーマを登録し、Consumer がスキーマ ID から取り寄せる流れを示した図" loading="lazy"></div>
+        <figcaption>:8081 に立つ Schema Registry の役割。01〜07 のデモは JSON で動くので必須ではない。
+          <span class="src"><a href="../docs/diagrams/15-schema-registry.svg" target="_blank" rel="noopener">図を原寸で開く</a>　/　<a href="../docs/diagrams/15-schema-registry.drawio">15-schema-registry.drawio</a>（draw.io で編集）</span>
+        </figcaption>
+      </figure>
+
       <div class="term">
         <div class="term-bar"><span class="term-tag">ターミナル</span><button class="copy" type="button">コピー</button></div>
         <pre><code><span class="c"># フル構成（Schema Registry / Connect / Control Center 込み）</span>
@@ -774,54 +774,6 @@ producer_config          = {'bootstrap.servers': 'localhost:9092', ...}</pre>
 
       <p>スクリプトは <strong>① docker compose up -d → ② ブローカーが <span class="m">kafka-topics --list</span> に応答するまで最大 60 秒待機 → ③ トピック一覧と UI の URL を表示</strong>、の 3 段階で動きます。単に起動するだけでなく「実際に応答できるか」まで確認するので、ここが通れば以降の接続エラーはほぼ起きません。</p>
 
-      <figure>
-        <div class="fw">
-          <svg viewBox="0 0 760 364" role="img" aria-label="Docker Compose で起動する6つのサービスと、core・use_cases の階層図">
-            <rect class="s-frame" x="8" y="8" width="744" height="196" rx="3"></rect>
-            <text class="s-t-d" x="24" y="30">Docker Compose — docker/docker-compose.yml</text>
-
-            <rect class="s-box" x="24" y="44" width="168" height="60" rx="3"></rect>
-            <text class="s-t-b" x="108" y="70" text-anchor="middle">ZooKeeper</text>
-            <text class="s-t-d" x="108" y="88" text-anchor="middle">:2181 クラスター管理</text>
-
-            <rect class="s-box-a" x="208" y="44" width="168" height="60" rx="3"></rect>
-            <text class="s-t-b" x="292" y="70" text-anchor="middle">Broker</text>
-            <text class="s-t-d" x="292" y="88" text-anchor="middle">:9092 メッセージ本体</text>
-
-            <rect class="s-box" x="392" y="44" width="168" height="60" rx="3"></rect>
-            <text class="s-t-b" x="476" y="70" text-anchor="middle">Schema Registry</text>
-            <text class="s-t-d" x="476" y="88" text-anchor="middle">:8081 形式の管理</text>
-
-            <rect class="s-box" x="576" y="44" width="160" height="60" rx="3"></rect>
-            <text class="s-t-b" x="656" y="70" text-anchor="middle">Kafka Connect</text>
-            <text class="s-t-d" x="656" y="88" text-anchor="middle">:8083 外部連携</text>
-
-            <rect class="s-box" x="24" y="120" width="168" height="60" rx="3"></rect>
-            <text class="s-t-b" x="108" y="146" text-anchor="middle">kafka-ui</text>
-            <text class="s-t-d" x="108" y="164" text-anchor="middle">:8080 いつも使う UI</text>
-
-            <rect class="s-box" x="208" y="120" width="168" height="60" rx="3"></rect>
-            <text class="s-t-b" x="292" y="146" text-anchor="middle">Control Center</text>
-            <text class="s-t-d" x="292" y="164" text-anchor="middle">:9021 Confluent 製 UI</text>
-
-            <text class="s-t-d" x="396" y="146">minimal モードで起動するのは</text>
-            <text class="s-t-d" x="396" y="164">ZooKeeper / Broker / kafka-ui の 3 つだけ</text>
-
-            <path class="s-arrow" d="M292 204 V 234" marker-end="url(#ar2)"></path>
-            <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" class="s-t"></path></marker></defs>
-            <text class="s-t-a" x="302" y="224">localhost:9092</text>
-
-            <rect class="s-box" x="150" y="238" width="460" height="52" rx="3"></rect>
-            <text class="s-t-b" x="380" y="260" text-anchor="middle">core/</text>
-            <text class="s-t-d" x="380" y="278" text-anchor="middle">BaseProducer · BaseConsumer · TopicAdmin · Settings</text>
-
-            <path class="s-arrow" d="M380 290 V 310" marker-end="url(#ar2)"></path>
-            <rect class="s-box" x="150" y="312" width="460" height="46" rx="3"></rect>
-            <text class="s-t-d" x="380" y="340" text-anchor="middle">use_cases/01〜07 — 各デモは core を継承しているだけ</text>
-          </svg>
-        </div>
-        <figcaption>読む順番は core → use_cases。差分が小さいので、core さえ読めば 7 つすべてが読めます。</figcaption>
-      </figure>
 
       <div class="out">
         <span class="out-label">期待される出力（末尾）</span>
@@ -924,6 +876,13 @@ docker compose -f docker/docker-compose.yml logs broker --tail 50</code></pre>
       <h3>Pub/Sub の基本 — メッセージが流れる感覚をつかむ</h3>
       <p class="goal"><b>このステップのゴール</b>コンシューマーグループの挙動（分担と fan-out）を、自分の手で再現できる。</p>
 
+      <figure class="dio">
+        <div class="fw"><img src="../docs/diagrams/03-consumer-group.svg" alt="コンシューマー 1 台 / 3 台 / 4 台の割り当てと、グループを分けた fan-out を並べた図" loading="lazy"></div>
+        <figcaption>これから手で再現する 3 つの実験が、そのままこの図の ①②④ にあたる。
+          <span class="src"><a href="../docs/diagrams/03-consumer-group.svg" target="_blank" rel="noopener">図を原寸で開く</a>　/　<a href="../docs/diagrams/03-consumer-group.drawio">03-consumer-group.drawio</a>（draw.io で編集）</span>
+        </figcaption>
+      </figure>
+
       <p>トピック <span class="m">pubsub.orders.v1</span> に注文イベントを流し、別グループで受け取ります。<strong>先にコンシューマーを起動</strong>してください。</p>
 
       <div class="term">
@@ -984,6 +943,13 @@ A: Received: order_id=abc123, item=laptop, price=98000   ← ほぼ同時に A �
       <h3>イベントソーシング — 状態ではなく履歴を保存する</h3>
       <p class="goal"><b>このステップのゴール</b>「現在の状態はイベントを畳み込んだ結果にすぎない」を、リプレイで体感する。</p>
 
+      <figure class="dio">
+        <div class="fw"><img src="../docs/diagrams/05-event-sourcing.svg" alt="イベントを追記し、畳み込みで現在状態を再構築する流れと、途中で止めるリプレイを示した図" loading="lazy"></div>
+        <figcaption>現在の状態はイベントを畳み込んだ結果。どこで止めるかを変えれば過去の任意の時点に戻れる。
+          <span class="src"><a href="../docs/diagrams/05-event-sourcing.svg" target="_blank" rel="noopener">図を原寸で開く</a>　/　<a href="../docs/diagrams/05-event-sourcing.drawio">05-event-sourcing.drawio</a>（draw.io で編集）</span>
+        </figcaption>
+      </figure>
+
       <p>トピック <span class="m">eventsourcing.orders.v1</span> に <span class="m">ORDER_CREATED → PAYMENT_RECEIVED → SHIPPED</span> のようなイベントを追記し、状態はそこから再構築します。RDB が「今の値」を UPDATE で潰すのに対し、こちらは<strong>何も失われません</strong>。</p>
 
       <div class="term">
@@ -1030,6 +996,13 @@ python use_cases/02_event_sourcing/replay.py --whatif drop-payments</code></pre>
       <h3>CDC — DB の変更を別システムに届ける</h3>
       <p class="goal"><b>このステップのゴール</b>Debezium 形式（<span class="m">op / before / after</span>）のイベントを読んで、レプリカが追従する様子を確認する。</p>
 
+      <figure class="dio">
+        <div class="fw"><img src="../docs/diagrams/07-cdc.svg" alt="ポーリング方式の欠点と、op / before / after を載せた CDC イベントでレプリカが追従する流れを示した図" loading="lazy"></div>
+        <figcaption>after = null が載るから削除も伝わる。ここがポーリングとの決定的な差。
+          <span class="src"><a href="../docs/diagrams/07-cdc.svg" target="_blank" rel="noopener">図を原寸で開く</a>　/　<a href="../docs/diagrams/07-cdc.drawio">07-cdc.drawio</a>（draw.io で編集）</span>
+        </figcaption>
+      </figure>
+
       <p>DB を定期的に polling して差分を取る方式には、<strong>削除を検知できない</strong>という致命的な穴があります。CDC は変更が起きた瞬間にイベントを発行するので、INSERT / UPDATE / DELETE がすべて等しく流れます。</p>
 
       <div class="term">
@@ -1066,6 +1039,13 @@ python use_cases/02_event_sourcing/replay.py --whatif drop-payments</code></pre>
       <div class="meta"><span class="chip">use_cases/05_dead_letter_queue</span><span class="chip">所要 30分</span><span class="chip">難易度 ★★☆</span><span class="chip">ターミナル 3枚</span></div>
       <h3>Dead Letter Queue — 壊れた1件で全体を止めない</h3>
       <p class="goal"><b>このステップのゴール</b>本番で最初に必要になるエラー処理パターンを、失敗を注入して動かす。</p>
+
+      <figure class="dio">
+        <div class="fw"><img src="../docs/diagrams/08-dead-letter-queue.svg" alt="失敗メッセージがリトライを経て DLQ に退避し、DLQ プロセッサーが再投入するまでの流れ図" loading="lazy"></div>
+        <figcaption>失敗を捨てずに退避する。だからメインの処理が 1 件の破損で止まらない。
+          <span class="src"><a href="../docs/diagrams/08-dead-letter-queue.svg" target="_blank" rel="noopener">図を原寸で開く</a>　/　<a href="../docs/diagrams/08-dead-letter-queue.drawio">08-dead-letter-queue.drawio</a>（draw.io で編集）</span>
+        </figcaption>
+      </figure>
 
       <p>外から来るデータは必ず壊れます。壊れた 1 件で例外を投げて落ちると、<strong>その後ろの正常なメッセージがすべて止まります</strong>。DLQ は不正メッセージを別トピックに退避して、本流を止めない仕組みです。</p>
 
@@ -1118,6 +1098,13 @@ python use_cases/02_event_sourcing/replay.py --whatif drop-payments</code></pre>
       <h3>リアルタイム KPI — 「今この瞬間」を出す</h3>
       <p class="goal"><b>このステップのゴール</b>生イベント → 集計 → ダッシュボードという 3 段のパイプラインを、トピックでつなぐ感覚をつかむ。</p>
 
+      <figure class="dio">
+        <div class="fw"><img src="../docs/diagrams/10-realtime-analytics.svg" alt="生イベント → 集計 → KPI → ダッシュボードの 3 段パイプラインを示した図" loading="lazy"></div>
+        <figcaption>段を分けておくと、ダッシュボードを止めても集計は続き、集計を作り直しても生イベントは失われない。
+          <span class="src"><a href="../docs/diagrams/10-realtime-analytics.svg" target="_blank" rel="noopener">図を原寸で開く</a>　/　<a href="../docs/diagrams/10-realtime-analytics.drawio">10-realtime-analytics.drawio</a>（draw.io で編集）</span>
+        </figcaption>
+      </figure>
+
       <div class="out">
         <span class="out-label">パイプライン</span>
         <pre>event_generator  ──&gt; analytics.events.v1  ──&gt; aggregator (1分窓) ──&gt; analytics.kpi_1m.v1 ──&gt; dashboard</pre>
@@ -1168,6 +1155,13 @@ python use_cases/07_real_time_analytics/event_generator.py --rate 100 --count 50
       <div class="meta"><span class="chip">use_cases/03_stream_processing</span><span class="chip">所要 40分</span><span class="chip">難易度 ★★★</span></div>
       <h3>ストリーム処理 — 集計・変換・結合</h3>
       <p class="goal"><b>このステップのゴール</b>ウィンドウ集計・フィルタ変換・ストリーム結合という 3 つの型を動かし、使い分けを言えるようにする。</p>
+
+      <figure class="dio">
+        <div class="fw"><img src="../docs/diagrams/06-stream-processing.svg" alt="ウィンドウ集計・フィルタ変換・ストリーム結合の 3 パターンを並べた図" loading="lazy"></div>
+        <figcaption>どれも「トピックを読んで、加工して、別のトピックに書く」だけ。違うのは加工の中身。
+          <span class="src"><a href="../docs/diagrams/06-stream-processing.svg" target="_blank" rel="noopener">図を原寸で開く</a>　/　<a href="../docs/diagrams/06-stream-processing.drawio">06-stream-processing.drawio</a>（draw.io で編集）</span>
+        </figcaption>
+      </figure>
 
       <h4 class="sub">① タンブリングウィンドウ集計</h4>
       <p>30 秒ごとに区切って売上を合計します。<span class="m">stream.transactions.v1</span> を読み、<span class="m">stream.sales_30s.v1</span> に書きます。</p>
@@ -1234,6 +1228,13 @@ python use_cases/03_stream_processing/aggregator.py --window 10</code></pre>
       <div class="meta"><span class="chip">use_cases/06_exactly_once</span><span class="chip">所要 30分</span><span class="chip">難易度 ★★★</span><span class="chip">ターミナル 2枚</span></div>
       <h3>Exactly-Once — 二重処理を絶対に起こさない</h3>
       <p class="goal"><b>このステップのゴール</b>EOS が「送信側のトランザクション」と「受信側の冪等性」の<strong>両輪</strong>であることを、失敗注入で確かめる。</p>
+
+      <figure class="dio">
+        <div class="fw"><img src="../docs/diagrams/09-exactly-once.svg" alt="送信側のトランザクションと受信側の冪等台帳を並べ、両方そろって初めて 1 回だけになることを示した図" loading="lazy"></div>
+        <figcaption>片方だけでは成立しない。送信側だけなら再起動で二重処理、受信側だけなら中途半端な一部が世に出る。
+          <span class="src"><a href="../docs/diagrams/09-exactly-once.svg" target="_blank" rel="noopener">図を原寸で開く</a>　/　<a href="../docs/diagrams/09-exactly-once.drawio">09-exactly-once.drawio</a>（draw.io で編集）</span>
+        </figcaption>
+      </figure>
 
       <div class="term">
         <div class="term-bar"><span class="term-tag">ターミナル A — 冪等コンシューマー</span><button class="copy" type="button">コピー</button></div>
@@ -1382,6 +1383,13 @@ python benchmarks/report.py            <span class="c"># 結果を Markdown レ�
       <h3>壊れたときに自力で直す</h3>
       <p class="goal"><b>このステップのゴール</b>エラーメッセージから原因の当たりをつけ、切り分けコマンドを手が覚えている状態にする。</p>
 
+      <figure class="dio">
+        <div class="fw"><img src="../docs/diagrams/13-troubleshooting-flow.svg" alt="コンテナ・起動・Python 環境・メッセージ到達を上から順に切り分けるフローチャート" loading="lazy"></div>
+        <figcaption>エラーメッセージを読む前に、どの層で止まっているかを上から順に潰す。
+          <span class="src"><a href="../docs/diagrams/13-troubleshooting-flow.svg" target="_blank" rel="noopener">図を原寸で開く</a>　/　<a href="../docs/diagrams/13-troubleshooting-flow.drawio">13-troubleshooting-flow.drawio</a>（draw.io で編集）</span>
+        </figcaption>
+      </figure>
+
       <h4 class="sub">まず打つ3コマンド</h4>
       <div class="term">
         <div class="term-bar"><span class="term-tag">ターミナル — 一次切り分け</span><button class="copy" type="button">コピー</button></div>
@@ -1459,6 +1467,13 @@ python -m pip install -r requirements.txt</code></pre>
       <div class="meta"><span class="chip">所要 20分</span><span class="chip">難易度 ★★☆</span><span class="chip">任意（アカウントが必要）</span></div>
       <h3>Confluent Cloud に切り替える</h3>
       <p class="goal"><b>このステップのゴール</b>ローカル Docker とマネージドサービスの差が「接続設定だけ」であることを、実際の設定で理解する。</p>
+
+      <figure class="dio">
+        <div class="fw"><img src="../docs/diagrams/11-confluent-cloud.svg" alt="同じアプリケーションコードから .env の切り替えだけでローカル Docker と Confluent Cloud を選ぶ構成図" loading="lazy"></div>
+        <figcaption>接続設定を 1 か所に閉じ込めてあるから、コードを変えずに接続先を差し替えられる。
+          <span class="src"><a href="../docs/diagrams/11-confluent-cloud.svg" target="_blank" rel="noopener">図を原寸で開く</a>　/　<a href="../docs/diagrams/11-confluent-cloud.drawio">11-confluent-cloud.drawio</a>（draw.io で編集）</span>
+        </figcaption>
+      </figure>
 
       <p><strong>コードの変更は 0 行です。</strong><span class="m">.env</span> を書き換えるだけで、同じデモがクラウド上のクラスターに繋がります。</p>
 

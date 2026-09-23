@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="700" viewBox="0 0 1160 700" role="img">
+  <rect width="1160" height="700" fill="#FFFFFF"/>
+  <text x="46.0" y="33.3" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="19" fill="#13212A" font-weight="bold" font-style="normal">Stream Processing — 集計・変換・結合の 3 つの型</text>
+  <text x="46.0" y="56.1" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#5C7178" font-weight="normal" font-style="normal">use_cases/03_stream_processing　どれも「トピックを読んで、加工して、別のトピックに書く」だけ。</text>
+  <rect x="40.0" y="86.0" width="1080.0" height="176.0" rx="6.0" fill="#FBFDFD" stroke="#BFD0D2" stroke-width="1"/>
+  <text x="46.0" y="102.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="bold" font-style="normal">① タンブリングウィンドウ集計 — 30 秒ごとに区切って売上を合計する</text>
+  <rect x="64.0" y="132.0" width="200.0" height="52.0" rx="6.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="164.0" y="152.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">stream.transactions.v1</text>
+  <text x="164.0" y="167.3" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">1 件ずつの取引</text>
+  <rect x="340.0" y="132.0" width="170.0" height="52.0" rx="0.0" fill="#FFFFFF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="425.0" y="152.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">00:00 – 00:30</text>
+  <text x="425.0" y="167.3" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">3 件 / 8,400 円</text>
+  <rect x="518.0" y="132.0" width="170.0" height="52.0" rx="0.0" fill="#FFFFFF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="603.0" y="152.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">00:30 – 01:00</text>
+  <text x="603.0" y="167.3" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">5 件 / 21,000 円</text>
+  <rect x="696.0" y="132.0" width="170.0" height="52.0" rx="0.0" fill="#F4F8F8" stroke="#C3D2D4" stroke-width="1" stroke-dasharray="6 4"/>
+  <text x="781.0" y="152.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#5C7178" font-weight="normal" font-style="normal">01:00 – 01:30</text>
+  <text x="781.0" y="167.3" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#5C7178" font-weight="normal" font-style="normal">集計中…</text>
+  <text x="346.0" y="202.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">ウィンドウは重ならない（タンブリング）。境界をまたぐイベントは次のウィンドウへ。</text>
+  <rect x="896.0" y="132.0" width="200.0" height="52.0" rx="6.0" fill="#DCF0E7" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="996.0" y="152.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">stream.sales_30s.v1</text>
+  <text x="996.0" y="167.3" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">ウィンドウごとの合計</text>
+  <path d="M264.0 158.0 L340.0 158.0" fill="none" stroke="#0B7A84" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="340.0,158.0 331.0,154.2 331.0,161.8" fill="#0B7A84" stroke="none"/>
+  <path d="M866.0 158.0 L896.0 158.0" fill="none" stroke="#1F7A5C" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="896.0,158.0 887.0,154.2 887.0,161.8" fill="#1F7A5C" stroke="none"/>
+  <rect x="40.0" y="286.0" width="1080.0" height="176.0" rx="6.0" fill="#FBFDFD" stroke="#BFD0D2" stroke-width="1"/>
+  <text x="46.0" y="302.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="bold" font-style="normal">② フィルタ・変換 — 条件に合うものだけ別トピックに振り分ける</text>
+  <rect x="64.0" y="346.0" width="200.0" height="52.0" rx="6.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="164.0" y="366.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">stream.transactions.v1</text>
+  <text x="164.0" y="381.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">全部の取引</text>
+  <polygon points="485.0,324.0 600.0,372.0 485.0,420.0 370.0,372.0" fill="#FFFFFF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="485.0" y="373.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">amount &gt;= 10000 ?</text>
+  <rect x="720.0" y="320.0" width="220.0" height="52.0" rx="6.0" fill="#DCF0E7" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="830.0" y="340.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">stream.high_value.v1</text>
+  <text x="830.0" y="355.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">高額取引だけ</text>
+  <rect x="720.0" y="384.0" width="220.0" height="44.0" rx="6.0" fill="#F4F8F8" stroke="#C3D2D4" stroke-width="1" stroke-dasharray="6 4"/>
+  <text x="830.0" y="407.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">捨てる（何も書かない）</text>
+  <text x="970.0" y="341.4" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">元のトピックは変わらない。</text>
+  <text x="970.0" y="356.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">何度でもやり直せる。</text>
+  <path d="M264.0 372.0 L370.0 372.0" fill="none" stroke="#0B7A84" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="370.0,372.0 361.0,368.2 361.0,375.8" fill="#0B7A84" stroke="none"/>
+  <path d="M600.0 372.0 L660.0 372.0 L660.0 346.0 L720.0 346.0" fill="none" stroke="#1F7A5C" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="720.0,346.0 711.0,342.2 711.0,349.8" fill="#1F7A5C" stroke="none"/>
+  <path d="M485.0 420.0 L485.0 406.0 L720.0 406.0" fill="none" stroke="#9FB3B7" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 4"/>
+  <polygon points="720.0,406.0 711.0,402.2 711.0,409.8" fill="#9FB3B7" stroke="none"/>
+  <rect x="40.0" y="486.0" width="1080.0" height="176.0" rx="6.0" fill="#FBFDFD" stroke="#BFD0D2" stroke-width="1"/>
+  <text x="46.0" y="502.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="bold" font-style="normal">③ ストリーム結合 — 2 つのトピックを注文 ID で突き合わせる</text>
+  <rect x="64.0" y="526.0" width="230.0" height="52.0" rx="6.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="179.0" y="546.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">stream.orders.v1</text>
+  <text x="179.0" y="561.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">order_id = A-1001</text>
+  <rect x="64.0" y="590.0" width="230.0" height="52.0" rx="6.0" fill="#F7E9D4" stroke="#B07A28" stroke-width="1"/>
+  <text x="179.0" y="610.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#6B4A12" font-weight="normal" font-style="normal">stream.payments.v1</text>
+  <text x="179.0" y="625.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#6B4A12" font-weight="normal" font-style="normal">order_id = A-1001</text>
+  <rect x="420.0" y="542.0" width="280.0" height="84.0" rx="6.0" fill="#FFFFFF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="560.0" y="571.1" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">join</text>
+  <text x="560.0" y="585.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">order_id が同じで、かつ</text>
+  <text x="560.0" y="600.8" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">一定時間内に届いたもの同士</text>
+  <rect x="790.0" y="542.0" width="300.0" height="84.0" rx="6.0" fill="#DCF0E7" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="940.0" y="578.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">注文 + 支払いが揃ったイベント</text>
+  <text x="940.0" y="593.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">→ 出荷指示を出せる</text>
+  <path d="M294.0 552.0 L357.0 552.0 L357.0 567.2 L420.0 567.2" fill="none" stroke="#0B7A84" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="420.0,567.2 411.0,563.4 411.0,571.0" fill="#0B7A84" stroke="none"/>
+  <path d="M294.0 616.0 L357.0 616.0 L357.0 600.8 L420.0 600.8" fill="none" stroke="#B07A28" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="420.0,600.8 411.0,597.0 411.0,604.6" fill="#B07A28" stroke="none"/>
+  <path d="M700.0 584.0 L790.0 584.0" fill="none" stroke="#1F7A5C" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="790.0,584.0 781.0,580.2 781.0,587.8" fill="#1F7A5C" stroke="none"/>
+  <rect x="646.7" y="341.2" width="26.6" height="17.5" rx="2" fill="#FBFDFD" stroke="none"/>
+  <text x="660.0" y="351.8" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="10" fill="#1F7A5C" font-weight="normal" font-style="normal">Yes</text>
+  <rect x="585.3" y="388.2" width="20.4" height="17.5" rx="2" fill="#FBFDFD" stroke="none"/>
+  <text x="595.5" y="398.8" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="10" fill="#7A8F97" font-weight="normal" font-style="normal">No</text>
+</svg>

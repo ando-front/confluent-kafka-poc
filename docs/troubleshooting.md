@@ -5,6 +5,10 @@
 
 ---
 
+![コンテナ・起動・Python 環境・メッセージ到達を上から順に切り分けるフローチャート](diagrams/13-troubleshooting-flow.svg)
+
+> エラーメッセージを読む前に、どの層で止まっているかを上から順に潰す。　—　[原寸 SVG](diagrams/13-troubleshooting-flow.svg) / [編集用 draw.io](diagrams/13-troubleshooting-flow.drawio)
+
 ## 起動関連
 
 ### Docker が動いていない

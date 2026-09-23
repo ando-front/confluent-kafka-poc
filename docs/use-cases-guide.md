@@ -7,6 +7,10 @@
 
 ## 01 — Basic Pub/Sub ⭐
 
+![コンシューマー 1 台 / 3 台 / 4 台の割り当てと fan-out を並べた図](diagrams/03-consumer-group.svg)
+
+> 下の「発展課題」で手を動かして再現するのが、この図の ①②④。　—　[原寸 SVG](diagrams/03-consumer-group.svg) / [編集用 draw.io](diagrams/03-consumer-group.drawio)
+
 ### どんなときに使うか
 
 「注文が入ったら在庫サービス・通知サービス・分析サービスに伝えたい」
@@ -72,6 +76,10 @@ python use_cases/01_basic_pubsub/consumer.py --group test-scale &
 
 ## 02 — Event Sourcing ⭐⭐
 
+![イベントを追記し畳み込みで現在状態を再構築する流れと、途中で止めるリプレイの図](diagrams/05-event-sourcing.svg)
+
+> 現在の状態はイベントを畳み込んだ結果にすぎない。　—　[原寸 SVG](diagrams/05-event-sourcing.svg) / [編集用 draw.io](diagrams/05-event-sourcing.drawio)
+
 ### どんなときに使うか
 
 「注文が今なぜキャンセル状態なのか、履歴を追って説明できるようにしたい」
@@ -120,6 +128,10 @@ python use_cases/02_event_sourcing/replay.py
 ---
 
 ## 03 — Stream Processing ⭐⭐⭐
+
+![ウィンドウ集計・フィルタ変換・ストリーム結合の 3 パターンを並べた図](diagrams/06-stream-processing.svg)
+
+> どれも「読んで、加工して、別のトピックに書く」。違うのは加工の中身だけ。　—　[原寸 SVG](diagrams/06-stream-processing.svg) / [編集用 draw.io](diagrams/06-stream-processing.drawio)
 
 ### どんなときに使うか
 
@@ -172,6 +184,10 @@ python use_cases/03_stream_processing/stream_join.py
 
 ## 04 — CDC（Change Data Capture）⭐⭐
 
+![ポーリング方式の欠点と、op / before / after を載せた CDC イベントで追従する流れの図](diagrams/07-cdc.svg)
+
+> after = null が載るから削除も伝わる。ここがポーリングとの決定的な差。　—　[原寸 SVG](diagrams/07-cdc.svg) / [編集用 draw.io](diagrams/07-cdc.drawio)
+
 ### どんなときに使うか
 
 「DBを変更したとき、Elasticsearchの検索インデックスも自動で更新したい」
@@ -222,6 +238,10 @@ python use_cases/04_cdc/simulator.py
 
 ## 05 — Dead Letter Queue（DLQ）⭐⭐
 
+![失敗メッセージがリトライを経て DLQ に退避し、再投入されるまでの流れ図](diagrams/08-dead-letter-queue.svg)
+
+> 失敗を捨てずに退避する。だからメインの処理が 1 件の破損で止まらない。　—　[原寸 SVG](diagrams/08-dead-letter-queue.svg) / [編集用 draw.io](diagrams/08-dead-letter-queue.drawio)
+
 ### どんなときに使うか
 
 「壊れたメッセージが1件あっても、残りの処理を止めたくない」
@@ -271,6 +291,10 @@ python use_cases/05_dead_letter_queue/producer.py --count 50
 
 ## 06 — Exactly-Once Semantics（EOS）⭐⭐⭐
 
+![送信側のトランザクションと受信側の冪等台帳を並べた図](diagrams/09-exactly-once.svg)
+
+> 片方だけでは成立しない。両方そろって初めて「1 回だけ」になる。　—　[原寸 SVG](diagrams/09-exactly-once.svg) / [編集用 draw.io](diagrams/09-exactly-once.drawio)
+
 ### どんなときに使うか
 
 「送金メッセージを絶対に2回処理してはいけない」
@@ -318,6 +342,10 @@ python use_cases/06_exactly_once/transactional_producer.py --batch 5 --fail
 ---
 
 ## 07 — Real-Time Analytics ⭐⭐
+
+![生イベント → 集計 → KPI → ダッシュボードの 3 段パイプラインの図](diagrams/10-realtime-analytics.svg)
+
+> 段を分けておくと、後から別の切り口の集計を 1 プロセス足すだけで増やせる。　—　[原寸 SVG](diagrams/10-realtime-analytics.svg) / [編集用 draw.io](diagrams/10-realtime-analytics.drawio)
 
 ### どんなときに使うか
 

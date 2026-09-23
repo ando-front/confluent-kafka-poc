@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="690" viewBox="0 0 1160 690" role="img">
+  <rect width="1160" height="690" fill="#FFFFFF"/>
+  <text x="46.0" y="33.3" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="19" fill="#13212A" font-weight="bold" font-style="normal">ローカル環境の構成 — ./scripts/start.sh が立てるもの</text>
+  <text x="46.0" y="56.1" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#5C7178" font-weight="normal" font-style="normal">① docker compose up -d → ② ブローカーが応答するまで最大 60 秒待機 → ③ トピック一覧と UI の URL を表示</text>
+  <rect x="40.0" y="86.0" width="1080.0" height="240.0" rx="4" fill="#FBFDFD" stroke="#0B7A84" stroke-width="1"/>
+  <path d="M40.0 90.0 a4 4 0 0 1 4 -4 h1072.0 a4 4 0 0 1 4 4 v30.0 h-1080.0 z" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="46.0" y="105.3" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="13" fill="#0A3F45" font-weight="bold" font-style="normal">Docker Compose　docker/docker-compose.yml</text>
+  <rect x="64.0" y="140.0" width="240.0" height="62.0" rx="6.0" fill="#DCF0E7" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="184.0" y="165.0" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#14513D" font-weight="normal" font-style="normal">ZooKeeper</text>
+  <text x="184.0" y="181.2" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#14513D" font-weight="normal" font-style="normal">:2181　クラスター管理</text>
+  <rect x="324.0" y="140.0" width="240.0" height="62.0" rx="6.0" fill="#DCF0E7" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="444.0" y="165.0" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#14513D" font-weight="bold" font-style="normal">Broker</text>
+  <text x="444.0" y="181.2" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#14513D" font-weight="bold" font-style="normal">:9092　メッセージ本体</text>
+  <rect x="584.0" y="140.0" width="240.0" height="62.0" rx="6.0" fill="#DCF0E7" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="704.0" y="165.0" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#14513D" font-weight="normal" font-style="normal">kafka-ui</text>
+  <text x="704.0" y="181.2" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#14513D" font-weight="normal" font-style="normal">:8080　いつも使う UI</text>
+  <rect x="844.0" y="140.0" width="250.0" height="62.0" rx="6.0" fill="#FFFFFF" stroke="#1F7A5C" stroke-width="1" stroke-dasharray="6 4"/>
+  <text x="969.0" y="165.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">minimal 構成</text>
+  <text x="969.0" y="180.3" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">（緑の 3 つだけ）</text>
+  <rect x="64.0" y="220.0" width="240.0" height="62.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="184.0" y="245.0" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="normal" font-style="normal">Schema Registry</text>
+  <text x="184.0" y="261.2" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="normal" font-style="normal">:8081　形式の管理</text>
+  <rect x="324.0" y="220.0" width="240.0" height="62.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="444.0" y="245.0" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="normal" font-style="normal">Kafka Connect</text>
+  <text x="444.0" y="261.2" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="normal" font-style="normal">:8083　外部システム連携</text>
+  <rect x="584.0" y="220.0" width="240.0" height="62.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="704.0" y="245.0" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="normal" font-style="normal">Control Center</text>
+  <text x="704.0" y="261.2" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="normal" font-style="normal">:9021　Confluent 製 UI</text>
+  <rect x="844.0" y="220.0" width="250.0" height="62.0" rx="6.0" fill="#FFFFFF" stroke="#9FB3B7" stroke-width="1" stroke-dasharray="6 4"/>
+  <text x="969.0" y="245.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#5C7178" font-weight="normal" font-style="normal">full 構成では</text>
+  <text x="969.0" y="260.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#5C7178" font-weight="normal" font-style="normal">灰色の 3 つも起動する</text>
+  <rect x="240.0" y="386.0" width="680.0" height="110.0" rx="6.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="246.0" y="402.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#0A3F45" font-weight="bold" font-style="normal">core/　共通基盤　—　ここさえ読めば 7 デモすべてが読める</text>
+  <rect x="260.0" y="426.0" width="152.0" height="52.0" rx="4.0" fill="#FFFFFF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="336.0" y="446.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">config.py</text>
+  <text x="336.0" y="461.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">.env を読む</text>
+  <rect x="424.0" y="426.0" width="152.0" height="52.0" rx="4.0" fill="#FFFFFF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="500.0" y="446.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">producer.py</text>
+  <text x="500.0" y="461.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">BaseProducer</text>
+  <rect x="588.0" y="426.0" width="152.0" height="52.0" rx="4.0" fill="#FFFFFF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="664.0" y="446.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">consumer.py</text>
+  <text x="664.0" y="461.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">BaseConsumer</text>
+  <rect x="752.0" y="426.0" width="152.0" height="52.0" rx="4.0" fill="#FFFFFF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="828.0" y="446.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">admin.py</text>
+  <text x="828.0" y="461.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">TopicAdmin</text>
+  <rect x="240.0" y="530.0" width="680.0" height="54.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="580.0" y="559.1" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="normal" font-style="normal">use_cases/01〜07　—　どれも core を継承しているだけなので差分が小さい</text>
+  <rect x="40.0" y="404.0" width="160.0" height="74.0" rx="6.0" fill="#F7E9D4" stroke="#B07A28" stroke-width="1"/>
+  <text x="120.0" y="435.0" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#6B4A12" font-weight="normal" font-style="normal">.env</text>
+  <text x="120.0" y="451.2" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#6B4A12" font-weight="normal" font-style="normal">接続設定はここだけ</text>
+  <rect x="960.0" y="404.0" width="160.0" height="74.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="1040.0" y="435.0" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="normal" font-style="normal">tests/ · benchmarks/</text>
+  <text x="1040.0" y="451.2" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="normal" font-style="normal">pytest / 計測</text>
+  <path d="M342.4 326.0 L342.0 386.0" fill="none" stroke="#0B7A84" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="342.0,386.0 345.8,377.0 338.3,377.0" fill="#0B7A84" stroke="none"/>
+  <polygon points="342.4,326.0 338.6,335.0 346.1,335.0" fill="#0B7A84" stroke="none"/>
+  <path d="M200.0 441.0 L240.0 441.0" fill="none" stroke="#B07A28" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="240.0,441.0 231.0,437.2 231.0,444.8" fill="#B07A28" stroke="none"/>
+  <path d="M580.0 496.0 L580.0 530.0" fill="none" stroke="#5C7178" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="580.0,530.0 583.8,521.0 576.2,521.0" fill="#5C7178" stroke="none"/>
+  <path d="M960.0 441.0 L920.0 441.0" fill="none" stroke="#9FB3B7" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 4"/>
+  <polygon points="920.0,441.0 929.0,444.8 929.0,437.2" fill="#9FB3B7" stroke="none"/>
+  <text x="46.0" y="624.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">読む順番は core → use_cases。接続先を Confluent Cloud に替えるときも、変わるのは .env だけでコードは変わらない。</text>
+  <rect x="356.5" y="346.6" width="103.5" height="18.9" rx="2" fill="#FFFFFF" stroke="none"/>
+  <text x="408.2" y="357.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0B7A84" font-weight="normal" font-style="normal">localhost:9092</text>
+</svg>

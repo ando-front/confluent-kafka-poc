@@ -1,0 +1,101 @@
+<mxfile host="app.diagrams.net" agent="claude" version="24.0.0">
+  <diagram id="eos" name="Exactly-Once">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1160" pageHeight="670" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="Exactly-Once — 送信側のトランザクションと受信側の冪等性、その両輪" style="text;html=1;fontSize=19;fontStyle=1;fontColor=#13212A;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="16" width="960" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="sub" value="use_cases/06_exactly_once　片方だけでは成立しない。両方そろって初めて「1 回だけ」になる。" style="text;html=1;fontSize=12;fontColor=#5C7178;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="44" width="960" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="lF" value="① 送信側 — トランザクション（全部入るか、1 件も入らないか）" style="rounded=1;arcSize=6;html=1;fillColor=#FBFDFD;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=12;fontStyle=1;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="40" y="86" width="530" height="420" as="geometry" />
+        </mxCell>
+        <mxCell id="lt1" value="begin_transaction()" style="rounded=1;arcSize=6;html=1;fillColor=#D6EDEF;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=11;" vertex="1" parent="lF">
+          <mxGeometry x="24" y="50" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lt2" value="produce() × 5 件&#10;（まだ誰にも見えない）" style="rounded=1;arcSize=6;html=1;fillColor=#FFFFFF;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=11;" vertex="1" parent="lF">
+          <mxGeometry x="24" y="106" width="220" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="lq" value="全件 OK ?" style="rhombus;html=1;fillColor=#FFFFFF;strokeColor=#0B7A84;fontColor=#0A3F45;fontSize=11;" vertex="1" parent="lF">
+          <mxGeometry x="24" y="180" width="220" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="lcommit" value="commit_transaction()&#10;5 件まとめて可視になる" style="rounded=1;arcSize=6;html=1;fillColor=#DCF0E7;strokeColor=#1F7A5C;fontColor=#14513D;fontSize=11;" vertex="1" parent="lF">
+          <mxGeometry x="290" y="168" width="220" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="labort" value="abort_transaction()&#10;コンシューマーには 1 件も届かない" style="rounded=1;arcSize=6;html=1;fillColor=#F8E0E0;strokeColor=#B44A4A;fontColor=#7A2727;fontSize=11;" vertex="1" parent="lF">
+          <mxGeometry x="290" y="258" width="220" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="ltxn" value="transactional.id は 1 プロセス 1 つ。&#10;同じ ID を後から使うと先発が締め出される（フェンシング）。&#10;複数同時に走らせるなら --txn-id を分ける。" style="text;html=1;fontSize=11;fontColor=#7A8F97;align=left;verticalAlign=top;" vertex="1" parent="lF">
+          <mxGeometry x="24" y="330" width="480" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="le1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#0B7A84;strokeWidth=1.4;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="lt1" target="lt2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="le2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#0B7A84;strokeWidth=1.4;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="lt2" target="lq">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="le3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#1F7A5C;strokeWidth=1.4;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="lq" target="lcommit">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="le3l" value="Yes" style="edgeLabel;html=1;fontSize=10;fontColor=#1F7A5C;labelBackgroundColor=#FBFDFD;" vertex="1" parent="le3">
+          <mxGeometry relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="le4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#B44A4A;strokeWidth=1.4;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" edge="1" parent="1" source="lq" target="labort">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="le4l" value="途中で失敗" style="edgeLabel;html=1;fontSize=10;fontColor=#B44A4A;labelBackgroundColor=#FBFDFD;" vertex="1" parent="le4">
+          <mxGeometry relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="rF" value="② 受信側 — 冪等性（同じ ID は 2 回処理しない）" style="rounded=1;arcSize=6;html=1;fillColor=#FBFDFD;strokeColor=#B07A28;fontColor=#6B4A12;fontSize=12;fontStyle=1;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="590" y="86" width="530" height="420" as="geometry" />
+        </mxCell>
+        <mxCell id="rr1" value="メッセージを受け取る&#10;event_id = TXN-0007" style="rounded=1;arcSize=6;html=1;fillColor=#F7E9D4;strokeColor=#B07A28;fontColor=#6B4A12;fontSize=11;" vertex="1" parent="rF">
+          <mxGeometry x="24" y="50" width="240" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="rq" value="台帳に&#10;その ID はある ?" style="rhombus;html=1;fillColor=#FFFFFF;strokeColor=#B07A28;fontColor=#6B4A12;fontSize=11;" vertex="1" parent="rF">
+          <mxGeometry x="24" y="126" width="240" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="rskip" value="スキップする&#10;（再送・再起動でも安全）" style="rounded=1;arcSize=6;html=1;fillColor=#EEF3F4;strokeColor=#9FB3B7;fontColor=#5C7178;fontSize=11;" vertex="1" parent="rF">
+          <mxGeometry x="290" y="143" width="216" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="rdo" value="処理して、同じトランザクションで&#10;event_id を台帳に記録する" style="rounded=1;arcSize=6;html=1;fillColor=#DCF0E7;strokeColor=#1F7A5C;fontColor=#14513D;fontSize=11;" vertex="1" parent="rF">
+          <mxGeometry x="24" y="236" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rdb" value="processed_ids 台帳&#10;（SQLite）" style="rounded=1;arcSize=6;html=1;fillColor=#FFFFFF;strokeColor=#9FB3B7;fontColor=#13212A;fontSize=11;" vertex="1" parent="rF">
+          <mxGeometry x="300" y="236" width="206" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rn" value="同じコマンドをもう一度流すと、2 回目は&#10;全部スキップされる。これが確認方法。" style="text;html=1;fontSize=11;fontColor=#7A8F97;align=left;verticalAlign=top;" vertex="1" parent="rF">
+          <mxGeometry x="24" y="330" width="480" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="re1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#B07A28;strokeWidth=1.4;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="rr1" target="rq">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="re2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#9FB3B7;strokeWidth=1.4;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="rq" target="rskip">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="re2l" value="ある" style="edgeLabel;html=1;fontSize=10;fontColor=#7A8F97;labelBackgroundColor=#FBFDFD;" vertex="1" parent="re2">
+          <mxGeometry relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="re3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#1F7A5C;strokeWidth=1.4;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="rq" target="rdo">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="re3l" value="ない" style="edgeLabel;html=1;fontSize=10;fontColor=#1F7A5C;labelBackgroundColor=#FBFDFD;" vertex="1" parent="re3">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="20" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="re4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;startArrow=block;strokeColor=#5C7178;strokeWidth=1.4;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="rdo" target="rdb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="foot" value="送信側だけなら、コンシューマーが再起動したときに同じ 1 件をもう一度処理してしまう。&#10;受信側だけなら、送信の途中失敗で中途半端な一部だけが世に出てしまう。だから両方いる。" style="rounded=1;arcSize=6;html=1;fillColor=#F4F8F8;strokeColor=#BFD0D2;fontColor=#13212A;fontSize=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="536" width="1080" height="76" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

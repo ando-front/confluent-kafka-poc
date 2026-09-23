@@ -168,10 +168,15 @@ python use_cases/01_basic_pubsub/producer.py
 | [docs/getting-started.md](docs/getting-started.md) | 環境構築の詳細手順 |
 | [docs/use-cases-guide.md](docs/use-cases-guide.md) | 全7ユースケースの詳細解説 |
 | [docs/troubleshooting.md](docs/troubleshooting.md) | よくあるエラーと解決法 |
+| [docs/diagrams/](docs/diagrams/README.md) | 全 15 枚の図解（draw.io 正本 + SVG） |
 
 ---
 
 ## アーキテクチャ
+
+![Kafka 全体像（Producer → Broker のトピック/パーティション → Consumer Group）](docs/diagrams/01-kafka-overview.svg)
+
+> Producer と Consumer は互いを知らず、トピック名だけで繋がる。　—　[原寸 SVG](docs/diagrams/01-kafka-overview.svg) / [編集用 draw.io](docs/diagrams/01-kafka-overview.drawio)　（図解の一覧は [docs/diagrams/](docs/diagrams/README.md)）
 
 ```
 ┌─────────────────────────────────────────────────────────┐

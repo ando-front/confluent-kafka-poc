@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="750" viewBox="0 0 1160 750" role="img">
+  <rect width="1160" height="750" fill="#FFFFFF"/>
+  <text x="46.0" y="33.3" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="19" fill="#13212A" font-weight="bold" font-style="normal">Consumer Group — 同じグループなら分担、違うグループなら全員が全件</text>
+  <text x="46.0" y="56.1" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#5C7178" font-weight="normal" font-style="normal">パーティションは 1 グループ内で必ず 1 台のコンシューマーにだけ割り当たる。これが並列度の上限になる。</text>
+  <rect x="40.0" y="86.0" width="530.0" height="270.0" rx="6.0" fill="#FBFDFD" stroke="#BFD0D2" stroke-width="1"/>
+  <text x="46.0" y="102.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="bold" font-style="normal">① コンシューマー 1 台 — 3 パーティションを 1 台で捌く</text>
+  <rect x="64.0" y="138.0" width="90.0" height="38.0" rx="0.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="109.0" y="158.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">P0</text>
+  <rect x="64.0" y="190.0" width="90.0" height="38.0" rx="0.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="109.0" y="210.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">P1</text>
+  <rect x="64.0" y="242.0" width="90.0" height="38.0" rx="0.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="109.0" y="262.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">P2</text>
+  <rect x="370.0" y="190.0" width="170.0" height="38.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="455.0" y="210.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">consumer #1</text>
+  <text x="70.0" y="310.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">スループットは 1 台ぶん。まずはここから。</text>
+  <path d="M154.0 157.0 L262.0 157.0 L262.0 209.0 L370.0 209.0" fill="none" stroke="#0B7A84" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="370.0,209.0 361.0,205.2 361.0,212.8" fill="#0B7A84" stroke="none"/>
+  <path d="M154.0 209.0 L370.0 209.0" fill="none" stroke="#0B7A84" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="370.0,209.0 361.0,205.2 361.0,212.8" fill="#0B7A84" stroke="none"/>
+  <path d="M154.0 261.0 L262.0 261.0 L262.0 209.0 L370.0 209.0" fill="none" stroke="#0B7A84" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="370.0,209.0 361.0,205.2 361.0,212.8" fill="#0B7A84" stroke="none"/>
+  <rect x="590.0" y="86.0" width="530.0" height="270.0" rx="6.0" fill="#FBFDFD" stroke="#BFD0D2" stroke-width="1"/>
+  <text x="596.0" y="102.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="bold" font-style="normal">② 3 台 — パーティション数と同じ。1 対 1 で最も効率がよい</text>
+  <rect x="614.0" y="138.0" width="90.0" height="38.0" rx="0.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="659.0" y="158.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">P0</text>
+  <rect x="614.0" y="190.0" width="90.0" height="38.0" rx="0.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="659.0" y="210.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">P1</text>
+  <rect x="614.0" y="242.0" width="90.0" height="38.0" rx="0.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="659.0" y="262.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">P2</text>
+  <rect x="920.0" y="138.0" width="170.0" height="38.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="1005.0" y="158.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">consumer #1</text>
+  <rect x="920.0" y="190.0" width="170.0" height="38.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="1005.0" y="210.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">consumer #2</text>
+  <rect x="920.0" y="242.0" width="170.0" height="38.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="1005.0" y="262.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">consumer #3</text>
+  <text x="620.0" y="310.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">同じ --group を 3 枚のターミナルで起動すると、この状態になる。</text>
+  <path d="M704.0 157.0 L920.0 157.0" fill="none" stroke="#0B7A84" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="920.0,157.0 911.0,153.2 911.0,160.8" fill="#0B7A84" stroke="none"/>
+  <path d="M704.0 209.0 L920.0 209.0" fill="none" stroke="#0B7A84" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="920.0,209.0 911.0,205.2 911.0,212.8" fill="#0B7A84" stroke="none"/>
+  <path d="M704.0 261.0 L920.0 261.0" fill="none" stroke="#0B7A84" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="920.0,261.0 911.0,257.2 911.0,264.8" fill="#0B7A84" stroke="none"/>
+  <rect x="40.0" y="380.0" width="530.0" height="320.0" rx="6.0" fill="#FBFDFD" stroke="#BFD0D2" stroke-width="1"/>
+  <text x="46.0" y="396.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="bold" font-style="normal">③ 4 台 — パーティション数を超えた 1 台は仕事をもらえない</text>
+  <rect x="64.0" y="432.0" width="90.0" height="38.0" rx="0.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="109.0" y="452.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">P0</text>
+  <rect x="64.0" y="484.0" width="90.0" height="38.0" rx="0.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="109.0" y="504.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">P1</text>
+  <rect x="64.0" y="536.0" width="90.0" height="38.0" rx="0.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="109.0" y="556.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">P2</text>
+  <rect x="370.0" y="432.0" width="170.0" height="38.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="455.0" y="452.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">consumer #1</text>
+  <rect x="370.0" y="484.0" width="170.0" height="38.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="455.0" y="504.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">consumer #2</text>
+  <rect x="370.0" y="536.0" width="170.0" height="38.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="455.0" y="556.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">consumer #3</text>
+  <rect x="370.0" y="588.0" width="170.0" height="38.0" rx="6.0" fill="#F8E0E0" stroke="#B44A4A" stroke-width="1" stroke-dasharray="6 4"/>
+  <text x="455.0" y="608.9" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A2727" font-weight="normal" font-style="normal">consumer #4　idle</text>
+  <text x="70.0" y="653.4" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#B44A4A" font-weight="normal" font-style="normal">並列度を上げたいならコンシューマーではなくパーティションを増やす。</text>
+  <text x="70.0" y="668.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#B44A4A" font-weight="normal" font-style="normal">（DEFAULT_TOPIC_PARTITIONS で既定 3）</text>
+  <path d="M154.0 451.0 L370.0 451.0" fill="none" stroke="#0B7A84" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="370.0,451.0 361.0,447.2 361.0,454.8" fill="#0B7A84" stroke="none"/>
+  <path d="M154.0 503.0 L370.0 503.0" fill="none" stroke="#0B7A84" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="370.0,503.0 361.0,499.2 361.0,506.8" fill="#0B7A84" stroke="none"/>
+  <path d="M154.0 555.0 L370.0 555.0" fill="none" stroke="#0B7A84" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="370.0,555.0 361.0,551.2 361.0,558.8" fill="#0B7A84" stroke="none"/>
+  <rect x="590.0" y="380.0" width="530.0" height="320.0" rx="6.0" fill="#FBFDFD" stroke="#BFD0D2" stroke-width="1"/>
+  <text x="596.0" y="396.2" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="12" fill="#13212A" font-weight="bold" font-style="normal">④ グループが違えば干渉しない（fan-out）</text>
+  <rect x="614.0" y="480.0" width="150.0" height="70.0" rx="0.0" fill="#D6EDEF" stroke="#0B7A84" stroke-width="1"/>
+  <text x="689.0" y="509.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">Topic: pubsub.orders.v1</text>
+  <text x="689.0" y="524.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#0A3F45" font-weight="normal" font-style="normal">P0 / P1 / P2</text>
+  <rect x="880.0" y="436.0" width="212.0" height="56.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="986.0" y="458.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">group = inventory-service</text>
+  <text x="986.0" y="473.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">offset を独自に保持</text>
+  <rect x="880.0" y="512.0" width="212.0" height="56.0" rx="6.0" fill="#EEF3F4" stroke="#9FB3B7" stroke-width="1"/>
+  <text x="986.0" y="534.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">group = analytics</text>
+  <text x="986.0" y="549.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#13212A" font-weight="normal" font-style="normal">offset を独自に保持</text>
+  <rect x="880.0" y="588.0" width="212.0" height="56.0" rx="6.0" fill="#DCF0E7" stroke="#1F7A5C" stroke-width="1"/>
+  <text x="986.0" y="610.5" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">group = demo-$(date +%s)</text>
+  <text x="986.0" y="625.4" text-anchor="middle" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#14513D" font-weight="normal" font-style="normal">新しい名前 = 最初から読み直し</text>
+  <text x="620.0" y="668.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">3 グループとも、同じ 1 件をそれぞれ受け取る。</text>
+  <path d="M764.0 515.0 L822.0 515.0 L822.0 464.0 L880.0 464.0" fill="none" stroke="#0B7A84" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="880.0,464.0 871.0,460.2 871.0,467.8" fill="#0B7A84" stroke="none"/>
+  <path d="M764.0 515.0 L822.0 515.0 L822.0 540.0 L880.0 540.0" fill="none" stroke="#0B7A84" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="880.0,540.0 871.0,536.2 871.0,543.8" fill="#0B7A84" stroke="none"/>
+  <path d="M764.0 515.0 L822.0 515.0 L822.0 616.0 L880.0 616.0" fill="none" stroke="#1F7A5C" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="880.0,616.0 871.0,612.2 871.0,619.8" fill="#1F7A5C" stroke="none"/>
+  <text x="46.0" y="724.9" text-anchor="start" font-family="'Helvetica Neue',Arial,'Hiragino Sans','Noto Sans JP',sans-serif" font-size="11" fill="#7A8F97" font-weight="normal" font-style="normal">コンシューマーが増減すると Kafka が割り当てをやり直す（リバランス）。数秒メッセージが止まって見えるのは、これが起きている。</text>
+</svg>
